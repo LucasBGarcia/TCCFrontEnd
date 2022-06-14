@@ -1,6 +1,6 @@
 import React from "react";
-import Title from "./pages/title/Title"
-import Register from "./pages/client/Client"
+import Title from "./pages/title/Title";
+import Register from "./pages/ordenService/OrdenService";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
@@ -9,7 +9,7 @@ function App() {
     <Router>
       <Title />
       <Routes>
-        <Route path="/clients" element={<Register />} />
+        <Route path="/" element={<Register />} />
       </Routes>
     </Router>
 
