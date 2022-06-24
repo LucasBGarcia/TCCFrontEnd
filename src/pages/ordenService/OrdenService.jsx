@@ -1,48 +1,42 @@
 import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import api from '../../api'
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { Table } from 'semantic-ui-react'
 import { IoEyeOutline } from "react-icons/io5";
 import { BsTrash } from "react-icons/bs";
 import axios from "axios"
 import "./OrdenService.css"
+import ViewModal from '../ViewModal/ViewModal';
+import Calcula from '../Utils/Calcula';
 
 
-const Register = () => {
+const Home = () => {
 
+    // let navigate = useNavigate();
     const { register, handleSubmit } = useForm();
     let [list, setList] = useState([]);
     let [listBrands, setListBrands] = useState([]);
-    let navigate = useNavigate();
+    let [listModels, setListModels] = useState([]);
+    let [listServices, setListServices] = useState([]);
 
-    // const getList = async () => {
-    //     try {
-    //         Clientlist = await api.get("serviceorder")
-    //         setList(Clientlist.data)
-    //         console.log(Clientlist.data)
-    //     } catch (error) {
-    //         console.log(error.response.data);
-    //         alert(error.response.data)
-    //     }
-    // };
-    const getListBrands = async () => {
-        try {
-            const BrandList = await api.get("devicebrands")
-            setListBrands(BrandList.data)
-            console.log(BrandList.data)
-        } catch (error) {
-            console.log(error.response.data);
-            alert(error.response.data)
-        }
-    };
+    const [modal, setModal] = useState(false);
+    const [tempdata, setTempdata] = useState([]);
+
+    const getData = (id, observation, withdrawal, value, negativeValue, name, number, CPF,
+        email, address, devicebrand, devicemodel) => {
+        let tempData = [id, observation, withdrawal, value, negativeValue, name, number, CPF,
+            email, address, devicebrand, devicemodel];
+        setTempdata(data => [1, ...tempData])
+        return setModal(true)
+    }
 
     const onSubmit = async (data) => {
         try {
             await api.post("serviceorder", data)
-            console.log(data)
+            // console.log(data)
             alert("Cadastrado com sucesso")
-            navigate('/')
+            window.location.reload();
         } catch (error) {
             console.log(error.response.data);
             alert(error.response.data)
@@ -57,9 +51,41 @@ const Register = () => {
         axios.get(`http://localhost:3333/serviceorder`)
             .then((response) => {
                 setList(response.data);
-                console.log(response.data);
+                // console.log(response.data);
             })
     }, [])
+
+    useEffect(() => {
+        axios.get(`http://localhost:3333/devicebrands`)
+            .then((response) => {
+                setListBrands(response.data);
+                // console.log(response.data);
+            })
+    }, [])
+
+    useEffect(() => {
+        axios.get(`http://localhost:3333/devicemodels`)
+            .then((response) => {
+                setListModels(response.data);
+                // console.log(response.data);
+            })
+    }, [])
+
+    useEffect(() => {
+        axios.get(`http://localhost:3333/services`)
+            .then((response) => {
+                setListServices(response.data);
+                // console.log(response.data);
+            })
+    }, [])
+
+    const onDelete = (id, name) => {
+        var result = window.confirm(`Deseja deletar OS ${name}?`)
+        if (result === true) {
+            axios.delete(`http://localhost:3333/${id}/serviceorder`)
+            window.location.reload();
+        }
+    }
 
     // useEffect(() => {
     //     getList();
@@ -98,53 +124,39 @@ const Register = () => {
                                 />
                             </div>
                             <div className="form-group col-sm-1">
-                                <label>*Marca:</label>
-                                <input
-                                    type="integer"
-                                    style={{ backgroundColor: "white", opacity: "0.7" }}
-                                    className="form-control"
-                                    id='DeviceBrand_id'
-                                    placeholder="Marca"
-                                    {...register("DeviceBrand_id")}
-                                />
-                            </div>
-                            {/* <div className="form-group col-sm-1">
                                 <label >Marca:</label>
-                                <select>
+                                <select {...register("DeviceBrand_id")}>
                                     onChange = {(e) => setListBrands(e.target.value)}
+                                    {listBrands.map((listBrand) => (
+                                        <option
+                                            key={listBrand.DeviceBrand_id}
+                                            value={listBrand.id}>
+                                            {listBrand.devicebrand}
+                                        </option>
+                                    ))}
                                 </select>
-                                {listBrands.map((listBrands, index) => (
-                                    <option key={listBrands.devicebrand} value={listBrands.devicebrand}>{listBrands.devicebrand}</option>
-                                ))}
-
-                            </div> */}
-                            {/* <div class="form-group col-sm-1">
-                            <label for="DeviceBrand_id">Marca:</label>
-                                <select id="DeviceBrand_id" class="form-control" required>
-                                </select>
-                            </div> */}
+                            </div>
                             <div className="form-group col-sm-1">
-                                <label>*Modelo:</label>
-                                <input
-                                    type="integer"
-                                    style={{ backgroundColor: "white", opacity: "0.7" }}
-                                    className="form-control"
-                                    id='DeviceModel_id'
-                                    placeholder="Modelo"
-                                    {...register("DeviceModel_id")}
-                                />
-
+                                <label>Modelo:</label>
+                                <select {...register("DeviceModel_id")}>
+                                    onChange = {(e) => setListModels(e.target.value)}
+                                    {listModels.map((listModel, index) => (
+                                        <option key={listModel.DeviceModel_id}
+                                            value={listModel.id}>
+                                            {listModel.devicemodel}</option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="form-group col-sm-2">
-                                <label>*Serviço:</label>
-                                <input
-                                    type="integer"
-                                    style={{ backgroundColor: "white", opacity: "0.7" }}
-                                    className="form-control"
-                                    id='service_id'
-                                    placeholder="Serviço"
-                                    {...register("service_id")}
-                                />
+                                <label>Serviço:</label>
+                                <select {...register("service_id")}>
+                                    onChange = {(e) => setListServices(e.target.value)}
+                                    {listServices.map((listService, index) => (
+                                        <option key={listService.service_id}
+                                            value={listService.id}>
+                                            {listService.service}</option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="form-group col-md-2">
                                 <label>*Valor:</label>
@@ -227,179 +239,67 @@ const Register = () => {
             <h3 className="text-center col-sm-6 mt-2">
                 Caixa Aberto
             </h3>
-            {/* <div className="row">
-                <div id="bordas" className="table">
-                    <div id="table" className="col-sm-6">
-                        <Table
-                            keys={[
-                                'id',
-                                'observation',
-                                'value',
-                                'withdrawal'
-                            ]}
-                            data={this.state.orders}
-                        ></Table>
-                    </div>
-                </div >
-            </div> */}
             <div className="row">
                 <div>
                     <Table singleLine>
-                        <Table.Header>
+                        <Table.Header id="table">
                             <Table.Row>
-                                <Table.HeaderCell>Nº OS</Table.HeaderCell>
-                                <Table.HeaderCell>Modelo</Table.HeaderCell>
-                                <Table.HeaderCell>Serviço</Table.HeaderCell>
-                                <Table.HeaderCell>Valor</Table.HeaderCell>
-                                <Table.HeaderCell>Saida Caixa</Table.HeaderCell>
-                                <Table.HeaderCell>Ações</Table.HeaderCell>
+                                <Table.HeaderCell id="th">Nº OS</Table.HeaderCell>
+                                <Table.HeaderCell id="th">Marca</Table.HeaderCell>
+                                <Table.HeaderCell id="th">Modelo</Table.HeaderCell>
+                                <Table.HeaderCell id="th">Serviço</Table.HeaderCell>
+                                <Table.HeaderCell id="th">Valor</Table.HeaderCell>
+                                <Table.HeaderCell id="th">Saida Caixa</Table.HeaderCell>
+                                <Table.HeaderCell id="th">Ações</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
 
                         <Table.Body>
                             {list.map((data) => {
                                 return (
-                                    <Table.Row>
+                                    <Table.Row id="trTable">
                                         <Table.Cell>{data.id}</Table.Cell>
+                                        <Table.Cell>{data.DeviceBrand.devicebrand}</Table.Cell>
                                         <Table.Cell>{data.DeviceModel.devicemodel}</Table.Cell>
                                         <Table.Cell>{data.service.service}</Table.Cell>
                                         <Table.Cell>R${data.value}</Table.Cell>
-                                        <Table.Cell>R${data.value}</Table.Cell>
-                                        <Table.Cell><button><IoEyeOutline /></button> <button><BsTrash /></button></Table.Cell>
+                                        <Table.Cell>R${data.negativeValue}</Table.Cell>
+                                        <Table.Cell>
+                                            <button onClick={() => getData(data.id, data.observation,
+                                                data.withdrawal, data.value, data.negativeValue,
+                                                data.client.name, data.client.number, data.client.CPF, data.client.email,
+                                                data.client.address, data.DeviceBrand.devicebrand, data.DeviceModel.devicemodel)}>
+                                                <IoEyeOutline />
+                                            </button>
+                                            <button onClick={() => onDelete(data.id, data.client.name)}
+                                                className="btnTrash">
+                                                <BsTrash />
+                                            </button>
+                                        </Table.Cell>
                                     </Table.Row>
                                 )
                             })}
+
                         </Table.Body>
+                        <Table.Footer>
+                            <Table.Row id="tfTable">
+                                <Table.HeaderCell id='entrada' colSpan='2'>Entrada: $$</Table.HeaderCell>
+                                <Table.HeaderCell id='saida' colSpan='2'>Saída: $$</Table.HeaderCell>
+                                <Table.HeaderCell id='total' colSpan="3"><Calcula id={tempdata[1]} /></Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Footer>
                     </Table>
                 </div>
-                {/* <div id="bordas" className="table">
-                    <table id="table" className="col-sm-6">
-                        <thead>
-                            <tr id='thead'>
-                                <th>OS</th>
-                                <th>Modelo</th>
-                                <th>Serviço</th>
-                                <th>Valor</th>
-                                <th>Saída Caixa</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            {Clientlist && Clientlist.map((line) => {
-                                return <tr>
-                                    {
-                                        Clientlist.map((h) => {
-                                            return (<td>{line[h]}</td>)
-                                        })
-                                    }</tr>
-                            })}
-                            <tr>
-                                <td colSpan={2} id="entrada">Entrada: $$</td>
-                                <td colSpan={2} id="saida">Saída: $$</td>
-                                <td colSpan={2} id="total">Total: $$</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div > */}
             </div>
-            {/* <div className="row">
-                <div id="bordas" className="table">
-                    <table id="table" className="col-sm-6">
-                        <thead>
-                            <tr id='thead'>
-                                <th>OS</th>
-                                <th>Modelo</th>
-                                <th>Serviço</th>
-                                <th>Valor</th>
-                                <th>Saída Caixa</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td colSpan={2} id="entrada">Entrada: $$</td>
-                                <td colSpan={2} id="saida">Saída: $$</td>
-                                <td colSpan={2} id="total">Total: $$</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div >
-            </div> */}
+            {
+                modal === true ? <ViewModal id={tempdata[1]} observation={tempdata[2]} withdrawal={tempdata[3]}
+                    value={tempdata[4]} negativeValue={tempdata[5]} name={tempdata[6]} number={tempdata[7]}
+                    CPF={tempdata[8]} email={tempdata[9]} address={tempdata[10]}
+                    devicemodel={tempdata[11]} devicebrand={tempdata[12]}
+                    hide={() => setModal(false)} /> : ''
+            }
         </div >
     )
 }
 
-export default Register
+export default Home
