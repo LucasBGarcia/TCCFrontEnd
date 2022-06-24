@@ -29,17 +29,18 @@
 th, td {border: 1px solid;}
 
 /* a primeira cinza */
-#table tr:nth-child(odd){background-color: rgb(165, 165, 165);}
-
-/* última preta */
-#table tr:last-child{background-color: rgb(0, 0, 0);
-}
-/* última preta */
-#table tr:last-child{border-bottom: none;
-}
+#trTable:nth-child(odd){background-color: rgb(165, 165, 165);}
 
 /* seleciona deixa branco */
-#table  tr:hover {background-color: #ddd;}
+#trTable:hover {background-color: #ddd;}
+
+/* última preta */
+#tfTable {background-color: rgb(0, 0, 0);
+}
+/* última preta */
+#tfTable {border-bottom: none;
+}
+
 
 #entrada {
     color: rgb(0, 255, 0);
@@ -57,7 +58,7 @@ th, td {border: 1px solid;}
 }
 
 /* Estiliza cor, background e texto da tabela */
-#table  th {
+#table  #th {
     text-align: left;
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
@@ -69,3 +70,7 @@ th, td {border: 1px solid;}
     margin-top: 5px;
     margin-left: 20px;
 } 
+
+.btnTrash {
+    color:red
+}

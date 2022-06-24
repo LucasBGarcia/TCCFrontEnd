@@ -7,7 +7,7 @@ const Title = () => {
 
   return (
     <nav className="navbar  navbar-expand-lg " >
-      <img src="logo.png" alt="logo" width="60" className="mr-2" />
+      <img src="./images/logo.png" alt="logo" className="mr-2" />
       <Link to="/" className="navbar-brand " href="#">
       </Link>
       <ul >
