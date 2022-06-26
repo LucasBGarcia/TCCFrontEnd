@@ -16,23 +16,36 @@
 }
 .btn-danger{
     height: 40px;
-    padding: 0px;
-    margin-left: 5px;
+    padding:0px;
+    border: 10px;
 }
 .container{
     margin-right: 0px;
     margin-left: 0px;
+    padding: 0px;
+}
+
+#servico{
+    padding-right: 0px;
+    margin-right: 10px;
+}
+
+#valor{
+    padding-left:0px
 }
 
 /*-----------------Estiliza tabela----------------*/
 
-th, td {border: 1px solid;}
 
 /* a primeira cinza */
 #trTable:nth-child(odd){background-color: rgb(165, 165, 165);}
 
 /* seleciona deixa branco */
-#trTable:hover {background-color: #ddd;}
+#trTable:hover {
+    background-color: rgb(133, 133, 133);
+    border: 2px solid;
+    border-color: rgb(250, 100, 0);
+}
 
 /* última preta */
 #tfTable {background-color: rgb(0, 0, 0);
@@ -41,6 +54,29 @@ th, td {border: 1px solid;}
 #tfTable {border-bottom: none;
 }
 
+.table-round-corner {
+    border-collapse: collapse;
+    border-radius: 1em;
+    overflow: hidden;
+  
+}
+
+/* Estiliza cor, background e texto da tabela */
+.td {
+    padding: 1em;
+   
+}
+
+.th{ 
+    background-color:rgb(2, 2, 2);
+    color:rgb(255, 255, 255)
+}
+
+#total {
+    color: rgb(255, 255, 255);
+    border-color: black;
+    padding-right: 0px;
+}
 
 #entrada {
     color: rgb(0, 255, 0);
@@ -52,20 +88,6 @@ th, td {border: 1px solid;}
     border-color: black;
 }
 
-#total {
-    color: rgb(255, 255, 255);
-    border-color: black;
-}
-
-/* Estiliza cor, background e texto da tabela */
-#table  #th {
-    text-align: left;
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
-    border: 1px solid;
-    padding: 5px 5px 5px 3px;
-}
-
 .table{
     margin-top: 5px;
     margin-left: 20px;
@@ -74,3 +96,34 @@ th, td {border: 1px solid;}
 .btnTrash {
     color:red
 }
+
+
+/* 
+.table-round-corner {
+    margin-top: 15px;
+    width: 100%;
+    text-align: center;
+    overflow:hidden;
+    border-collapse:separate;
+    border: solid #ccc 1px;
+    -webkit-border-radius: 25px;
+       -moz-border-radius: 25px;
+            border-radius: 25px;
+}
+
+
+.table-round-corner .td {
+    color: #aaa;
+    background-color: white;
+    padding: 5px;
+    border: 1px solid #ddd;
+}
+
+.table-round-corner .th{
+    color: rgb(14, 10, 10);
+    background-color: red;
+    font-weight: normal;
+    text-align: center;
+    padding: 5px;
+    font-size: 12px;
+} */

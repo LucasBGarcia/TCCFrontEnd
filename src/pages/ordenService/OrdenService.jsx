@@ -8,7 +8,9 @@ import { BsTrash } from "react-icons/bs";
 import axios from "axios"
 import "./OrdenService.css"
 import ViewModal from '../ViewModal/ViewModal';
-import Calcula from '../Utils/Calcula';
+import CalculaTotal from '../Utils/CalculaTotal';
+import CalculaEntrada from '../Utils/CalculaEntrada';
+import CalculaSaida from '../Utils/CalculaSaida';
 
 
 const Home = () => {
@@ -43,9 +45,6 @@ const Home = () => {
 
         }
     };
-    // const onCancel = () => {
-    //     "input".val = ("");
-    // }
 
     useEffect(() => {
         axios.get(`http://localhost:3333/serviceorder`)
@@ -148,7 +147,7 @@ const Home = () => {
                                 </select>
                             </div>
                             <div className="form-group col-sm-2">
-                                <label>Serviço:</label>
+                                <label id='servico'>Serviço:</label>
                                 <select {...register("service_id")}>
                                     onChange = {(e) => setListServices(e.target.value)}
                                     {listServices.map((listService, index) => (
@@ -158,7 +157,7 @@ const Home = () => {
                                     ))}
                                 </select>
                             </div>
-                            <div className="form-group col-md-2">
+                            <div id='valor' className="form-group col-md-2">
                                 <label>*Valor:</label>
                                 <input
                                     type="integer"
@@ -229,7 +228,7 @@ const Home = () => {
                                     />
                                 </div>
                                 <button type="submit" className="btn btn-success btn-lm col-sm-2 mt-4" style={{}}>Cadastrar</button>
-                                <button type="cancel" className="btn btn-danger btn-lm col-sm-1 mt-4" style={{}}>Cancelar</button>
+                                <button type="cancel" className="btn btn-danger btn-lm col-sm-2 mt-4" style={{}}>Cancelar</button>
                             </div>
                         </div>
                     </form>
@@ -241,16 +240,16 @@ const Home = () => {
             </h3>
             <div className="row">
                 <div>
-                    <Table singleLine>
+                    <Table singleLine className="table-round-corner" >
                         <Table.Header id="table">
                             <Table.Row>
-                                <Table.HeaderCell id="th">Nº OS</Table.HeaderCell>
-                                <Table.HeaderCell id="th">Marca</Table.HeaderCell>
-                                <Table.HeaderCell id="th">Modelo</Table.HeaderCell>
-                                <Table.HeaderCell id="th">Serviço</Table.HeaderCell>
-                                <Table.HeaderCell id="th">Valor</Table.HeaderCell>
-                                <Table.HeaderCell id="th">Saida Caixa</Table.HeaderCell>
-                                <Table.HeaderCell id="th">Ações</Table.HeaderCell>
+                                <Table.HeaderCell className="th">Nº OS</Table.HeaderCell>
+                                <Table.HeaderCell className="th">Marca</Table.HeaderCell>
+                                <Table.HeaderCell className="th">Modelo</Table.HeaderCell>
+                                <Table.HeaderCell className="th">Serviço</Table.HeaderCell>
+                                <Table.HeaderCell className="th">Valor</Table.HeaderCell>
+                                <Table.HeaderCell className="th">Saida Caixa</Table.HeaderCell>
+                                <Table.HeaderCell className="th">Ações</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
 
@@ -258,13 +257,13 @@ const Home = () => {
                             {list.map((data) => {
                                 return (
                                     <Table.Row id="trTable">
-                                        <Table.Cell>{data.id}</Table.Cell>
-                                        <Table.Cell>{data.DeviceBrand.devicebrand}</Table.Cell>
-                                        <Table.Cell>{data.DeviceModel.devicemodel}</Table.Cell>
-                                        <Table.Cell>{data.service.service}</Table.Cell>
-                                        <Table.Cell>R${data.value}</Table.Cell>
-                                        <Table.Cell>R${data.negativeValue}</Table.Cell>
-                                        <Table.Cell>
+                                        <Table.Cell className="td">{data.id}</Table.Cell>
+                                        <Table.Cell className="td">{data.DeviceBrand.devicebrand}</Table.Cell>
+                                        <Table.Cell className="td">{data.DeviceModel.devicemodel}</Table.Cell>
+                                        <Table.Cell className="td">{data.service.service}</Table.Cell>
+                                        <Table.Cell className="td">{data.value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Table.Cell>
+                                        <Table.Cell className="td">{data.negativeValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Table.Cell>
+                                        <Table.Cell className="td">
                                             <button onClick={() => getData(data.id, data.observation,
                                                 data.withdrawal, data.value, data.negativeValue,
                                                 data.client.name, data.client.number, data.client.CPF, data.client.email,
@@ -283,9 +282,9 @@ const Home = () => {
                         </Table.Body>
                         <Table.Footer>
                             <Table.Row id="tfTable">
-                                <Table.HeaderCell id='entrada' colSpan='2'>Entrada: $$</Table.HeaderCell>
-                                <Table.HeaderCell id='saida' colSpan='2'>Saída: $$</Table.HeaderCell>
-                                <Table.HeaderCell id='total' colSpan="3"><Calcula id={tempdata[1]} /></Table.HeaderCell>
+                                <Table.HeaderCell id='entrada' colSpan='2'><CalculaEntrada /></Table.HeaderCell>
+                                <Table.HeaderCell id='saida' colSpan='2'><CalculaSaida /></Table.HeaderCell>
+                                <Table.HeaderCell id='total' colSpan="3"><CalculaTotal /></Table.HeaderCell>
                             </Table.Row>
                         </Table.Footer>
                     </Table>
