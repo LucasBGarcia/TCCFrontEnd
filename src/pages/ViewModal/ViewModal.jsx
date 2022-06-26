@@ -17,8 +17,8 @@ export default class ViewModal extends Component {
                             <h5 className="modal-title">Visualização Orden de serviso nº {this.props.id}</h5>
                         </div>
                         <div className="modal-body">
-                            <div class="card">
-                                <ul class="list-group list-group-flush">
+                            <div className="card">
+                                <ul className="list-group list-group-flush">
                                     <div className="row">
                                         <button type="button" className="list-group-item list-group-item-action col-sm-3">
                                             <span>Nome: </span>{this.props.name}
@@ -46,10 +46,10 @@ export default class ViewModal extends Component {
                                     </div>
                                     <div className="row">
                                         <button type="button" className="list-group-item list-group-item-action col-sm-2">
-                                            <span>Valor: </span>R$ {this.props.value}
+                                            <span>Valor: </span>{this.props.value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
                                         </button>
                                         <button type="button" className="list-group-item list-group-item-action col-sm-2">
-                                            <span>Valor saida: </span>{this.props.negativeValue}
+                                            <span>Valor saida: </span>{this.props.negativeValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
                                         </button>
                                         <button type="button" className="list-group-item list-group-item-action col-sm-4">
                                             <span>Observação: </span>{this.props.observation}
