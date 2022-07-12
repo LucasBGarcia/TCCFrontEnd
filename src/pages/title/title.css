@@ -8,6 +8,10 @@ ul {
     display: inline;    
   } 
   
+  .logo{
+    width: 100px;
+    margin-bottom:1px
+  }
   .format {    
     display: block;
     padding: 1px;

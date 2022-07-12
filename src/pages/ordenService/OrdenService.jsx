@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import api from '../../api'
-// import { useNavigate } from "react-router-dom";
 import { Table } from 'semantic-ui-react'
 import { IoEyeOutline } from "react-icons/io5";
 import { BsTrash } from "react-icons/bs";
@@ -46,6 +45,8 @@ const Home = () => {
         }
     };
 
+
+
     useEffect(() => {
         axios.get(`http://localhost:3333/serviceorder`)
             .then((response) => {
@@ -86,10 +87,10 @@ const Home = () => {
         }
     }
 
-    // useEffect(() => {
-    //     getList();
-    //     getListBrands();
-    // }, []);
+    const selectModels = (id) => {
+        console.log(id);
+        axios.get(`http://localhost:3333/${id}/devicebrands`)
+    }
 
     return (
         <div className="list">
@@ -107,9 +108,6 @@ const Home = () => {
                                     placeholder="Nome"
                                     {...register("name")}
                                 />
-                                <div className="invalid-feedback">
-                                    Por favor, informe uma cidade válida.
-                                </div>
                             </div>
                             <div className="form-group col-sm-2">
                                 <label>Numero:</label>
@@ -125,7 +123,7 @@ const Home = () => {
                             <div className="form-group col-sm-1">
                                 <label >Marca:</label>
                                 <select {...register("DeviceBrand_id")}>
-                                    onChange = {(e) => setListBrands(e.target.value)}
+                                    onChange = {(e) => selectModels(e.target.id)}
                                     {listBrands.map((listBrand) => (
                                         <option
                                             key={listBrand.DeviceBrand_id}
@@ -135,6 +133,20 @@ const Home = () => {
                                     ))}
                                 </select>
                             </div>
+                            {/* <div className="form-group col-sm-1">
+                                <label >Marca:</label>
+                                <select {...register("DeviceBrand_id")}
+                                    isSearchable={true}>
+                                    {listBrands.map((listBrand) => (
+                                        <option
+                                            onChange={selectModels(listBrand.id)}
+                                            key={listBrand.DeviceBrand_id}
+                                            value={listBrand.id}>
+                                            {listBrand.devicebrand}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div> */}
                             <div className="form-group col-sm-1">
                                 <label>Modelo:</label>
                                 <select {...register("DeviceModel_id")}>
@@ -298,7 +310,7 @@ const Home = () => {
                     hide={() => setModal(false)} /> : ''
             }
         </div >
+
     )
 }
-
 export default Home

@@ -35,7 +35,7 @@ const CalculaSaida = () => {
 
     return (
         <div>
-            <span>Saida:{saida.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
+            <span>Saida: {saida.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
         </div>
     )
 

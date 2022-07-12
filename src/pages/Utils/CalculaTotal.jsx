@@ -53,7 +53,7 @@ const CalculaTotal = () => {
 
     return (
         <div>
-            <span>Total:{total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
+            <span>Total: {total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
         </div>
     )
 
