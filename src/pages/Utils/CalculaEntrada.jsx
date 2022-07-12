@@ -37,7 +37,7 @@ const CalculaEntrada = () => {
 
     return (
         <div>
-            <span>Entrada:{total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
+            <span>Entrada: {total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
         </div>
     )
 
