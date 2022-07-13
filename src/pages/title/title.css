@@ -10,21 +10,16 @@ ul {
   
   .logo{
     width: 100px;
-    margin-bottom:1px
+    margin-bottom:1px;
   }
-  .format {    
-    display: block;
-    padding: 1px;
-    background-color: #fffdfd;
-    border-radius: 20px;
-    float: right;
-    margin: 0px 10px;
-  }
-  .format:hover{
-      background-color: rgb(116, 122, 120);
-  }
+
+
   .navbar {
       background-color: rgb(144, 143, 140);
       
   }
   
+  .chart{
+    color: #000000;
+
+  }

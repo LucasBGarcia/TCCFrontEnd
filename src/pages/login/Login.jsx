@@ -3,6 +3,7 @@
 import './login.css'
 import { useState } from 'react';
 import axios from 'axios';
+import { Navigate } from "react-router-dom";
 
 export default props => {
 
@@ -19,7 +20,8 @@ export default props => {
                     localStorage.setItem("sipToken", response.data.token);
                     localStorage.setItem("sipUser", response.data.name);
                     alert(response.data.name + ", Bem-vindo!")
-                    window.location.href = "/home";
+                    console.log(usuario)
+                    Navigate("/home");
                 }
             }).catch((e) => {
                 alert(e.response.data.erro)
@@ -63,40 +65,4 @@ export default props => {
         </div>
     )
 
-    // return (
-    //     <div style={{
-    //         backgroundImage: `url("/background_login.png")`,
-    //         display: "table",
-    //         width: "100%",
-    //         height: "100vh",
-    //         backgroundSize: "cover",
-    //     }}>
-
-    //         <div className="Card">
-    //             <h2>Sistema de Ordem de Serviço</h2>
-    //             <input
-    //                 type="text"
-    //                 style={{ backgroundColor: "white", opacity: "0.7" }}
-    //                 className="form-control"
-    //                 id='email'
-    //                 placeholder="Nome"
-    //                 onChange={setUsuario}
-    //             >
-    //             </input>
-    //             <input
-    //                 type="password"
-    //                 style={{ backgroundColor: "white", opacity: "0.7" }}
-    //                 className="form-control"
-    //                 id='password'
-    //                 placeholder="Password"
-    //                 onChange={setPassword}
-    //             >
-    //             </input>
-
-    //             <button onClick={() => login()}>Login</button>
-
-    //         </div>
-
-    //     </div>
-    // )
 }
