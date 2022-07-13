@@ -8,11 +8,12 @@ const Title = () => {
 
   return (
     <nav className="navbar  navbar-expand-lg " >
-      <Link to="/" className="navbar-brand " href="#">
+      <Link to="/home" className="navbar-brand " href="#">
         <img src={logo} alt="logo" className="logo" />
       </Link>
-      <ul >
-      </ul>
+      <Link to="/chart" className="chart " href="#">
+        Estatística
+      </Link>
     </nav >
   );
 };
