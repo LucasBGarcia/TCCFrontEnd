@@ -14,7 +14,7 @@ export default class ViewModal extends Component {
                 <div className="modal-dialog modal-xl" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title">Visualização Orden de serviso nº {this.props.id}</h5>
+                            <h5 className="modal-title">Visualização Ordem de serviso nº {this.props.id}</h5>
                         </div>
                         <div className="modal-body">
                             <div className="card">
@@ -38,7 +38,7 @@ export default class ViewModal extends Component {
                                             <span>CPF: </span>{this.props.CPF}
                                         </button>
                                         <button type="button" className="list-group-item list-group-item-action col-sm-3">
-                                            <span>Email: </span>{this.props.email}
+                                            <span>E-mail: </span>{this.props.email}
                                         </button>
                                         <button type="button" className="list-group-item list-group-item-action col-sm-3">
                                             <span>Endereço: </span>{this.props.address}

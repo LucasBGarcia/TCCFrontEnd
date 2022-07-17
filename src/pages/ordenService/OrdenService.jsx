@@ -63,13 +63,13 @@ const Home = () => {
             })
     }, [])
 
-    useEffect(() => {
-        axios.get(`http://localhost:3333/devicemodels`)
-            .then((response) => {
-                setListModels(response.data);
-                // console.log(response.data);
-            })
-    }, [])
+    // useEffect(() => {
+    //     axios.get(`http://localhost:3333/devicemodels`)
+    //         .then((response) => {
+    //             setListModels(response.data);
+    //             // console.log(response.data);
+    //         })
+    // }, [])
 
     useEffect(() => {
         axios.get(`http://localhost:3333/services`)
@@ -87,12 +87,17 @@ const Home = () => {
         }
     }
 
+
     const selectModels = (id) => {
         console.log(id);
-        axios.get(`http://localhost:3333/${id}/devicebrands`)
+        axios.get(`http://localhost:3333/${id}/devicebrands`).then((response) => {
+            setListModels(response.data);
+            // console.log(response.data);
+        })
     }
 
     return (
+
         <div className="list">
             <div className="card">
                 <div className="card-body" >
@@ -120,10 +125,9 @@ const Home = () => {
                                     {...register("number")}
                                 />
                             </div>
-                            <div className="form-group col-sm-1">
+                            <div className="form-group col-sm-1" >
                                 <label >Marca:</label>
-                                <select {...register("DeviceBrand_id")}>
-                                    onChange = {(e) => selectModels(e.target.id)}
+                                <select {...register("DeviceBrand_id")} onChange={(e) => selectModels(e.target.value)}>
                                     {listBrands.map((listBrand) => (
                                         <option
                                             key={listBrand.DeviceBrand_id}
@@ -133,20 +137,6 @@ const Home = () => {
                                     ))}
                                 </select>
                             </div>
-                            {/* <div className="form-group col-sm-1">
-                                <label >Marca:</label>
-                                <select {...register("DeviceBrand_id")}
-                                    isSearchable={true}>
-                                    {listBrands.map((listBrand) => (
-                                        <option
-                                            onChange={selectModels(listBrand.id)}
-                                            key={listBrand.DeviceBrand_id}
-                                            value={listBrand.id}>
-                                            {listBrand.devicebrand}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div> */}
                             <div className="form-group col-sm-1">
                                 <label>Modelo:</label>
                                 <select {...register("DeviceModel_id")}>
