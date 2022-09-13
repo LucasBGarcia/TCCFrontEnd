@@ -4,9 +4,11 @@ import api from '../../api'
 import { Table } from 'semantic-ui-react'
 import { IoEyeOutline } from "react-icons/io5";
 import { BsTrash } from "react-icons/bs";
+import { BsBrush } from "react-icons/bs";
 import axios from "axios"
 import "./OrdenService.css"
 import ViewModal from '../ViewModal/ViewModal';
+import UpdateModal from '../UpdateModal/UpdateModal';
 import CalculaTotal from '../Utils/CalculaTotal';
 import CalculaEntrada from '../Utils/CalculaEntrada';
 import CalculaSaida from '../Utils/CalculaSaida';
@@ -22,7 +24,9 @@ const Home = () => {
     let [listServices, setListServices] = useState([]);
 
     const [modal, setModal] = useState(false);
+    const [ModalUpdate, setModalUpdate] = useState(false);
     const [tempdata, setTempdata] = useState([]);
+    const [tempdataUpdate, setTempdataUpdate] = useState([]);
 
     const getData = (id, observation, withdrawal, value, negativeValue, name, number, CPF,
         email, address, devicebrand, devicemodel) => {
@@ -30,6 +34,13 @@ const Home = () => {
             email, address, devicebrand, devicemodel];
         setTempdata(data => [1, ...tempData])
         return setModal(true)
+    }
+    const getDataUpdate = (id, observation, withdrawal, value, negativeValue, name, number, CPF,
+        email, address, devicebrand, devicemodel) => {
+        let tempDataUpdate = [id, observation, withdrawal, value, negativeValue, name, number, CPF,
+            email, address, devicebrand, devicemodel];
+        setTempdataUpdate(data => [1, ...tempDataUpdate])
+        return setModalUpdate(true)
     }
 
     const onSubmit = async (data) => {
@@ -41,11 +52,8 @@ const Home = () => {
         } catch (error) {
             console.log(error.response.data);
             alert(error.response.data)
-
         }
     };
-
-
 
     useEffect(() => {
         axios.get(`http://localhost:3333/serviceorder`)
@@ -62,14 +70,6 @@ const Home = () => {
                 // console.log(response.data);
             })
     }, [])
-
-    // useEffect(() => {
-    //     axios.get(`http://localhost:3333/devicemodels`)
-    //         .then((response) => {
-    //             setListModels(response.data);
-    //             // console.log(response.data);
-    //         })
-    // }, [])
 
     useEffect(() => {
         axios.get(`http://localhost:3333/services`)
@@ -128,6 +128,7 @@ const Home = () => {
                             <div className="form-group col-sm-1" >
                                 <label >Marca:</label>
                                 <select {...register("DeviceBrand_id")} onChange={(e) => selectModels(e.target.value)}>
+                                    <option value="" disabled selected>Selecione...</option>
                                     {listBrands.map((listBrand) => (
                                         <option
                                             key={listBrand.DeviceBrand_id}
@@ -140,6 +141,7 @@ const Home = () => {
                             <div className="form-group col-sm-1">
                                 <label>Modelo:</label>
                                 <select {...register("DeviceModel_id")}>
+                                    <option value="" disabled selected>Marca Primeiro...</option>
                                     onChange = {(e) => setListModels(e.target.value)}
                                     {listModels.map((listModel, index) => (
                                         <option key={listModel.DeviceModel_id}
@@ -148,9 +150,10 @@ const Home = () => {
                                     ))}
                                 </select>
                             </div>
-                            <div className="form-group col-sm-2">
+                            <div className="form-group serico col-sm-2" id='serv'>
                                 <label id='servico'>Serviço:</label>
-                                <select {...register("service_id")}>
+                                <select id='servico'{...register("service_id")}>
+                                    <option value="" disabled selected>Selecione...</option>
                                     onChange = {(e) => setListServices(e.target.value)}
                                     {listServices.map((listService, index) => (
                                         <option key={listService.service_id}
@@ -266,6 +269,12 @@ const Home = () => {
                                         <Table.Cell className="td">{data.value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Table.Cell>
                                         <Table.Cell className="td">{data.negativeValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Table.Cell>
                                         <Table.Cell className="td">
+                                            <button onClick={() => getDataUpdate(data.id, data.observation,
+                                                data.withdrawal, data.value, data.negativeValue,
+                                                data.client.name, data.client.number, data.client.CPF, data.client.email,
+                                                data.client.address, data.DeviceBrand.devicebrand, data.DeviceModel.devicemodel)}>
+                                                <BsBrush />
+                                            </button>
                                             <button onClick={() => getData(data.id, data.observation,
                                                 data.withdrawal, data.value, data.negativeValue,
                                                 data.client.name, data.client.number, data.client.CPF, data.client.email,
@@ -298,6 +307,13 @@ const Home = () => {
                     CPF={tempdata[8]} email={tempdata[9]} address={tempdata[10]}
                     devicemodel={tempdata[11]} devicebrand={tempdata[12]}
                     hide={() => setModal(false)} /> : ''
+            }
+            {
+                ModalUpdate === true ? <UpdateModal id={tempdataUpdate[1]} observation={tempdataUpdate[2]} withdrawal={tempdataUpdate[3]}
+                    value={tempdataUpdate[4]} negativeValue={tempdataUpdate[5]} name={tempdataUpdate[6]} number={tempdataUpdate[7]}
+                    CPF={tempdataUpdate[8]} email={tempdataUpdate[9]} address={tempdataUpdate[10]}
+                    devicemodel={tempdataUpdate[11]} devicebrand={tempdataUpdate[12]}
+                    hide={() => setModalUpdate(false)} /> : ''
             }
         </div >
 

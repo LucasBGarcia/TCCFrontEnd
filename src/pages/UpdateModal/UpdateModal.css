@@ -1,0 +1,9 @@
+ .modal {
+    display: block;
+    background-color: rgba(0, 0, 0, 0.8);
+    }
+
+.btn {
+    margin-left: 0px;
+    width: 100%;
+}

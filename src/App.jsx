@@ -5,7 +5,6 @@ import Home from "./pages/ordenService/OrdenService";
 import Grafico from "./pages/charts/chart";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-
 function App() {
   return (
     <Router>
