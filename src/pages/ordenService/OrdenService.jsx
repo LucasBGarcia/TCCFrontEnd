@@ -191,9 +191,9 @@ const Home = () => {
                                     ))}
                                 </select>
                             </div>
-                            <div className="form-group serico col-sm-3" id='serv'>
+                            <div className="form-group servico col-sm-2" id='serv'>
                                 <label id='servico'>Serviço:</label>
-                                <select id='servico'{...register("service_id")}>
+                                <select id='servico' {...register("service_id")}>
                                     <option value="" disabled selected>Selecione...</option>
                                     onChange = {(e) => setListServices(e.target.value)}
                                     {listServices.map((listService, index) => (
@@ -274,8 +274,12 @@ const Home = () => {
                                     />
                                 </div>
 
-                                <button type="submit" className="btn btn-success btn-lm col-sm-2 mt-4" style={{}}>Cadastrar</button>
-                                <button type="cancel" className="btn btn-danger btn-lm col-sm-2 mt-4" style={{}}>Cancelar</button>
+                                <div className="form-group col-sm-2">
+                                    <button type="submit" className="btn btn-success btn-lm mt-4" style={{}}>Cadastrar</button>
+                                </div>
+                                <div className="form-group col-sm-2">
+                                    <button type="cancel" className="btn btn-danger btn-lm mt-4" style={{}}>Cancelar</button>
+                                </div>
                             </div>
                         </div>
                     </form>
