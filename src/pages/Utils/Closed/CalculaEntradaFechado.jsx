@@ -4,20 +4,20 @@ import React, { useState, useEffect } from 'react'
 import axios from "axios"
 
 
-const CalculaEntrada = () => {
+const CalculaEntradaFechado = () => {
 
     let [list, setList] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:3333/serviceorder`)
+        axios.get(`http://localhost:3333/serviceorderended`)
             .then((response) => {
                 setList(response.data);
-                // console.log(response.data);
+                console.log(response.data);
             })
     }, [])
 
     var functionSepara = list.map(function (data) {
-        var valores = data.value
+        var valores = data.ordemServico.value
         return valores
     })
 
@@ -43,4 +43,4 @@ const CalculaEntrada = () => {
 
 
 }
-export default CalculaEntrada;
+export default CalculaEntradaFechado;

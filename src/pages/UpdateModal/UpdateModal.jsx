@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import './UpdateModal.css'
 import api from '../../api'
 import axios from "axios"
+
 const UpdateModal = (props) => {
     const { register, handleSubmit } = useForm();
     let [listBrands, setListBrands] = useState([]);
@@ -15,7 +16,6 @@ const UpdateModal = (props) => {
     const onSubmit = async (info) => {
         console.log(info)
         try {
-            //axios.put(`http://localhost:3333/${id}/serviceorder`)
             await api.put(`${id}/serviceorder`, info)
 
             alert("atualizado com sucesso")
@@ -41,7 +41,18 @@ const UpdateModal = (props) => {
         })
     }
 
+    const handlePhone = (event) => {
+        let input = event.target;
+        input.value = phoneMask(input.value);
+    };
 
+    const phoneMask = (value) => {
+        if (!value) return "";
+        value = value.replace(/\D/g, "");
+        value = value.replace(/(\d{2})(\d)/, "($1) $2");
+        value = value.replace(/(\d)(\d{4})$/, "$1-$2");
+        return value;
+    };
     return (
         <div className="modal show fade" >
             <div className="modal-dialog modal-xl" role="document">
@@ -63,6 +74,7 @@ const UpdateModal = (props) => {
                                                 className="form-control"
                                                 id='name'
                                                 placeholder='Nome'
+                                                defaultValue={props.name}
                                                 {...register("name")}
                                             />
                                         </button>
@@ -95,13 +107,15 @@ const UpdateModal = (props) => {
                                     </div>
                                     <div className="row">
                                         <button type="button" className="list-group-item list-group-item-action col-sm-3">
-                                            <span>Número: </span>{props.number}
+                                            <span>Número: </span>{`${props.number}`}
                                             <input
                                                 type="integer"
                                                 style={{ backgroundColor: "white", opacity: "0.7" }}
                                                 className="form-control"
                                                 id='number'
+                                                defaultValue={props.number}
                                                 placeholder="Número"
+                                                data-mask="(00) 0000-0000"
                                                 {...register("number")}
                                             />
                                         </button>
@@ -112,6 +126,7 @@ const UpdateModal = (props) => {
                                                 style={{ backgroundColor: "white", opacity: "0.7" }}
                                                 className="form-control"
                                                 id='CPF'
+                                                defaultValue={props.CPF}
                                                 placeholder="CPF"
                                                 {...register("CPF")}
                                             />
@@ -123,6 +138,7 @@ const UpdateModal = (props) => {
                                                 style={{ backgroundColor: "", opacity: "0.7" }}
                                                 className="form-control"
                                                 id='email'
+                                                defaultValue={props.email}
                                                 placeholder="E-mail"
                                                 {...register("email")}
                                             />
@@ -134,6 +150,7 @@ const UpdateModal = (props) => {
                                                 style={{ backgroundColor: "white", opacity: "0.7" }}
                                                 className="form-control"
                                                 id='address'
+                                                defaultValue={props.address}
                                                 placeholder="Endereço"
                                                 {...register("address")}
                                             />
@@ -147,6 +164,7 @@ const UpdateModal = (props) => {
                                                 style={{ backgroundColor: "white", opacity: "0.7" }}
                                                 className="form-control"
                                                 id='value'
+                                                defaultValue={props.value}
                                                 placeholder="Coloque o Valor"
                                                 {...register("value")}
                                             />
@@ -158,6 +176,7 @@ const UpdateModal = (props) => {
                                                 style={{ backgroundColor: "white", opacity: "0.7" }}
                                                 className="form-control"
                                                 id='negativeValue'
+                                                defaultValue={props.negativeValue}
                                                 placeholder='Valor para baixa'
                                                 {...register("negativeValue")}
                                             />
@@ -180,6 +199,7 @@ const UpdateModal = (props) => {
                                                 style={{ backgroundColor: "white", opacity: "0.7" }}
                                                 className="form-control"
                                                 id='withdrawal'
+                                                defaultValue={props.withdrawal}
                                                 placeholder="Coloque o Horario de saida"
                                                 {...register("withdrawal")}
                                             />
@@ -187,13 +207,16 @@ const UpdateModal = (props) => {
                                     </div>
                                 </ul>
                             </div>
-                            <button type="submit" className="btn btn-success btn-lm col-sm-2 mt-4" style={{}}>Cadastrar</button>
+                            <button type="submit" className="btn btn-success btn-lm col-sm-2 mt-4" style={{}}>Atualizar</button>
                             <button type="button" className="btn btn-danger btn-lm col-sm-2 mt-4 ml-5" onClick={props.hide}>Fechar</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div >
+
     )
 }
 export default UpdateModal
+
+

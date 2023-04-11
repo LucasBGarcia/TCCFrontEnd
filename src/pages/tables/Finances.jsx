@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import api from '../../api'
 import { Table } from 'semantic-ui-react'
 import { IoEyeOutline } from "react-icons/io5";
 import { BsCheckLg, BsTrash, BsBrush } from "react-icons/bs";
 import axios from "axios"
-import "./OrdenService.css"
+import "./Finances.css"
 import ViewModal from '../ViewModal/ViewModal';
 import UpdateModal from '../UpdateModal/UpdateModal';
 import FinishModal from '../FinishModal/FinishModal'
@@ -18,7 +17,7 @@ import CalculaEntradaFechado from '../Utils/Closed/CalculaEntradaFechado';
 import CalculaSaidaFechado from '../Utils/Closed/CalculaSaidaFechado';
 
 
-const Home = () => {
+const Finances = () => {
 
     // let navigate = useNavigate();
     const { register, handleSubmit } = useForm();
@@ -134,160 +133,11 @@ const Home = () => {
     };
 
     return (
-
         <div className="list">
-
-            <div className="card">
-                <div className="card-body" >
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="row">
-                            <div className="form-group col-sm-2">
-                                <label>*Nome:</label>
-                                <input
-                                    type="text"
-                                    style={{ backgroundColor: "white", opacity: "0.7" }}
-                                    className="form-control"
-                                    id='name'
-                                    placeholder="Nome"
-                                    {...register("name")}
-                                />
-                            </div>
-                            <div className="form-group col-sm-2">
-
-                                <label>Numero:</label>
-                                <input
-                                    maxLength={15}
-                                    type="integer"
-                                    style={{ backgroundColor: "white", opacity: "0.7" }}
-                                    className="form-control"
-                                    id='number'
-                                    placeholder="Número"
-                                    pattern="\(\d{2}\) \d{4,5}-\d{4}"
-                                    {...register("number")}
-                                />
-                            </div>
-                            <div className="form-group col-sm-1" >
-                                <label >Marca:</label>
-                                <select onChange={(e) => selectModels(e.target.value)}>
-                                    <option value="" disabled selected>Selecione...</option>
-                                    {listBrands.map((listBrand) => (
-                                        <option
-                                            key={listBrand.DeviceBrand_id}
-                                            value={listBrand.id}>
-                                            {listBrand.devicebrand}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="form-group col-sm-1">
-                                <label>Modelo:</label>
-                                <select {...register("DeviceModel_id")}>
-                                    <option value="" disabled selected>Marca Primeiro...</option>
-                                    onChange = {(e) => setListModels(e.target.value)}
-                                    {listModels.map((listModel, index) => (
-                                        <option key={listModel.DeviceModel_id}
-                                            value={listModel.id}>
-                                            {listModel.devicemodel}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="form-group serico col-sm-3" id='serv'>
-                                <label id='servico'>Serviço:</label>
-                                <select id='servico'{...register("service_id")}>
-                                    <option value="" disabled selected>Selecione...</option>
-                                    onChange = {(e) => setListServices(e.target.value)}
-                                    {listServices.map((listService, index) => (
-                                        <option key={listService.service_id}
-                                            value={listService.id}>
-                                            {listService.service}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div id='valor' className="form-group col-md-1">
-                                <label>*Valor:</label>
-                                <input
-                                    type="integer"
-                                    style={{ backgroundColor: "white", opacity: "0.7" }}
-                                    className="form-control"
-                                    id='value'
-                                    placeholder="Coloque o Valor"
-                                    {...register("value")}
-                                />
-                            </div>
-                            <div className="form-group col-sm-2">
-                                <label>Horario de saida:</label>
-                                <input
-                                    type="datetime-local"
-                                    style={{ backgroundColor: "white", opacity: "0.7" }}
-                                    className="form-control"
-                                    id='withdrawal'
-                                    placeholder="Coloque o Horario de saida"
-                                    {...register("withdrawal")}
-                                />
-                            </div>
-                        </div>
-                        <div className="container">
-                            <div className="row">
-                                <div className="form-group col-sm-2">
-                                    <label>E-mail:</label>
-                                    <input
-                                        type="text"
-                                        style={{ backgroundColor: "", opacity: "0.7" }}
-                                        className="form-control"
-                                        id='email'
-                                        placeholder="E-mail"
-                                        {...register("email")}
-                                    />
-                                </div>
-                                <div className="form-group col-sm-2">
-                                    <label>CPF:</label>
-                                    <input
-                                        type="text"
-                                        style={{ backgroundColor: "white", opacity: "0.7" }}
-                                        className="form-control"
-                                        id='CPF'
-                                        placeholder="CPF"
-                                        {...register("CPF")}
-                                    />
-                                </div>
-
-                                <div className="form-group col-sm-2">
-                                    <label>Endereço:</label>
-                                    <input
-                                        type="text"
-                                        style={{ backgroundColor: "white", opacity: "0.7" }}
-                                        className="form-control"
-                                        id='address'
-                                        placeholder="Endereço"
-                                        {...register("address")}
-                                    />
-                                </div>
-                                <div className="form-group col-sm-2">
-                                    <label>Observação:</label>
-                                    <input
-                                        type="text"
-                                        style={{ backgroundColor: "white", opacity: "0.7" }}
-                                        className="form-control"
-                                        id='observation'
-                                        placeholder="Observação"
-                                        {...register("observation")}
-                                    />
-                                </div>
-
-                                <button type="submit" className="btn btn-success btn-lm col-sm-2 mt-4" style={{}}>Cadastrar</button>
-                                <button type="cancel" className="btn btn-danger btn-lm col-sm-2 mt-4" style={{}}>Cancelar</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div >
-
             <div id='tabelas' className="row" >
                 <div className=''>
                     <h3 className="text-center mt-2">
-                        <Link to="/finances" className='finances' href="#">
-                            Caixa Aberto
-                        </Link>
+                        Caixa Aberto
                     </h3>
                     <Table singleLine className="table-round-corner" >
                         <Table.Header id="table">
@@ -353,9 +203,7 @@ const Home = () => {
                 </div>
                 <div className='col-sm-5'>
                     <h3 className="text-center mt-2">
-                        <Link to="/finances" className='finances' href="#">
-                            Caixa Fechado
-                        </Link>
+                        Caixa Fechado
                     </h3>
                     <Table singleLine className="table-round-corner" >
                         <Table.Header id="table">
@@ -416,4 +264,4 @@ const Home = () => {
 
     )
 }
-export default Home
+export default Finances

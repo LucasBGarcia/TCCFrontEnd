@@ -10,15 +10,15 @@
     align-items: center;
 }
 
-.Card h2{
-    font-weight:unset;
-    font-size:30px;
+.Card h2 {
+    font-weight: unset;
+    font-size: 30px;
 }
 
-.Card button{
+.Card button {
     background-color: white;
     color: black;
-    font-size:15px;
+    font-size: 15px;
     border: 1px solid gray;
     transition-duration: 0.4s;
     width: 20%;
@@ -28,11 +28,11 @@
 }
 
 .Card button:hover {
-    background-color: rgb(184, 184, 184); 
+    background-color: rgb(184, 184, 184);
     color: black;
-  }
+}
 
-.form-control{
+.form-control {
     text-align: center;
 
 
