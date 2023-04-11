@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import axios from "axios"
 
-const CalculaTotal = () => {
+const CalculaTotalAberto = () => {
 
     let [list, setList] = useState([]);
 
@@ -59,4 +59,4 @@ const CalculaTotal = () => {
 
 
 }
-export default CalculaTotal;
+export default CalculaTotalAberto;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import axios from "axios"
 
-const CalculaSaida = () => {
+const CalculaSaidaAberto = () => {
 
     let [list, setList] = useState([]);
 
@@ -41,4 +41,4 @@ const CalculaSaida = () => {
 
 
 }
-export default CalculaSaida;
+export default CalculaSaidaAberto;
