@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import api from '../../api'
 import { Table } from 'semantic-ui-react'
 import { IoEyeOutline } from "react-icons/io5";
-import { BsCheckLg, BsTrash, BsBrush } from "react-icons/bs";
+import { BsCheckLg, BsTrash, BsBrush, BsSearch } from "react-icons/bs";
 import axios from "axios"
 import "./OrdenService.css"
 import ViewModal from '../ViewModal/ViewModal';
@@ -35,10 +35,13 @@ const Home = () => {
     const [tempdataUpdate, setTempdataUpdate] = useState([]);
     const [tempdataFinish, setTempdataFinish] = useState([]);
 
+    const [FiltroID, setFiltroID] = useState(false)
+    const [DadosFiltroID, setDadosFiltroID] = useState('')
+
     const getData = (id, observation, withdrawal, value, negativeValue, name, number, CPF,
-        email, address, devicebrand, devicemodel) => {
+        email, address, devicebrand, devicemodel, createdAt) => {
         let tempData = [id, observation, withdrawal, value, negativeValue, name, number, CPF,
-            email, address, devicebrand, devicemodel];
+            email, address, devicebrand, devicemodel, createdAt];
         setTempdata(data => [1, ...tempData])
         return setModal(true)
     }
@@ -105,11 +108,6 @@ const Home = () => {
         setTempdataFinish(data => [1, ...tempDataFinish])
         return setModalFinish(true)
     }
-    // const onFinish = (id, name) => {
-    //     console.log(id)
-    //         axios.delete(`http://localhost:3333/${id}/serviceorder`)
-
-    // }
 
 
     const selectModels = (id) => {
@@ -117,6 +115,34 @@ const Home = () => {
         axios.get(`http://localhost:3333/${id}/devicebrands`).then((response) => {
             setListModels(response.data);
         })
+    }
+
+    useEffect(() => {
+        if (FiltroID == false) {
+            setDadosFiltroID('')
+        }
+    }, [FiltroID])
+
+
+    const filtroID = () => {
+        if (FiltroID) {
+            return (
+                <input
+                    type="text"
+                    style={{ backgroundColor: "white", opacity: "0.7", width: '50px', height: '20px' }}
+                    className="form-control"
+                    placeholder="Nº ID"
+                    onChange={(e) => setDadosFiltroID(e.target.value)}
+                />
+            )
+        } else {
+
+            return (
+                <>
+                    Nº OS
+                </>
+            )
+        }
     }
 
     const handlePhone = (event) => {
@@ -296,7 +322,11 @@ const Home = () => {
                     <Table singleLine className="table-round-corner" >
                         <Table.Header id="table">
                             <Table.Row>
-                                <Table.HeaderCell id='th' className="th">Nº OS</Table.HeaderCell>
+                                <Table.HeaderCell id='th' className="th">
+                                    <button onClick={() => setFiltroID(!FiltroID)}
+                                    >
+                                        <BsSearch />
+                                    </button>{filtroID()}</Table.HeaderCell>
                                 <Table.HeaderCell id='th' className="th">Marca</Table.HeaderCell>
                                 <Table.HeaderCell id='th' className="th">Modelo</Table.HeaderCell>
                                 <Table.HeaderCell id='th' className="th">Serviço</Table.HeaderCell>
@@ -333,7 +363,7 @@ const Home = () => {
                                             <button onClick={() => getData(data.id, data.observation,
                                                 data.withdrawal, data.value, data.negativeValue,
                                                 data.client.name, data.client.number, data.client.CPF, data.client.email,
-                                                data.client.address, data.DeviceModel.DeviceBrand.devicebrand, data.DeviceModel.devicemodel)}>
+                                                data.client.address, data.DeviceModel.DeviceBrand.devicebrand, data.DeviceModel.devicemodel, data.createdAt)}>
                                                 <IoEyeOutline />
                                             </button>
                                             <button onClick={() => onDelete(data.id, data.client.name)}
@@ -400,7 +430,7 @@ const Home = () => {
                 modal === true ? <ViewModal id={tempdata[1]} observation={tempdata[2]} withdrawal={tempdata[3]}
                     value={tempdata[4]} negativeValue={tempdata[5]} name={tempdata[6]} number={tempdata[7]}
                     CPF={tempdata[8]} email={tempdata[9]} address={tempdata[10]}
-                    devicemodel={tempdata[11]} devicebrand={tempdata[12]}
+                    devicemodel={tempdata[11]} devicebrand={tempdata[12]} createdAt={tempdata[13]}
                     hide={() => setModal(false)} /> : ''
             }
             {

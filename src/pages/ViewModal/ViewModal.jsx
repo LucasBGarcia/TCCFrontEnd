@@ -1,13 +1,15 @@
+
 import React, { Component } from 'react'
 import './ViewModal.css'
 
 export default class ViewModal extends Component {
-
-
     render() {
 
-        var data = new Date(this.props.withdrawal)
-        var dataFormatada = data.toLocaleString('pt-BR', { timeZone: 'UTC' })
+        var dataSaida = new Date(this.props.withdrawal)
+        var dataSaidaFormatada = dataSaida.toLocaleString('pt-BR', { timeZone: 'UTC' })
+
+        var dataEntrada = new Date(this.props.createdAt)
+        var dataEntradaFormatada = dataEntrada.toLocaleString('pt-BR', { timeZone: 'UTC' })
 
         return (
             <div className="modal show fade">
@@ -45,17 +47,23 @@ export default class ViewModal extends Component {
                                         </button>
                                     </div>
                                     <div className="row">
-                                        <button type="button" className="list-group-item list-group-item-action col-sm-2">
+                                        <button type="button" className="list-group-item list-group-item-action col-sm-4">
                                             <span>Valor: </span>{this.props.value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
                                         </button>
-                                        <button type="button" className="list-group-item list-group-item-action col-sm-2">
+                                        <button type="button" className="list-group-item list-group-item-action col-sm-4">
                                             <span>Valor saida: </span>{this.props.negativeValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
                                         </button>
                                         <button type="button" className="list-group-item list-group-item-action col-sm-4">
                                             <span>Observação: </span>{this.props.observation}
                                         </button>
-                                        <button type="button" className="list-group-item list-group-item-action col-sm-4">
-                                            <span>Horário saida: </span>{dataFormatada}
+
+                                    </div>
+                                    <div className="row">
+                                        <button type="button" className="list-group-item list-group-item-action col-sm-6">
+                                            <span>Data de entrada: </span>{dataEntradaFormatada}
+                                        </button>
+                                        <button type="button" className="list-group-item list-group-item-action col-sm-6">
+                                            <span>Data de saida: </span>{dataSaidaFormatada}
                                         </button>
                                     </div>
                                 </ul>
