@@ -5,7 +5,6 @@ import { Table } from 'semantic-ui-react'
 import { IoEyeOutline } from "react-icons/io5";
 import { BsCheckLg, BsTrash, BsBrush } from "react-icons/bs";
 import axios from "axios"
-import "./Finances.css"
 import ViewModal from '../ViewModal/ViewModal';
 import UpdateModal from '../UpdateModal/UpdateModal';
 import FinishModal from '../FinishModal/FinishModal'
