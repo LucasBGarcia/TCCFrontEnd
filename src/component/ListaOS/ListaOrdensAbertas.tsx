@@ -74,10 +74,30 @@ function ListaOrdensAbertas() {
     let [DadosFiltroID, setDadosFiltroID] = useState<number>(0)
     let [ListFiltroID, setListFiltroID] = useState<Object>([])
 
+    const [buscaMarca, setBuscaMarca] = useState('')
     const [FiltroMarca, setFiltroMarca] = useState(false)
     const [ListByMarcaSituacao, setListByMarcaSituacao] = useState(false)
-    let [DadosFiltroMarca, setDadosFiltroMarca] = useState<string>('')
     let [ListFiltroMarca, setListFiltroMarca] = useState<any>([])
+
+    const [buscaModelo, setBuscaModelo] = useState('')
+    const [FiltroModelo, setFiltroModelo] = useState(false)
+    const [ListByModeloSituacao, setListByModeloSituacao] = useState(false)
+    let [ListFiltroModelo, setListFiltroModelo] = useState<any>([])
+
+    const [buscaServico, setBuscaServico] = useState('')
+    const [FiltroServico, setFiltroServico] = useState(false)
+    const [ListByServicoSituacao, setListByServicoSituacao] = useState(false)
+    let [ListFiltroServico, setListFiltroServico] = useState<any>([])
+
+    const [buscaValor, setBuscaValor] = useState(0)
+    const [FiltroValor, setFiltroValor] = useState(false)
+    const [ListByValorSituacao, setListByValorSituacao] = useState(false)
+    let [ListFiltroValor, setListFiltroValor] = useState<any>([])
+
+    const [buscaValorSaida, setBuscaValorSaida] = useState(0)
+    const [FiltroValorSaida, setFiltroValorSaida] = useState(false)
+    const [ListByValorSaidaSituacao, setListByValorSaidaSituacao] = useState(false)
+    let [ListFiltroValorSaida, setListFiltroValorSaida] = useState<any>([])
 
     useEffect(() => {
         if (DadosEdita) {
@@ -228,11 +248,21 @@ function ListaOrdensAbertas() {
     }
     const handleChangeFiltroId = (e: any) => {
         setDadosFiltroID(e.target.value)
-        //setBuscaId(e.target.value)
     }
     const handleChangeFiltroMarca = (e: any) => {
-        setDadosFiltroMarca(e.target.value)
-        //setBuscaId(e.target.value)
+        setBuscaMarca(e.target.value)
+    }
+    const handleChangeFiltroModelo = (e: any) => {
+        setBuscaModelo(e.target.value)
+    }
+    const handleChangeFiltroServico = (e: any) => {
+        setBuscaServico(e.target.value)
+    }
+    const handleChangeFiltroValor = (e: any) => {
+        setBuscaValor(Number(e.target.value))
+    }
+    const handleChangeFiltroValorSaida = (e: any) => {
+        setBuscaValorSaida(Number(e.target.value))
     }
 
     const ConcluiOS = async (id: any) => {
@@ -332,6 +362,7 @@ function ListaOrdensAbertas() {
         if (FiltroID) {
             return (
                 <Input
+                    ml='10px'
                     type="text"
                     p='0px'
                     textAlign='center'
@@ -354,6 +385,7 @@ function ListaOrdensAbertas() {
         if (FiltroMarca) {
             return (
                 <Input
+                    ml='17px'
                     type="text"
                     p='0px'
                     textAlign='center'
@@ -371,18 +403,94 @@ function ListaOrdensAbertas() {
             )
         }
     }
-    const ListByID = () => {
-        if (ListByIDSituacao) {
+    const filtroModelo = () => {
+        if (FiltroModelo) {
             return (
-                ListagemPesquisa(ListFiltroID)
+                <Input
+                    ml='32px'
+                    type="text"
+                    p='0px'
+                    textAlign='center'
+                    style={{ backgroundColor: "white", opacity: "0.7", width: '50px', height: '20px' }}
+                    className="form-control"
+                    placeholder="Modelo"
+                    onChange={handleChangeFiltroModelo}
+                />
             )
         } else {
             return (
-                Listagem()
+                <>
+                    Modelo
+                </>
             )
         }
     }
-
+    const filtroServico = () => {
+        if (FiltroServico) {
+            return (
+                <Input
+                    ml='32px'
+                    type="text"
+                    p='0px'
+                    textAlign='center'
+                    style={{ backgroundColor: "white", opacity: "0.7", width: '50px', height: '20px' }}
+                    className="form-control"
+                    placeholder="Servico"
+                    onChange={handleChangeFiltroServico}
+                />
+            )
+        } else {
+            return (
+                <>
+                    Serviço
+                </>
+            )
+        }
+    }
+    const filtroValor = () => {
+        if (FiltroValor) {
+            return (
+                <Input
+                    ml='15px'
+                    type="number"
+                    p='0px'
+                    textAlign='center'
+                    style={{ backgroundColor: "white", opacity: "0.7", width: '50px', height: '20px' }}
+                    className="form-control"
+                    placeholder="Valor"
+                    onChange={handleChangeFiltroValor}
+                />
+            )
+        } else {
+            return (
+                <>
+                    valor
+                </>
+            )
+        }
+    }
+    const filtroValorSaida = () => {
+        if (FiltroValorSaida) {
+            return (
+                <Input
+                    ml='15px'
+                    type="number"
+                    p='0px'
+                    textAlign='center'
+                    style={{ backgroundColor: "white", opacity: "0.7", width: '50px', height: '20px' }}
+                    className="form-control"
+                    placeholder="saida caixa"
+                    onChange={handleChangeFiltroValorSaida}
+                />
+            )
+        } else {
+            return (
+                <>
+                    saida caixa
+                </>
+            )
+        }
+    }
     useEffect(() => {
         if (FiltroID == false) {
             setDadosFiltroID(0)
@@ -414,54 +522,130 @@ function ListaOrdensAbertas() {
         }
     }, [DadosFiltroID])
 
-    const ListByMarca = () => {
-        console.log('ListFiltroMarca', ListFiltroMarca)
-        if (ListByMarcaSituacao) {
-            return (
-                ListagemPesquisa(ListFiltroMarca)
-            )
-        } else {
-            return (
-                Listagem()
-            )
-        }
-    }
-
     useEffect(() => {
         if (FiltroMarca == false) {
-            setDadosFiltroMarca('')
+            setBuscaMarca('')
             setListByMarcaSituacao(false)
         }
     }, [FiltroMarca])
 
     useEffect(() => {
-        if (DadosFiltroMarca !== '') {
-            list.map((e: any) => {
-                if (DadosFiltroMarca == e.DeviceModel.DeviceBrand.devicebrand) {
-                    setListFiltroMarca((arr) => [...arr, e]);
+        if (buscaMarca !== '') {
+            let MarcaFiltrada = list.filter((lis: any) => lis.DeviceModel.DeviceBrand.devicebrand.toLowerCase().includes(buscaMarca))
+            setListFiltroMarca(MarcaFiltrada);
+            if (MarcaFiltrada) {
+                setListByMarcaSituacao(true)
 
-                    setListByMarcaSituacao(true)
-                }
-            })
-            console.log('DadosFiltroMarca', DadosFiltroMarca)
-            console.log('ListFiltroMarca', ListFiltroMarca)
+            } else {
+                setListByMarcaSituacao(false)
+
+            }
         } else {
             setListFiltroMarca([]);
             setListByMarcaSituacao(false)
         }
-    }, [DadosFiltroMarca])
+    }, [buscaMarca])
 
-    // const [buscaId, setBuscaId] = useState('')
-    // const [ListaMarca, setListaMarca] = useState<any>([])
+    useEffect(() => {
+        if (FiltroModelo == false) {
+            setBuscaModelo('')
+            setListByModeloSituacao(false)
+        }
+    }, [FiltroModelo])
 
-    // useEffect(() => {
-    //     let IdFiltrado = list.filter((lis: any) => lis.DeviceModel.DeviceBrand.devicebrand.startsWith(buscaId))
-    //     setListaMarca(IdFiltrado)
-    //     console.log(IdFiltrado)
-    //     setListByMarcaSituacao(true)
-    //     // setListFiltroID(IdFiltrado)
-    //     // console.log(IdFiltrado)
-    // }, [buscaId])
+    useEffect(() => {
+        if (buscaModelo !== '') {
+            let ModeloFiltrado = list.filter((lis: any) => lis.DeviceModel.devicemodel.toLowerCase().includes(buscaModelo))
+            setListFiltroModelo(ModeloFiltrado);
+            if (ModeloFiltrado) {
+                setListByModeloSituacao(true)
+
+            } else {
+                setListByModeloSituacao(false)
+
+            }
+        } else {
+            setListFiltroModelo([]);
+            setListByModeloSituacao(false)
+        }
+    }, [buscaModelo])
+
+    useEffect(() => {
+        if (FiltroServico == false) {
+            setBuscaServico('')
+            setListByServicoSituacao(false)
+        }
+    }, [FiltroServico])
+
+    useEffect(() => {
+        if (buscaServico !== '') {
+            let ServicoFiltrado = list.filter((lis: any) => lis.service.service.toLowerCase().includes(buscaServico))
+            setListFiltroServico(ServicoFiltrado);
+            if (ServicoFiltrado) {
+                setListByServicoSituacao(true)
+
+            } else {
+                setListByServicoSituacao(false)
+
+            }
+        } else {
+            setListFiltroServico([]);
+            setListByServicoSituacao(false)
+        }
+    }, [buscaServico])
+
+    useEffect(() => {
+        if (FiltroValor == false) {
+            setBuscaValor(0)
+            setListByValorSituacao(false)
+        }
+    }, [FiltroValor])
+
+    useEffect(() => {
+        console.log(buscaValor)
+        if (buscaValor !== 0) {
+            let ValorFiltrado = list.filter((lis: any) => lis.value.toString().includes(buscaValor))
+
+            setListFiltroValor(ValorFiltrado);
+            if (ValorFiltrado) {
+                setListByValorSituacao(true)
+
+            } else {
+                setListByValorSituacao(false)
+
+            }
+        } else {
+            setListFiltroValor([]);
+            setListByValorSituacao(false)
+        }
+    }, [buscaValor])
+
+    useEffect(() => {
+        if (FiltroValorSaida == false) {
+            setBuscaValorSaida(0)
+            setListByValorSaidaSituacao(false)
+        }
+    }, [FiltroValorSaida])
+
+    useEffect(() => {
+        console.log(buscaValorSaida)
+        if (buscaValorSaida !== 0) {
+            let ValorSaidaFiltrado = list.filter((lis: any) => lis.negativeValue.toString().includes(buscaValorSaida))
+
+            setListFiltroValorSaida(ValorSaidaFiltrado);
+            if (ValorSaidaFiltrado) {
+                setListByValorSaidaSituacao(true)
+
+            } else {
+                setListByValorSaidaSituacao(false)
+
+            }
+        } else {
+            setListFiltroValorSaida([]);
+            setListByValorSaidaSituacao(false)
+        }
+    }, [buscaValorSaida])
+
 
     const ViewListagem = () => {
         if (ListByIDSituacao) {
@@ -472,8 +656,23 @@ function ListaOrdensAbertas() {
             return (
                 ListagemPesquisa(ListFiltroMarca)
             )
+        } else if (ListByModeloSituacao) {
+            return (
+                ListagemPesquisa(ListFiltroModelo)
+            )
+        } else if (ListByServicoSituacao) {
+            return (
+                ListagemPesquisa(ListFiltroServico)
+            )
+        } else if (ListByValorSituacao) {
+            return (
+                ListagemPesquisa(ListFiltroValor)
+            )
+        } else if (ListByValorSaidaSituacao) {
+            return (
+                ListagemPesquisa(ListFiltroValorSaida)
+            )
         } else {
-            console.log('else')
             return (
                 Listagem()
             )
@@ -487,23 +686,43 @@ function ListaOrdensAbertas() {
                 <Table variant='striped' colorScheme='teal'>
                     <Thead>
                         <Tr>
-                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
-                                <Button onClick={() => setFiltroID(!FiltroID)}
+                            <Th textAlign='center' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroID(!FiltroID)}
                                     colorScheme='green' variant='link'
                                 >
                                     <BsSearch />
                                 </Button>{filtroID()}</Th>
 
                             <Th textAlign='center' w='35px' p='5px 0 5px 0'>
-                                <Button onClick={() => setFiltroMarca(!FiltroMarca)}
+                                <Button w='18px' minW='0' onClick={() => setFiltroMarca(!FiltroMarca)}
                                     colorScheme='green' variant='link'
                                 >
                                     <BsSearch />
                                 </Button>{filtroMarca()}</Th>
-                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>Modelo</Th>
-                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>Serviço</Th>
-                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>Valor</Th>
-                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>Saida caixa</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroModelo(!FiltroModelo)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroModelo()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroServico(!FiltroServico)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroServico()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroValor(!FiltroValor)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroValor()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroValorSaida(!FiltroValorSaida)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroValorSaida()}</Th>
                             <Th textAlign='center' w='35px' p='5px 0 5px 0'>Ações</Th>
                         </Tr>
                     </Thead>
@@ -588,10 +807,7 @@ function ListaOrdensAbertas() {
         )
     }
 
-
-
     const ListagemPesquisa = (dados) => {
-        console.log(dados)
         return (
 
             <TableContainer>
@@ -599,7 +815,7 @@ function ListaOrdensAbertas() {
                     <Thead>
                         <Tr>
                             <Th textAlign='center' w='35px' p='5px 0 5px 0'>
-                                <Button onClick={() => setFiltroID(!FiltroID)}
+                                <Button w='18px' minW='0' onClick={() => setFiltroID(!FiltroID)}
                                     colorScheme='green' variant='link'
                                 >
                                     <BsSearch />
@@ -607,17 +823,36 @@ function ListaOrdensAbertas() {
 
 
                             <Th textAlign='center' w='35px' p='5px 0 5px 0'>
-                                <Button onClick={() => setFiltroMarca(!FiltroMarca)}
+                                <Button w='18px' minW='0' onClick={() => setFiltroMarca(!FiltroMarca)}
                                     colorScheme='green' variant='link'
                                 >
                                     <BsSearch />
                                 </Button>{filtroMarca()}</Th>
 
-
-                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>Modelo</Th>
-                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>Serviço</Th>
-                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>Valor</Th>
-                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>Saida caixa</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroModelo(!FiltroModelo)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroModelo()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroServico(!FiltroServico)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroServico()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroValor(!FiltroValor)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroValor()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroValorSaida(!FiltroValorSaida)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroValorSaida()}</Th>
                             <Th textAlign='center' w='35px' p='5px 0 5px 0'>Ações</Th>
                         </Tr>
                     </Thead>

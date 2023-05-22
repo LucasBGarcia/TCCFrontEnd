@@ -23,8 +23,9 @@ import {
     Input
 } from "@chakra-ui/react";
 import axios from "axios";
+import { format } from 'date-fns';
 import { useEffect, useState } from "react";
-import { BsBrush, BsCheckLg, BsTrash } from "react-icons/bs";
+import { BsBrush, BsCheckLg, BsSearch, BsTrash } from "react-icons/bs";
 import { IoEyeOutline } from "react-icons/io5";
 import CalculaEntradaAberto from "../Utils/Opened/CalculaEntradaAberto";
 import CalculaSaidaAberto from "../Utils/Opened/CalculaSaidaAberto";
@@ -67,6 +68,79 @@ function ListaAbertas() {
     let [ListBrands, setListBrands] = useState([]);
     let [ListModels, setListModels] = useState([]);
     let [idModelo, setIdModelo] = useState<number>(0)
+
+    const [FiltroID, setFiltroID] = useState(false)
+    const [ListByIDSituacao, setListByIDSituacao] = useState(false)
+    let [DadosFiltroID, setDadosFiltroID] = useState<number>(0)
+    let [ListFiltroID, setListFiltroID] = useState<Object>([])
+
+    const [buscaMarca, setBuscaMarca] = useState('')
+    const [FiltroMarca, setFiltroMarca] = useState(false)
+    const [ListByMarcaSituacao, setListByMarcaSituacao] = useState(false)
+    let [ListFiltroMarca, setListFiltroMarca] = useState<any>([])
+
+    const [buscaModelo, setBuscaModelo] = useState('')
+    const [FiltroModelo, setFiltroModelo] = useState(false)
+    const [ListByModeloSituacao, setListByModeloSituacao] = useState(false)
+    let [ListFiltroModelo, setListFiltroModelo] = useState<any>([])
+
+    const [buscaServico, setBuscaServico] = useState('')
+    const [FiltroServico, setFiltroServico] = useState(false)
+    const [ListByServicoSituacao, setListByServicoSituacao] = useState(false)
+    let [ListFiltroServico, setListFiltroServico] = useState<any>([])
+
+    const [buscaValor, setBuscaValor] = useState(0)
+    const [FiltroValor, setFiltroValor] = useState(false)
+    const [ListByValorSituacao, setListByValorSituacao] = useState(false)
+    let [ListFiltroValor, setListFiltroValor] = useState<any>([])
+
+    const [buscaValorSaida, setBuscaValorSaida] = useState(0)
+    const [FiltroValorSaida, setFiltroValorSaida] = useState(false)
+    const [ListByValorSaidaSituacao, setListByValorSaidaSituacao] = useState(false)
+    let [ListFiltroValorSaida, setListFiltroValorSaida] = useState<any>([])
+
+    const [buscaCliente, setBuscaCliente] = useState('')
+    const [FiltroCliente, setFiltroCliente] = useState(false)
+    const [ListByClienteSituacao, setListByClienteSituacao] = useState(false)
+    let [ListFiltroCliente, setListFiltroCliente] = useState<any>([])
+
+    const [buscaEntrada, setBuscaEntrada] = useState<any>('')
+    const [FiltroEntrada, setFiltroEntrada] = useState(false)
+    const [ListByEntradaSituacao, setListByEntradaSituacao] = useState(false)
+    let [ListFiltroEntrada, setListFiltroEntrada] = useState<any>([])
+
+    const [buscaSaida, setBuscaSaida] = useState<any>('')
+    const [FiltroSaida, setFiltroSaida] = useState(false)
+    const [ListBySaidaSituacao, setListBySaidaSituacao] = useState(false)
+    let [ListFiltroSaida, setListFiltroSaida] = useState<any>([])
+
+    const handleChangeFiltroId = (e: any) => {
+        setDadosFiltroID(e.target.value)
+    }
+    const handleChangeFiltroMarca = (e: any) => {
+        setBuscaMarca(e.target.value)
+    }
+    const handleChangeFiltroModelo = (e: any) => {
+        setBuscaModelo(e.target.value)
+    }
+    const handleChangeFiltroServico = (e: any) => {
+        setBuscaServico(e.target.value)
+    }
+    const handleChangeFiltroValor = (e: any) => {
+        setBuscaValor(Number(e.target.value))
+    }
+    const handleChangeFiltroValorSaida = (e: any) => {
+        setBuscaValorSaida(Number(e.target.value))
+    }
+    const handleChangeFiltroCliente = (e: any) => {
+        setBuscaCliente(e.target.value)
+    }
+    const handleChangeFiltroEntrada = (e: any) => {
+        setBuscaEntrada(e.target.value)
+    }
+    const handleChangeFiltroSaida = (e: any) => {
+        setBuscaSaida(e.target.value)
+    }
 
     useEffect(() => {
         if (DadosEdita) {
@@ -309,6 +383,798 @@ function ListaAbertas() {
         return "R$ " + ValorMask;
     };
 
+    const dataEntradaFormatada = (data) => {
+        const dataConvertida = format(new Date(data), 'dd/MM/yyyy HH:mm');
+        return dataConvertida
+    }
+
+    const filtroID = () => {
+        if (FiltroID) {
+            return (
+                <Input
+                    ml='10px'
+                    type="text"
+                    p='0px'
+                    textAlign='center'
+                    style={{ backgroundColor: "white", opacity: "0.7", width: '50px', height: '20px' }}
+                    className="form-control"
+                    placeholder="Nº ID"
+                    onChange={handleChangeFiltroId}
+                />
+            )
+        } else {
+
+            return (
+                <>
+                    Nº OS
+                </>
+            )
+        }
+    }
+    const filtroMarca = () => {
+        if (FiltroMarca) {
+            return (
+                <Input
+                    ml='17px'
+                    type="text"
+                    p='0px'
+                    textAlign='center'
+                    style={{ backgroundColor: "white", opacity: "0.7", width: '50px', height: '20px' }}
+                    className="form-control"
+                    placeholder="Marca"
+                    onChange={handleChangeFiltroMarca}
+                />
+            )
+        } else {
+            return (
+                <>
+                    Marca
+                </>
+            )
+        }
+    }
+    const filtroModelo = () => {
+        if (FiltroModelo) {
+            return (
+                <Input
+                    ml='32px'
+                    type="text"
+                    p='0px'
+                    textAlign='center'
+                    style={{ backgroundColor: "white", opacity: "0.7", width: '50px', height: '20px' }}
+                    className="form-control"
+                    placeholder="Modelo"
+                    onChange={handleChangeFiltroModelo}
+                />
+            )
+        } else {
+            return (
+                <>
+                    Modelo
+                </>
+            )
+        }
+    }
+    const filtroServico = () => {
+        if (FiltroServico) {
+            return (
+                <Input
+                    ml='32px'
+                    type="text"
+                    p='0px'
+                    textAlign='center'
+                    style={{ backgroundColor: "white", opacity: "0.7", width: '50px', height: '20px' }}
+                    className="form-control"
+                    placeholder="Servico"
+                    onChange={handleChangeFiltroServico}
+                />
+            )
+        } else {
+            return (
+                <>
+                    Serviço
+                </>
+            )
+        }
+    }
+    const filtroValor = () => {
+        if (FiltroValor) {
+            return (
+                <Input
+                    ml='15px'
+                    type="number"
+                    p='0px'
+                    textAlign='center'
+                    style={{ backgroundColor: "white", opacity: "0.7", width: '50px', height: '20px' }}
+                    className="form-control"
+                    placeholder="Valor"
+                    onChange={handleChangeFiltroValor}
+                />
+            )
+        } else {
+            return (
+                <>
+                    valor
+                </>
+            )
+        }
+    }
+    const filtroValorSaida = () => {
+        if (FiltroValorSaida) {
+            return (
+                <Input
+                    ml='15px'
+                    type="number"
+                    p='0px'
+                    textAlign='center'
+                    style={{ backgroundColor: "white", opacity: "0.7", width: '50px', height: '20px' }}
+                    className="form-control"
+                    placeholder="saida caixa"
+                    onChange={handleChangeFiltroValorSaida}
+                />
+            )
+        } else {
+            return (
+                <>
+                    saida caixa
+                </>
+            )
+        }
+    }
+    const filtroCliente = () => {
+        if (FiltroCliente) {
+            return (
+                <Input
+                    ml='32px'
+                    type="text"
+                    p='0px'
+                    textAlign='center'
+                    style={{ backgroundColor: "white", opacity: "0.7", width: '50px', height: '20px' }}
+                    className="form-control"
+                    placeholder="Cliente"
+                    onChange={handleChangeFiltroCliente}
+                />
+            )
+        } else {
+            return (
+                <>
+                    Cliente
+                </>
+            )
+        }
+    }
+    const filtroEntrada = () => {
+        if (FiltroEntrada) {
+            return (
+                <Input
+                    ml='70px'
+                    type="date"
+                    p='0px'
+                    textAlign='center'
+                    style={{ backgroundColor: "white", opacity: "0.7", width: '20px', height: '20px' }}
+                    className="form-control"
+                    onBlur={handleChangeFiltroEntrada}
+                />
+            )
+        } else {
+            return (
+                <>
+                    Entrada
+                </>
+            )
+        }
+    }
+    const filtroSaida = () => {
+        if (FiltroSaida) {
+            return (
+                <Input
+                    ml='70px'
+                    type="date"
+                    p='0px'
+                    textAlign='center'
+                    style={{ backgroundColor: "white", opacity: "0.7", width: '20px', height: '20px' }}
+                    className="form-control"
+                    onBlur={handleChangeFiltroSaida}
+                />
+            )
+        } else {
+            return (
+                <>
+                    Prev. Retirada
+                </>
+            )
+        }
+    }
+    useEffect(() => {
+        if (FiltroID == false) {
+            setDadosFiltroID(0)
+            setListByIDSituacao(false)
+        }
+    }, [FiltroID])
+
+    useEffect(() => {
+        if (DadosFiltroID !== 0) {
+            list.map((e: any) => {
+                if (DadosFiltroID == e.id) {
+                    try {
+                        axios.get(`http://localhost:3333/${DadosFiltroID}/getbyid`)
+                            .then((response) => {
+                                setListFiltroID([response.data]);
+                                setListByIDSituacao(true)
+                            })
+                        return
+                    } catch {
+                        setListFiltroID([]);
+                    }
+                } else {
+                    setListByIDSituacao(false)
+                    setListFiltroID([]);
+                }
+            })
+        } else {
+            setListFiltroID([]);
+        }
+    }, [DadosFiltroID])
+
+    useEffect(() => {
+        if (FiltroMarca == false) {
+            setBuscaMarca('')
+            setListByMarcaSituacao(false)
+        }
+    }, [FiltroMarca])
+
+    useEffect(() => {
+        if (buscaMarca !== '') {
+            let MarcaFiltrada = list.filter((lis: any) => lis.DeviceModel.DeviceBrand.devicebrand.toLowerCase().includes(buscaMarca))
+            setListFiltroMarca(MarcaFiltrada);
+            if (MarcaFiltrada) {
+                setListByMarcaSituacao(true)
+
+            } else {
+                setListByMarcaSituacao(false)
+
+            }
+        } else {
+            setListFiltroMarca([]);
+            setListByMarcaSituacao(false)
+        }
+    }, [buscaMarca])
+
+    useEffect(() => {
+        if (FiltroModelo == false) {
+            setBuscaModelo('')
+            setListByModeloSituacao(false)
+        }
+    }, [FiltroModelo])
+
+    useEffect(() => {
+        if (buscaModelo !== '') {
+            let ModeloFiltrado = list.filter((lis: any) => lis.DeviceModel.devicemodel.toLowerCase().includes(buscaModelo))
+            setListFiltroModelo(ModeloFiltrado);
+            if (ModeloFiltrado) {
+                setListByModeloSituacao(true)
+
+            } else {
+                setListByModeloSituacao(false)
+
+            }
+        } else {
+            setListFiltroModelo([]);
+            setListByModeloSituacao(false)
+        }
+    }, [buscaModelo])
+
+    useEffect(() => {
+        if (FiltroServico == false) {
+            setBuscaServico('')
+            setListByServicoSituacao(false)
+        }
+    }, [FiltroServico])
+
+    useEffect(() => {
+        if (buscaServico !== '') {
+            let ServicoFiltrado = list.filter((lis: any) => lis.service.service.toLowerCase().includes(buscaServico))
+            setListFiltroServico(ServicoFiltrado);
+            if (ServicoFiltrado) {
+                setListByServicoSituacao(true)
+
+            } else {
+                setListByServicoSituacao(false)
+
+            }
+        } else {
+            setListFiltroServico([]);
+            setListByServicoSituacao(false)
+        }
+    }, [buscaServico])
+
+    useEffect(() => {
+        if (FiltroValor == false) {
+            setBuscaValor(0)
+            setListByValorSituacao(false)
+        }
+    }, [FiltroValor])
+
+    useEffect(() => {
+        if (buscaValor !== 0) {
+            let ValorFiltrado = list.filter((lis: any) => lis.value.toString().includes(buscaValor))
+
+            setListFiltroValor(ValorFiltrado);
+            if (ValorFiltrado) {
+                setListByValorSituacao(true)
+
+            } else {
+                setListByValorSituacao(false)
+
+            }
+        } else {
+            setListFiltroValor([]);
+            setListByValorSituacao(false)
+        }
+    }, [buscaValor])
+
+    useEffect(() => {
+        if (FiltroValorSaida == false) {
+            setBuscaValorSaida(0)
+            setListByValorSaidaSituacao(false)
+        }
+    }, [FiltroValorSaida])
+
+    useEffect(() => {
+        console.log(buscaValorSaida)
+        if (buscaValorSaida !== 0) {
+            let ValorSaidaFiltrado = list.filter((lis: any) => lis.negativeValue.toString().includes(buscaValorSaida))
+
+            setListFiltroValorSaida(ValorSaidaFiltrado);
+            if (ValorSaidaFiltrado) {
+                setListByValorSaidaSituacao(true)
+
+            } else {
+                setListByValorSaidaSituacao(false)
+
+            }
+        } else {
+            setListFiltroValorSaida([]);
+            setListByValorSaidaSituacao(false)
+        }
+    }, [buscaValorSaida])
+    useEffect(() => {
+        if (FiltroServico == false) {
+            setBuscaServico('')
+            setListByServicoSituacao(false)
+        }
+    }, [FiltroServico])
+
+    useEffect(() => {
+        if (buscaCliente !== '') {
+            let ClienteFiltrado = list.filter((lis: any) => lis.client.name.toLowerCase().includes(buscaCliente))
+            setListFiltroCliente(ClienteFiltrado);
+            if (ClienteFiltrado) {
+                setListByClienteSituacao(true)
+
+            } else {
+                setListByClienteSituacao(false)
+
+            }
+        } else {
+            setListFiltroCliente([]);
+            setListByClienteSituacao(false)
+        }
+    }, [buscaCliente])
+
+    let Entrada: any = []
+
+    useEffect(() => {
+        if (FiltroEntrada == false) {
+            setBuscaEntrada('')
+            Entrada = []
+            setListByEntradaSituacao(false)
+        }
+    }, [FiltroEntrada])
+
+
+    useEffect(() => {
+
+        if (buscaEntrada) {
+            list.map((lis: any) => {
+                if (lis.createdAt.includes(buscaEntrada)) {
+                    Entrada.push(lis)
+                }
+            })
+            setListFiltroEntrada(Entrada)
+            if (buscaEntrada) {
+                setListByEntradaSituacao(true)
+
+            } else {
+                setListByEntradaSituacao(false)
+
+            }
+        } else {
+            setListFiltroEntrada([]);
+            setListByEntradaSituacao(false)
+        }
+    }, [buscaEntrada])
+
+
+    let Saida: any = []
+
+    useEffect(() => {
+        if (FiltroSaida == false) {
+            setBuscaSaida('')
+            Saida = []
+            setListBySaidaSituacao(false)
+        }
+    }, [FiltroSaida])
+
+    useEffect(() => {
+        if (buscaSaida) {
+            list.map((lis: any) => {
+                if (lis.createdAt.includes(buscaSaida)) {
+                    Saida.push(lis)
+                }
+            })
+            setListFiltroSaida(Saida)
+            if (buscaSaida) {
+                setListBySaidaSituacao(true)
+
+            } else {
+                setListBySaidaSituacao(false)
+
+            }
+        } else {
+            setListFiltroSaida([]);
+            setListBySaidaSituacao(false)
+        }
+    }, [buscaSaida])
+
+    const ViewListagem = () => {
+        if (ListByIDSituacao) {
+            return (
+                ListagemPesquisa(ListFiltroID)
+            )
+        } else if (ListByMarcaSituacao) {
+            return (
+                ListagemPesquisa(ListFiltroMarca)
+            )
+        } else if (ListByModeloSituacao) {
+            return (
+                ListagemPesquisa(ListFiltroModelo)
+            )
+        } else if (ListByServicoSituacao) {
+            return (
+                ListagemPesquisa(ListFiltroServico)
+            )
+        } else if (ListByValorSituacao) {
+            return (
+                ListagemPesquisa(ListFiltroValor)
+            )
+        } else if (ListByValorSaidaSituacao) {
+            return (
+                ListagemPesquisa(ListFiltroValorSaida)
+            )
+        } else if (ListByClienteSituacao) {
+            return (
+                ListagemPesquisa(ListFiltroCliente)
+            )
+        } else if (ListByEntradaSituacao) {
+            return (
+                ListagemPesquisa(ListFiltroEntrada)
+            )
+        } else if (ListBySaidaSituacao) {
+            return (
+                ListagemPesquisa(ListFiltroSaida)
+            )
+        } else {
+            return (
+                Listagem()
+            )
+        }
+    }
+
+    const Listagem = () => {
+        console.log(list)
+        return (
+            <TableContainer>
+                <Table variant='striped' colorScheme='teal'>
+                    <Thead>
+                        <Tr>
+                            <Th textAlign='center' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroID(!FiltroID)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroID()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroCliente(!FiltroCliente)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroCliente()}</Th>
+
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroMarca(!FiltroMarca)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroMarca()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroModelo(!FiltroModelo)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroModelo()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroServico(!FiltroServico)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroServico()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroValor(!FiltroValor)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroValor()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroValorSaida(!FiltroValorSaida)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroValorSaida()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroEntrada(!FiltroEntrada)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroEntrada()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroSaida(!FiltroSaida)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroSaida()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>Ações</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {list.map((data: any) => {
+                            return (
+                                <Tr>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {data.id}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {data.client.name}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {data.DeviceModel.DeviceBrand.devicebrand}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {data.DeviceModel.devicemodel}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {data.service.service}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {data.value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {data.negativeValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {dataEntradaFormatada(data.createdAt)}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {dataEntradaFormatada(data.withdrawal)}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0'>
+                                        <HStack>
+                                            <Button
+                                                colorScheme='green' variant='link'
+                                                onClick={() => {
+                                                    setDados(!Dados)
+                                                    setDadosConclusao(data)
+                                                    onOpen()
+                                                }
+                                                }
+                                            >
+                                                <BsCheckLg />
+                                            </Button>
+
+                                            <Button
+                                                colorScheme='black' variant='link'
+                                                onClick={(e) => {
+                                                    setDadosEdita(!DadosEdita)
+                                                    setDadosEditar(data)
+                                                    onOpenEdita()
+                                                }}>
+                                                <BsBrush />
+                                            </Button>
+                                        </HStack>
+                                        <HStack>
+                                            <Button
+                                                colorScheme='black' variant='link'
+                                                onClick={(e) => {
+                                                    setDadosVisualiza(!DadosVisualiza)
+                                                    setDadosVisualizar(data)
+                                                    onOpenVisualiza()
+                                                }}>
+                                                <IoEyeOutline />
+                                            </Button>
+                                            <Button
+                                                colorScheme='red' variant='link'
+                                                onClick={(e) => onDelete(data.id, data.client.name)}>
+                                                <BsTrash />
+                                            </Button>
+                                        </HStack>
+                                    </Td>
+                                </Tr>
+                            )
+                        })}
+                    </Tbody>
+                    <Tfoot>
+                        <Tr>
+                            <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaAberto()}</Th>
+                            <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaAberto()}</Th>
+                            <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalAberto()}</Th>
+
+                        </Tr>
+                    </Tfoot>
+                </Table>
+            </TableContainer >
+        )
+    }
+
+    const ListagemPesquisa = (dados) => {
+        return (
+
+            <TableContainer>
+                <Table variant='striped' colorScheme='teal'>
+                    <Thead>
+                        <Tr>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroID(!FiltroID)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroID()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroCliente(!FiltroCliente)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroCliente()}</Th>
+
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroMarca(!FiltroMarca)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroMarca()}</Th>
+
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroModelo(!FiltroModelo)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroModelo()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroServico(!FiltroServico)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroServico()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroValor(!FiltroValor)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroValor()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroValorSaida(!FiltroValorSaida)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroValorSaida()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>
+                                <Button w='18px' minW='0' onClick={() => setFiltroEntrada(!FiltroEntrada)}
+                                    colorScheme='green' variant='link'
+                                >
+                                    <BsSearch />
+                                </Button>{filtroEntrada()}</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>Prev. Retirada</Th>
+                            <Th textAlign='center' w='35px' p='5px 0 5px 0'>Ações</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {dados.map((dado: any) => {
+                            return (
+                                <Tr>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {dado.id}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {dado.client.name}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {dado.DeviceModel.DeviceBrand.devicebrand}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {dado.DeviceModel.devicemodel}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {dado.service.service}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {dado.value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {dado.negativeValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {dataEntradaFormatada(dado.createdAt)}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                        {dataEntradaFormatada(dado.withdrawal)}
+                                    </Td>
+                                    <Td textAlign='center' p='5px 0 5px 0'>
+                                        <HStack>
+                                            <Button
+                                                colorScheme='green' variant='link'
+                                                onClick={() => {
+                                                    setDados(!Dados)
+                                                    setDadosConclusao(dado)
+                                                    onOpen()
+                                                }
+                                                }
+                                            >
+                                                <BsCheckLg />
+                                            </Button>
+
+                                            <Button
+                                                colorScheme='black' variant='link'
+                                                onClick={(e) => {
+                                                    setDadosEdita(!DadosEdita)
+                                                    setDadosEditar(dado)
+                                                    onOpenEdita()
+                                                }}>
+                                                <BsBrush />
+                                            </Button>
+                                        </HStack>
+                                        <HStack>
+                                            <Button
+                                                colorScheme='black' variant='link'
+                                                onClick={(e) => {
+                                                    setDadosVisualiza(!DadosVisualiza)
+                                                    setDadosVisualizar(dado)
+                                                    onOpenVisualiza()
+                                                }}>
+                                                <IoEyeOutline />
+                                            </Button>
+                                            <Button
+                                                colorScheme='red' variant='link'
+                                                onClick={(e) => onDelete(dado.id, dado.client.name)}>
+                                                <BsTrash />
+                                            </Button>
+                                        </HStack>
+                                    </Td>
+                                </Tr>
+                            )
+                        })}
+                    </Tbody>
+                    <Tfoot>
+                        <Tr>
+                            <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaAberto()}</Th>
+                            <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaAberto()}</Th>
+                            <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalAberto()}</Th>
+
+                        </Tr>
+                    </Tfoot>
+                </Table>
+            </TableContainer >
+        )
+    }
+
     return (
         <>
             <Box
@@ -322,16 +1188,20 @@ function ListaAbertas() {
                 padding="5px 15px 15px 15px"
                 mt='10px'
             >
-                <TableContainer>
+                {ViewListagem()}
+                {/* <TableContainer>
                     <Table variant='striped' colorScheme='teal'>
                         <Thead>
                             <Tr>
                                 <Th textAlign='center' w='35px' p='5px 0 5px 0'>Nº OS</Th>
+                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Cliente</Th>
                                 <Th textAlign='center' w='35px' p='5px 0 5px 0'>Marca</Th>
                                 <Th textAlign='center' w='35px' p='5px 0 5px 0'>Modelo</Th>
                                 <Th textAlign='center' w='35px' p='5px 0 5px 0'>Serviço</Th>
                                 <Th textAlign='center' w='35px' p='5px 0 5px 0'>Valor</Th>
                                 <Th textAlign='center' w='35px' p='5px 0 5px 0'>Saida caixa</Th>
+                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Entrou</Th>
+                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Prev. Retirada</Th>
                                 <Th textAlign='center' w='35px' p='5px 0 5px 0'>Ações</Th>
                             </Tr>
                         </Thead>
@@ -341,6 +1211,9 @@ function ListaAbertas() {
                                     <Tr>
                                         <Td textAlign='center' p='5px 0 5px 0' w='35px'>
                                             {data.id}
+                                        </Td>
+                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                            {data.client.name}
                                         </Td>
                                         <Td textAlign='center' p='5px 0 5px 0' w='35px'>
                                             {data.DeviceModel.DeviceBrand.devicebrand}
@@ -356,6 +1229,12 @@ function ListaAbertas() {
                                         </Td>
                                         <Td textAlign='center' p='5px 0 5px 0' w='35px'>
                                             {data.negativeValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+                                        </Td>
+                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                            {dataEntradaFormatada(data.updatedAt)}
+                                        </Td>
+                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
+                                            {dataEntradaFormatada(data.withdrawal)}
                                         </Td>
                                         <Td textAlign='center' p='5px 0 5px 0'>
                                             <HStack>
@@ -412,7 +1291,7 @@ function ListaAbertas() {
                             </Tr>
                         </Tfoot>
                     </Table>
-                </TableContainer >
+                </TableContainer > */}
 
             </Box >
             <Modal size='xl' isOpen={isOpen} onClose={onClose}>
