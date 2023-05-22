@@ -1,5 +1,4 @@
-import { Box, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
-import { Link } from 'react-router-dom';
+import { Flex, Stack } from "@chakra-ui/react";
 import Sidebar from "../../component/Menu/sideBar";
 import ListaAbertas from "./ListaAbertas";
 import ListaFechadas from "./ListaFechadas";
@@ -23,17 +22,16 @@ function Relatorio() {
         // justifyContent="center"
         >
             <Sidebar />
-            <Box display='flex' flexWrap='wrap'>
-                <Stack ml='5px' w='660px' textAlign='center'>
+            <Stack>
+                <Stack alignSelf='center' w='95%' textAlign='center'>
 
                     <ListaAbertas />
                 </Stack>
-                <Spacer />
-                <Stack mr='5px' w='660px' textAlign='center'>
+                <Stack alignSelf='center' w='95%' textAlign='center'>
 
                     <ListaFechadas />
                 </Stack>
-            </Box>
+            </Stack>
         </Flex >
     )
 }
