@@ -25,12 +25,14 @@ import {
 import axios from "axios";
 import { format } from 'date-fns';
 import { useEffect, useState } from "react";
+import { FcPrint } from "react-icons/fc";
 import { BsBrush, BsCheckLg, BsSearch, BsTrash } from "react-icons/bs";
 import { IoEyeOutline } from "react-icons/io5";
 import CalculaEntradaAberto from "../Utils/Opened/CalculaEntradaAberto";
 import CalculaSaidaAberto from "../Utils/Opened/CalculaSaidaAberto";
 import CalculaTotalAberto from "../Utils/Opened/CalculaTotalAberto";
 import api from "../../api";
+import ImprimiOS from "../Relatórios/ImprimiOS";
 //import { Button } from "semantic-ui-react";
 
 
@@ -968,45 +970,65 @@ function ListaAbertas() {
                                         {dataEntradaFormatada(data.withdrawal)}
                                     </Td>
                                     <Td textAlign='center' p='5px 0 5px 0'>
-                                        <HStack>
+                                        <Box display='flex'>
                                             <Button
+                                                w='18px' minW='0'
                                                 colorScheme='green' variant='link'
                                                 onClick={() => {
-                                                    setDados(!Dados)
-                                                    setDadosConclusao(data)
-                                                    onOpen()
+                                                    ImprimiOS(data)
                                                 }
                                                 }
                                             >
-                                                <BsCheckLg />
-                                            </Button>
 
-                                            <Button
-                                                colorScheme='black' variant='link'
-                                                onClick={(e) => {
-                                                    setDadosEdita(!DadosEdita)
-                                                    setDadosEditar(data)
-                                                    onOpenEdita()
-                                                }}>
-                                                <BsBrush />
+                                                <FcPrint />
                                             </Button>
-                                        </HStack>
-                                        <HStack>
-                                            <Button
-                                                colorScheme='black' variant='link'
-                                                onClick={(e) => {
-                                                    setDadosVisualiza(!DadosVisualiza)
-                                                    setDadosVisualizar(data)
-                                                    onOpenVisualiza()
-                                                }}>
-                                                <IoEyeOutline />
-                                            </Button>
-                                            <Button
-                                                colorScheme='red' variant='link'
-                                                onClick={(e) => onDelete(data.id, data.client.name)}>
-                                                <BsTrash />
-                                            </Button>
-                                        </HStack>
+                                            <Box >
+                                                <HStack>
+                                                    <Button
+                                                        w='18px' minW='0'
+                                                        colorScheme='green' variant='link'
+                                                        onClick={() => {
+                                                            setDados(!Dados)
+                                                            setDadosConclusao(data)
+                                                            onOpen()
+                                                        }
+                                                        }
+                                                    >
+                                                        <BsCheckLg />
+                                                    </Button>
+
+                                                    <Button
+                                                        w='18px' minW='0'
+                                                        colorScheme='black' variant='link'
+                                                        onClick={(e) => {
+                                                            setDadosEdita(!DadosEdita)
+                                                            setDadosEditar(data)
+                                                            onOpenEdita()
+                                                        }}>
+                                                        <BsBrush />
+                                                    </Button>
+                                                </HStack>
+                                                <HStack
+                                                >
+                                                    <Button
+                                                        w='18px' minW='0'
+                                                        colorScheme='black' variant='link'
+                                                        onClick={(e) => {
+                                                            setDadosVisualiza(!DadosVisualiza)
+                                                            setDadosVisualizar(data)
+                                                            onOpenVisualiza()
+                                                        }}>
+                                                        <IoEyeOutline />
+                                                    </Button>
+                                                    <Button
+                                                        w='18px' minW='0'
+                                                        colorScheme='red' variant='link'
+                                                        onClick={(e) => onDelete(data.id, data.client.name)}>
+                                                        <BsTrash />
+                                                    </Button>
+                                                </HStack>
+                                            </Box>
+                                        </Box>
                                     </Td>
                                 </Tr>
                             )
@@ -1118,45 +1140,65 @@ function ListaAbertas() {
                                         {dataEntradaFormatada(dado.withdrawal)}
                                     </Td>
                                     <Td textAlign='center' p='5px 0 5px 0'>
-                                        <HStack>
+                                        <Box display='flex'>
                                             <Button
+                                                w='18px' minW='0'
                                                 colorScheme='green' variant='link'
                                                 onClick={() => {
-                                                    setDados(!Dados)
-                                                    setDadosConclusao(dado)
-                                                    onOpen()
+                                                    ImprimiOS(dado)
                                                 }
                                                 }
                                             >
-                                                <BsCheckLg />
-                                            </Button>
 
-                                            <Button
-                                                colorScheme='black' variant='link'
-                                                onClick={(e) => {
-                                                    setDadosEdita(!DadosEdita)
-                                                    setDadosEditar(dado)
-                                                    onOpenEdita()
-                                                }}>
-                                                <BsBrush />
+                                                <FcPrint />
                                             </Button>
-                                        </HStack>
-                                        <HStack>
-                                            <Button
-                                                colorScheme='black' variant='link'
-                                                onClick={(e) => {
-                                                    setDadosVisualiza(!DadosVisualiza)
-                                                    setDadosVisualizar(dado)
-                                                    onOpenVisualiza()
-                                                }}>
-                                                <IoEyeOutline />
-                                            </Button>
-                                            <Button
-                                                colorScheme='red' variant='link'
-                                                onClick={(e) => onDelete(dado.id, dado.client.name)}>
-                                                <BsTrash />
-                                            </Button>
-                                        </HStack>
+                                            <Box >
+                                                <HStack>
+                                                    <Button
+                                                        w='18px' minW='0'
+                                                        colorScheme='green' variant='link'
+                                                        onClick={() => {
+                                                            setDados(!Dados)
+                                                            setDadosConclusao(dado)
+                                                            onOpen()
+                                                        }
+                                                        }
+                                                    >
+                                                        <BsCheckLg />
+                                                    </Button>
+
+                                                    <Button
+                                                        w='18px' minW='0'
+                                                        colorScheme='black' variant='link'
+                                                        onClick={(e) => {
+                                                            setDadosEdita(!DadosEdita)
+                                                            setDadosEditar(dado)
+                                                            onOpenEdita()
+                                                        }}>
+                                                        <BsBrush />
+                                                    </Button>
+                                                </HStack>
+                                                <HStack
+                                                >
+                                                    <Button
+                                                        w='18px' minW='0'
+                                                        colorScheme='black' variant='link'
+                                                        onClick={(e) => {
+                                                            setDadosVisualiza(!DadosVisualiza)
+                                                            setDadosVisualizar(dado)
+                                                            onOpenVisualiza()
+                                                        }}>
+                                                        <IoEyeOutline />
+                                                    </Button>
+                                                    <Button
+                                                        w='18px' minW='0'
+                                                        colorScheme='red' variant='link'
+                                                        onClick={(e) => onDelete(dado.id, dado.client.name)}>
+                                                        <BsTrash />
+                                                    </Button>
+                                                </HStack>
+                                            </Box>
+                                        </Box>
                                     </Td>
                                 </Tr>
                             )

@@ -26,11 +26,13 @@ import axios from "axios";
 import { BsBrush, BsCheckLg, BsSearch, BsTrash } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { IoEyeOutline } from "react-icons/io5";
+import { FcPrint } from "react-icons/fc";
 import api from "../../api";
 import CalculaEntradaAberto from "../Utils/Opened/CalculaEntradaAberto";
 import CalculaSaidaAberto from "../Utils/Opened/CalculaSaidaAberto";
 import CalculaTotalAberto from "../Utils/Opened/CalculaTotalAberto";
 import { format } from 'date-fns';
+import ImprimiOSFechada from "../Relatórios/ImprimiOSFechada";
 //import { Button } from "semantic-ui-react";
 
 
@@ -951,6 +953,17 @@ function ListaFechadas() {
                                     </Td>
                                     <Td textAlign='center' p='5px 0 5px 0'>
                                         <Button
+                                            w='18px' minW='0'
+                                            colorScheme='green' variant='link'
+                                            onClick={() => {
+                                                ImprimiOSFechada(data)
+                                            }
+                                            }
+                                        >
+
+                                            <FcPrint />
+                                        </Button>
+                                        <Button
                                             colorScheme='black' variant='link'
                                             onClick={(e) => {
                                                 setDadosVisualiza(!DadosVisualiza)
@@ -1074,29 +1087,17 @@ function ListaFechadas() {
                                     <Td textAlign='center' p='5px 0 5px 0'>
                                         <HStack>
                                             <Button
+                                                w='18px' minW='0'
                                                 colorScheme='green' variant='link'
                                                 onClick={() => {
-                                                    setDados(!Dados)
-                                                    setDadosConclusao(dado)
-                                                    onOpen()
+                                                    ImprimiOSFechada(dado)
                                                 }
                                                 }
                                             >
-                                                <BsCheckLg />
+                                                <FcPrint />
                                             </Button>
-
                                             <Button
-                                                colorScheme='black' variant='link'
-                                                onClick={(e) => {
-                                                    setDadosEdita(!DadosEdita)
-                                                    setDadosEditar(dado)
-                                                    onOpenEdita()
-                                                }}>
-                                                <BsBrush />
-                                            </Button>
-                                        </HStack>
-                                        <HStack>
-                                            <Button
+                                                w='18px' minW='0'
                                                 colorScheme='black' variant='link'
                                                 onClick={(e) => {
                                                     setDadosVisualiza(!DadosVisualiza)
@@ -1105,11 +1106,7 @@ function ListaFechadas() {
                                                 }}>
                                                 <IoEyeOutline />
                                             </Button>
-                                            <Button
-                                                colorScheme='red' variant='link'
-                                                onClick={(e) => onDelete(dado.id, dado.client.name)}>
-                                                <BsTrash />
-                                            </Button>
+
                                         </HStack>
                                     </Td>
                                 </Tr>
