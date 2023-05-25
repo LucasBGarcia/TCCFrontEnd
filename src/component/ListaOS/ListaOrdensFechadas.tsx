@@ -24,11 +24,13 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BsBrush, BsCheckLg, BsSearch, BsTrash } from "react-icons/bs";
+import { BsSearch } from "react-icons/bs";
+import { FcPrint } from "react-icons/fc";
 import { IoEyeOutline } from "react-icons/io5";
 import api from "../../api";
-import CalculaSaidaFechado from "../Utils/Closed/CalculaSaidaFechado";
+import ImprimiOSFechada from "../Relatórios/ImprimiOSFechada";
 import CalculaEntradaFechado from "../Utils/Closed/CalculaEntradaFechado";
+import CalculaSaidaFechado from "../Utils/Closed/CalculaSaidaFechado";
 import CalculaTotalFechado from "../Utils/Closed/CalculaTotalFechado";
 
 
@@ -721,6 +723,18 @@ function ListaOrdensFechadas() {
                                     <Td textAlign='center' p='5px 0 5px 0'>
                                         <HStack>
                                             <Button
+                                                w='18px' minW='0'
+                                                colorScheme='green' variant='link'
+                                                onClick={() => {
+                                                    ImprimiOSFechada(data)
+                                                }
+                                                }
+                                            >
+
+                                                <FcPrint />
+                                            </Button>
+                                            <Button
+                                                w='18px' minW='0'
                                                 colorScheme='black' variant='link'
                                                 onClick={(e) => {
                                                     setDadosVisualiza(!DadosVisualiza)
@@ -825,6 +839,18 @@ function ListaOrdensFechadas() {
                                     <Td textAlign='center' p='5px 0 5px 0'>
                                         <HStack>
                                             <Button
+                                                w='18px' minW='0'
+                                                colorScheme='green' variant='link'
+                                                onClick={() => {
+                                                    ImprimiOSFechada(dado)
+                                                }
+                                                }
+                                            >
+
+                                                <FcPrint />
+                                            </Button>
+                                            <Button
+                                                w='18px' minW='0'
                                                 colorScheme='black' variant='link'
                                                 onClick={(e) => {
                                                     setDadosVisualiza(!DadosVisualiza)
