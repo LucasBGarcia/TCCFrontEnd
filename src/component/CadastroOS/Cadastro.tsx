@@ -1,8 +1,11 @@
-import { Box, Button, HStack, Input, Select, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Spacer, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 import api from "../../api";
+import { TextArea } from "semantic-ui-react";
+import Cliente from "../modal/Cliente";
+import { BsSearch } from "react-icons/bs";
 
 
 function CadastroOS() {
@@ -25,6 +28,16 @@ function CadastroOS() {
     let [ListBrands, setListBrands] = useState([]);
     let [ListModels, setListModels] = useState([]);
     let [ListServices, setListServices] = useState([]);
+
+    let [Clientes, setClientes] = useState([]);
+
+    let [BuscaClientesNome, setBuscaClientesNome] = useState('');
+    let [ResultadoBuscaClientesNome, setResultadoBuscaClientesNome] = useState([]);
+
+    let [BuscaClientesCPF, setBuscaClientesCPF] = useState(0);
+    let [ResultadoBuscaClientesCPF, setResultadoBuscaClientesCPF] = useState([]);
+
+    let [ClienteSelecionado, setClienteSelecionado] = useState<any>();
 
     type data = {
         name: string,
@@ -74,10 +87,96 @@ function CadastroOS() {
         setServico(e.target.value)
     }
 
+    const handleChangeBuscaCPF = (e: any) => {
+        setBuscaClientesCPF(e)
+    }
+
+    const handleChangeCliente = (e: any) => {
+        Clientes.map((cliente: any) => {
+            if (cliente.id === Number(e.target.value)) {
+                setClienteSelecionado(cliente)
+                setNome(cliente.name)
+                setTelefone(cliente.number)
+                setEmail(cliente.email)
+                setEndereco(cliente.address)
+            }
+        })
+
+
+
+    }
+
+
+    useEffect(() => {
+        RenderizaClienteFiltrado()
+    }, [ClienteSelecionado])
+
+
+    const RenderizaClienteFiltrado = () => {
+        console.log('RenderizaCliente', ClienteSelecionado)
+        return (
+            <>
+                <Box gap='5px' display='flex' flexWrap='wrap' borderBottom='2px' borderColor='orange'>
+                    <Stack>
+                        <Text
+                            color="#1A202C"
+                            fontWeight="bold"
+                            m='0'>
+                            Nome: {ClienteSelecionado ? ClienteSelecionado.name : '---'}
+                        </Text>
+
+                    </Stack>
+                    <Stack>
+                        <Text
+                            color="#1A202C"
+                            fontWeight="bold"
+                            m='0'>
+                            Telefone: {ClienteSelecionado ? ClienteSelecionado.number : '---'}
+                        </Text>
+
+                    </Stack>
+                    <Stack>
+                        <Text
+                            color="#1A202C"
+                            fontWeight="bold"
+                            m='0'>
+                            CPF: {ClienteSelecionado ? ClienteSelecionado.CPF : '---'}
+                        </Text>
+
+                    </Stack>
+                    <Stack>
+                        <Text
+                            color="#1A202C"
+                            fontWeight="bold"
+                            m='0'>
+                            E-mail: {ClienteSelecionado ? ClienteSelecionado.email : '---'}
+                        </Text>
+
+                    </Stack>
+                    <Stack mb='5px'>
+                        <Text
+                            color="#1A202C"
+                            fontWeight="bold"
+                            m='0'>
+                            Endereço: {ClienteSelecionado ? ClienteSelecionado.address : '---'}
+                        </Text>
+
+                    </Stack>
+                </Box>
+            </>
+        )
+    }
+
     useEffect(() => {
         axios.get(`http://localhost:3333/services`)
             .then((response) => {
                 setListServices(response.data);
+            })
+    }, [])
+    useEffect(() => {
+        axios.get(`http://localhost:3333/clients`)
+            .then((response) => {
+                setClientes(response.data);
             })
     }, [])
 
@@ -90,7 +189,6 @@ function CadastroOS() {
 
 
     const selectModels = (id: any) => {
-        console.log(id);
         setMarca(id)
         axios.get(`http://localhost:3333/${id}/devicebrands`).then((response) => {
             setListModels(response.data);
@@ -158,227 +256,365 @@ function CadastroOS() {
         return ValorMask;
     };
 
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+    useEffect(() => {
+        if (BuscaClientesNome !== '') {
+            let filtro = Clientes.filter((lis: any) => lis.name.toLowerCase().includes(BuscaClientesNome))
+            setResultadoBuscaClientesNome(filtro);
+        } else {
+            setResultadoBuscaClientesNome([]);
+        }
+        console.log(ResultadoBuscaClientesNome)
+    }, [BuscaClientesNome])
+
+
+    useEffect(() => {
+        if (BuscaClientesCPF !== 0) {
+            let ValorFiltrado = Clientes.filter((lis: any) => lis.CPF.toString().includes(BuscaClientesCPF))
+            setResultadoBuscaClientesCPF(ValorFiltrado);
+        } else {
+            setResultadoBuscaClientesCPF([]);
+        }
+    }, [BuscaClientesCPF])
+
     return (
-        <Box
-            bg="rgba(165, 165, 165, 1)"
-            w={largura}
-            h={altura}
-            bgPosition="center"
-            bgRepeat="no-repeat"
-            borderRadius="10.85px"
-            boxShadow="md"
-            padding="5px 15px 15px 15px"
-            mt='10px'
-        >
-            <Box display="flex" flexWrap='wrap' gap='10px'>
-                <Stack>
-                    <Text
-                        color="#1A202C"
-                        fontWeight="bold"
-                        m='0'>
-                        *Nome
-                    </Text>
-                    <Input
-                        value={Nome}
-                        m='0'
-                        w='150px'
-                        p='0px'
-                        textAlign='center'
-                        onChange={(e) => setNome(e.target.value)}
-                    />
-                </Stack>
-                <Stack>
-                    <Text
-                        color="#1A202C"
-                        fontWeight="bold"
-                        m='0'>
-                        *Telefone:
-                    </Text>
-                    <Input
-                        maxLength={15}
-                        value={Telefone}
-                        m='0'
-                        w='150px'
-                        p='0px'
-                        textAlign='center'
-                        onChange={(e) => {
-                            handlePhone(e)
-                            setTelefone(e.target.value)
-                        }}
-                    />
-                </Stack>
-                <Stack>
-                    <Text
-                        color="#1A202C"
-                        fontWeight="bold"
-                        m='0'>
-                        *Marca:
-                    </Text>
-                    <Select
-                        onChange={(e) => selectModels(e.target.value)}
-                    >
-                        <option value="" disabled selected>
-                            Selecione
-                        </option>
-                        {ListBrands.map((listBrand: any) => (
-                            <option
-                                key={listBrand.DeviceBrand_id}
-                                value={listBrand.id}>
-                                {listBrand.devicebrand}
+        <>
+            <Box
+                bg="rgba(165, 165, 165, 1)"
+                w={largura}
+                h={altura}
+                bgPosition="center"
+                bgRepeat="no-repeat"
+                borderRadius="10.85px"
+                boxShadow="md"
+                padding="5px 15px 15px 15px"
+                mt='10px'
+            >
+                <Box display="flex" flexWrap='wrap' gap='10px'>
+                    <Button mt='32px' colorScheme='orange' onClick={() => onOpen()}>Cliente</Button>
+                    <Stack>
+                        <Text
+                            color="#1A202C"
+                            fontWeight="bold"
+                            m='0'>
+                            *Marca:
+                        </Text>
+                        <Select
+                            onChange={(e) => selectModels(e.target.value)}
+                        >
+                            <option value="" disabled selected>
+                                Selecione
                             </option>
-                        ))}
-                    </Select>
-                </Stack>
-                <Stack>
-                    <Text
-                        color="#1A202C"
-                        fontWeight="bold"
-                        m='0'>
-                        *Modelo:
-                    </Text>
-                    <Select onChange={(e) => handleChangeModelo(e)}>
-                        <option value="" disabled selected>Marca Primeiro...</option>
+                            {ListBrands.map((listBrand: any) => (
+                                <option
+                                    key={listBrand.DeviceBrand_id}
+                                    value={listBrand.id}>
+                                    {listBrand.devicebrand}
+                                </option>
+                            ))}
+                        </Select>
+                    </Stack>
+                    <Stack>
+                        <Text
+                            color="#1A202C"
+                            fontWeight="bold"
+                            m='0'>
+                            *Modelo:
+                        </Text>
+                        <Select onChange={(e) => handleChangeModelo(e)}>
+                            <option value="" disabled selected>Marca Primeiro...</option>
 
-                        {ListModels.map((listModel: any, index) => (
-                            <option key={listModel.DeviceModel_id}
-                                value={listModel.id}>
-                                {listModel.devicemodel}</option>
-                        ))}
-                    </Select>
-                </Stack>
-                <Stack>
-                    <Text
-                        color="#1A202C"
-                        fontWeight="bold"
-                        m='0'>
-                        *Servico:
-                    </Text>
-                    <Select
-                        value={Servico}
-                        onChange={(e) => handleChangeService(e)}
-                    >
+                            {ListModels.map((listModel: any, index) => (
+                                <option key={listModel.DeviceModel_id}
+                                    value={listModel.id}>
+                                    {listModel.devicemodel}</option>
+                            ))}
+                        </Select>
+                    </Stack>
+                    <Stack>
+                        <Text
+                            color="#1A202C"
+                            fontWeight="bold"
+                            m='0'>
+                            *Servico:
+                        </Text>
+                        <Select
+                            value={Servico}
+                            onChange={(e) => handleChangeService(e)}
+                        >
 
-                        <option value="" disabled selected>Selecione...</option>
+                            <option value="" disabled selected>Selecione...</option>
 
-                        {ListServices.map((ListService: any, index) => (
-                            <option key={ListService.service_id}
-                                value={ListService.id}>
-                                {ListService.service}</option>
-                        ))}
-                    </Select>
-                </Stack>
-                <Stack>
-                    <Text
-                        color="#1A202C"
-                        fontWeight="bold"
-                        m='0'>
-                        *Valor:
-                    </Text>
-                    <HStack >
-                        <Text color="#1A202C"
-                            fontWeight="bold">R$</Text>
+                            {ListServices.map((ListService: any, index) => (
+                                <option key={ListService.service_id}
+                                    value={ListService.id}>
+                                    {ListService.service}</option>
+                            ))}
+                        </Select>
+                    </Stack>
+                    <Stack>
+                        <Text
+                            color="#1A202C"
+                            fontWeight="bold"
+                            m='0'>
+                            *Valor:
+                        </Text>
+                        <HStack >
+                            <Text color="#1A202C"
+                                fontWeight="bold">R$</Text>
+                            <Input
+                                value={Valor}
+                                onChange={(e) => {
+                                    handleChange(e)
+                                }}
+                                m='0'
+                                w='100px'
+                                p='0px'
+                                textAlign='center'
+
+                            />
+                        </HStack>
+                    </Stack>
+                    <Stack>
+                        <Text
+                            color="#1A202C"
+                            fontWeight="bold"
+                            m='0'>
+                            Previsão de retirada:
+                        </Text>
                         <Input
-                            value={Valor}
-                            onChange={(e) => {
-                                handleChange(e)
-                            }}
+                            placeholder=""
+                            size="md"
+                            type="datetime-local"
+                            onChange={(e) => setRetirada(e.target.value)}
+                        />
+                    </Stack>
+                    <Stack backgroundColor="rgba(165, 165, 165, 1)">
+                        <Text
+                            color="#1A202C"
+                            fontWeight="bold"
+                            m='0'>
+                            Observações:
+                        </Text>
+                        <TextArea
+                            backgroundColor="rgba(165, 165, 165, 1)"
+                            value={Observacao}
+                            onChange={(e) => setObservacao(e.target.value)}
                             m='0'
-                            w='100px'
+                            w='150px'
                             p='0px'
                             textAlign='center'
-
                         />
+                    </Stack>
+                    <HStack mt='25px'>
+                        <Button colorScheme='green' onClick={() => setData()}>Cadastrar</Button>
+                        <Button colorScheme='red' onClick={() => Cancelar()}>Cancelar</Button>
                     </HStack>
-                </Stack>
-                <Stack>
-                    <Text
-                        color="#1A202C"
-                        fontWeight="bold"
-                        m='0'>
-                        Previsão de retirada:
-                    </Text>
-                    <Input
-                        placeholder=""
-                        size="md"
-                        type="datetime-local"
-                        onChange={(e) => setRetirada(e.target.value)}
-                    />
-                </Stack>
-                <Stack>
-                    <Text
-                        color="#1A202C"
-                        fontWeight="bold"
-                        m='0'>
-                        CPF:
-                    </Text>
-                    <Input
-                        maxLength={13}
-                        value={CPF}
-                        onChange={(e) => {
-                            handleCPF(e)
-                            setCPF(e.target.value)
-                        }}
-                        m='0'
-                        w='150px'
-                        p='0px'
-                        textAlign='center'
-                    />
-                </Stack>
-                <Stack>
-                    <Text
-                        color="#1A202C"
-                        fontWeight="bold"
-                        m='0'>
-                        Observações:
-                    </Text>
-                    <Input
-                        value={Observacao}
-                        onChange={(e) => setObservacao(e.target.value)}
-                        m='0'
-                        w='150px'
-                        p='0px'
-                        textAlign='center'
-                    />
-                </Stack>
-                <Stack>
-                    <Text
-                        color="#1A202C"
-                        fontWeight="bold"
-                        m='0'>
-                        E-mail:
-                    </Text>
-                    <Input
-                        value={Email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        m='0'
-                        w='150px'
-                        p='0px'
-                        textAlign='center'
-                    />
-                </Stack>
-                <Stack>
-                    <Text
-                        color="#1A202C"
-                        fontWeight="bold"
-                        m='0'>
-                        Endereço:
-                    </Text>
-                    <Input
-                        value={Endereco}
-                        onChange={(e) => setEndereco(e.target.value)}
-                        m='0'
-                        w='150px'
-                        p='0px'
-                        textAlign='center'
-                    />
-                </Stack>
+                </Box>
+            </Box >
+            <Modal size='xl' isOpen={isOpen} onClose={onClose}>
 
-                <HStack mt='25px'>
-                    <Button colorScheme='green' onClick={() => setData()}>Cadastrar</Button>
-                    <Button colorScheme='red' onClick={() => Cancelar()}>Cancelar</Button>
-                </HStack>
-            </Box>
-        </Box >
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Text
+                            mt='4px'
+                            fontSize='xl'
+                            color="#1A202C"
+                            fontWeight="bold">
+                            Novo cliente
+                        </Text >
+                        <Box gap='5px' display='flex' flexWrap='wrap' borderBottom='2px' borderColor='orange'>
+                            <Stack>
+                                <Text
+                                    color="#1A202C"
+                                    fontWeight="bold"
+                                    m='0'>
+                                    *Nome
+                                </Text>
+                                <Input
+                                    value={Nome}
+                                    m='0'
+                                    w='150px'
+                                    p='0px'
+                                    textAlign='center'
+                                    onChange={(e) => setNome(e.target.value)}
+                                />
+                            </Stack>
+                            <Stack>
+                                <Text
+                                    color="#1A202C"
+                                    fontWeight="bold"
+                                    m='0'>
+                                    *Telefone:
+                                </Text>
+                                <Input
+                                    maxLength={15}
+                                    value={Telefone}
+                                    m='0'
+                                    w='150px'
+                                    p='0px'
+                                    textAlign='center'
+                                    onChange={(e) => {
+                                        handlePhone(e)
+                                        setTelefone(e.target.value)
+                                    }}
+                                />
+                            </Stack>
+                            <Stack>
+                                <Text
+                                    color="#1A202C"
+                                    fontWeight="bold"
+                                    m='0'>
+                                    CPF:
+                                </Text>
+                                <Input
+                                    maxLength={13}
+                                    value={CPF}
+                                    onChange={(e) => {
+                                        handleCPF(e)
+                                        setCPF(e.target.value)
+                                    }}
+                                    m='0'
+                                    w='150px'
+                                    p='0px'
+                                    textAlign='center'
+                                />
+                            </Stack>
+                            <Stack>
+                                <Text
+                                    color="#1A202C"
+                                    fontWeight="bold"
+                                    m='0'>
+                                    E-mail:
+                                </Text>
+                                <Input
+                                    value={Email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    m='0'
+                                    w='150px'
+                                    p='0px'
+                                    textAlign='center'
+                                />
+                            </Stack>
+                            <Stack mb='5px'>
+                                <Text
+                                    color="#1A202C"
+                                    fontWeight="bold"
+                                    m='0'>
+                                    Endereço:
+                                </Text>
+                                <Input
+                                    value={Endereco}
+                                    onChange={(e) => setEndereco(e.target.value)}
+                                    m='0'
+                                    w='150px'
+                                    p='0px'
+                                    textAlign='center'
+                                />
+                            </Stack>
+                        </Box>
+                        <Text
+                            mt='4px'
+                            fontSize='xl'
+                            color="#1A202C"
+                            fontWeight="bold">
+                            Pesquisar cliente
+                        </Text >
+                        <Stack>
+                            <HStack gap='25px'>
+                                <Stack>
+                                    <Text
+                                        color="#1A202C"
+                                        fontWeight="bold"
+                                        m='0'>
+                                        <HStack><BsSearch /><Text>Nome:</Text></HStack>
+                                    </Text>
+                                    <Input
+                                        value={BuscaClientesNome}
+                                        m='0'
+                                        w='150px'
+                                        p='0px'
+                                        textAlign='center'
+                                        onChange={(e) => setBuscaClientesNome(e.target.value)}
+                                    />
+                                    <Select
+                                        p='0'
+                                        textAlign='center'
+                                        value={ClienteSelecionado}
+                                        maxWidth='150px'
+                                        onChange={(e) => handleChangeCliente(e)}
+                                    >
+
+                                        <option value="" disabled selected>Selecione...</option>
+
+                                        {ResultadoBuscaClientesNome.map((cliente: any, index) => (
+                                            <option
+                                                value={cliente.id}>
+                                                {cliente.name}</option>
+                                        ))}
+                                    </Select>
+                                </Stack>
+                                <Stack>
+                                    <Text
+                                        color="#1A202C"
+                                        fontWeight="bold"
+                                        m='0'>
+                                        <HStack><BsSearch /><Text> CPF:</Text></HStack>
+                                    </Text>
+                                    <Input
+                                        maxLength={13}
+                                        value={BuscaClientesCPF}
+                                        onChange={(e) => {
+                                            handleCPF(e)
+                                            handleChangeBuscaCPF(e.target.value)
+                                        }}
+                                        m='0'
+                                        w='150px'
+                                        p='0px'
+                                        textAlign='center'
+                                    />
+                                    <Select
+                                        p='0'
+                                        textAlign='center'
+                                        maxWidth='150px'
+                                        onChange={(e) => handleChangeCliente(e)}
+                                    >
+
+                                        <option value="" disabled selected>Selecione...</option>
+
+                                        {ResultadoBuscaClientesCPF.map((cliente: any, index) => (
+                                            <option
+                                                value={cliente.id}>
+                                                {cliente.CPF}</option>
+                                        ))}
+                                    </Select>
+                                </Stack>
+
+                            </HStack>
+                            <>
+                                {RenderizaClienteFiltrado()}
+                            </>
+                        </Stack>
+
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button colorScheme='blue' mr={3} onClick={() => {
+
+                            onClose()
+                        }}>
+                            Cancelar
+                        </Button>
+                        <Button colorScheme='green' onClick={() => {
+                            onClose()
+                        }}>Cadastrar cliente</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
     )
 }
 

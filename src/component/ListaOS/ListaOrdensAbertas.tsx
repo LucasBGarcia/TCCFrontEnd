@@ -605,7 +605,6 @@ function ListaOrdensAbertas() {
     }, [FiltroValor])
 
     useEffect(() => {
-        console.log(buscaValor)
         if (buscaValor !== 0) {
             let ValorFiltrado = list.filter((lis: any) => lis.value.toString().includes(buscaValor))
 
@@ -994,103 +993,6 @@ function ListaOrdensAbertas() {
                 mt='10px'
             >
                 {ViewListagem()}
-                {/* <TableContainer>
-                    <Table variant='striped' colorScheme='teal'>
-                        <Thead>
-                            <Tr>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>
-                                    <Button onClick={() => setFiltroID(!FiltroID)}
-                                        colorScheme='green' variant='link'
-                                    >
-                                        <BsSearch />
-                                    </Button>{filtroID()}</Th>
-
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Marca</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Modelo</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Serviço</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Valor</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Saida caixa</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Ações</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {list.map((data: any) => {
-                                return (
-                                    <Tr>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.id}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.DeviceModel.DeviceBrand.devicebrand}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.DeviceModel.devicemodel}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.service.service}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.negativeValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0'>
-                                            <HStack>
-                                                <Button
-                                                    colorScheme='green' variant='link'
-                                                    onClick={() => {
-                                                        setDados(!Dados)
-                                                        setDadosConclusao(data)
-                                                        onOpen()
-                                                    }
-                                                    }
-                                                >
-                                                    <BsCheckLg />
-                                                </Button>
-
-                                                <Button
-                                                    colorScheme='black' variant='link'
-                                                    onClick={(e) => {
-                                                        setDadosEdita(!DadosEdita)
-                                                        setDadosEditar(data)
-                                                        onOpenEdita()
-                                                    }}>
-                                                    <BsBrush />
-                                                </Button>
-                                            </HStack>
-                                            <HStack>
-                                                <Button
-                                                    colorScheme='black' variant='link'
-                                                    onClick={(e) => {
-                                                        setDadosVisualiza(!DadosVisualiza)
-                                                        setDadosVisualizar(data)
-                                                        onOpenVisualiza()
-                                                    }}>
-                                                    <IoEyeOutline />
-                                                </Button>
-                                                <Button
-                                                    colorScheme='red' variant='link'
-                                                    onClick={(e) => onDelete(data.id, data.client.name)}>
-                                                    <BsTrash />
-                                                </Button>
-                                            </HStack>
-                                        </Td>
-
-                                    </Tr>
-                                )
-                            })}
-                        </Tbody>
-                        <Tfoot>
-                            <Tr>
-                                <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaAberto()}</Th>
-                                <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaAberto()}</Th>
-                                <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalAberto()}</Th>
-
-                            </Tr>
-                        </Tfoot>
-                    </Table>
-                </TableContainer > */}
 
             </Box >
             <Modal size='xl' isOpen={isOpen} onClose={onClose}>
