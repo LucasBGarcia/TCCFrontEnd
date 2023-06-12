@@ -1,9 +1,8 @@
-import { Box, Button, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Spacer, Stack, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Spacer, Stack, Text, Textarea, useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 import api from "../../api";
-import { TextArea } from "semantic-ui-react";
 import Cliente from "../modal/Cliente";
 import { BsSearch } from "react-icons/bs";
 
@@ -65,10 +64,14 @@ function CadastroOS() {
             address: Endereco,
             observation: Observacao,
         }
-
+        const emailBody = {
+            email: Email,
+            ordem: `<h2>Ordem de serviço</h2> \n Cliente: ${Nome}, Telefone: ${Telefone}, Valor: ${Valor}`
+        }
         try {
             console.log(Cliente)
             await api.post("serviceorder", Cliente)
+            await api.post("sendMail", emailBody)
             window.location.reload()
         } catch (error: any) {
             console.log(error.response.data);
@@ -113,7 +116,6 @@ function CadastroOS() {
 
 
     const RenderizaClienteFiltrado = () => {
-        console.log('RenderizaCliente', ClienteSelecionado)
         return (
             <>
                 <Box gap='5px' display='flex' flexWrap='wrap' borderBottom='2px' borderColor='orange'>
@@ -397,12 +399,12 @@ function CadastroOS() {
                             m='0'>
                             Observações:
                         </Text>
-                        <TextArea
+                        <Textarea
                             backgroundColor="rgba(165, 165, 165, 1)"
                             value={Observacao}
                             onChange={(e) => setObservacao(e.target.value)}
                             m='0'
-                            w='150px'
+                            minHeight='38px'
                             p='0px'
                             textAlign='center'
                         />
@@ -603,8 +605,15 @@ function CadastroOS() {
 
                     <ModalFooter>
                         <Button colorScheme='blue' mr={3} onClick={() => {
-
+                            setNome('')
+                            setTelefone('')
+                            setCPF('')
+                            setEmail('')
+                            setEndereco('')
                             onClose()
+                            setBuscaClientesNome('')
+                            setClienteSelecionado('')
+                            setBuscaClientesCPF(0)
                         }}>
                             Cancelar
                         </Button>
