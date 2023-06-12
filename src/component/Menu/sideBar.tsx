@@ -49,18 +49,22 @@ const Sidebar = () => {
         h='40px'
         borderBottomRadius='10px'
       >
-        <HStack alignSelf='center'>
+        <HStack justifyContent='center' >
           <Link to="/home">
             <Image
               ml='100px'
               w='100px'
               h='30px'
               src={logo}
-              alt='Dan Abramov'
             />
           </Link>
+          <Box ml='15px'>
+            <Link to='/setMarcasModelos'>
+              <Text>Cadastro de marcas e modelos</Text>
+            </Link>
+          </Box>
           <Spacer />
-          <Box alignSelf='center' >
+          <Box  >
             <Link to='/'>
               <Text  >Logout</Text>
             </Link>
