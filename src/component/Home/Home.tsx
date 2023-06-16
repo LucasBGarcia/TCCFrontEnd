@@ -1,9 +1,9 @@
 import { Box, Flex, Spacer, Stack, Text } from "@chakra-ui/react";
 import { Link } from 'react-router-dom';
-import CadastroOS from "../../component/CadastroOS/Cadastro";
-import ListaOrdensAbertas from "../../component/ListaOS/ListaOrdensAbertas";
-import ListaOrdensFechadas from "../../component/ListaOS/ListaOrdensFechadas";
-import Sidebar from "../../component/Menu/sideBar";
+import CadastroOS from "../CadastroOS/Cadastro";
+import ListaOrdensAbertas from "../ListaOS/ListaOrdensAbertas";
+import ListaOrdensFechadas from "../ListaOS/ListaOrdensFechadas";
+import Sidebar from "../Menu/sideBar";
 
 function Home() {
     return (

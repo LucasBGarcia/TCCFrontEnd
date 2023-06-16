@@ -21,7 +21,7 @@ export default function Login() {
     const [Senha, setSenha] = useState('')
 
     const usenavigate = useNavigate()
-
+    localStorage.clear();
     type data = {
         email: string,
         password: string
