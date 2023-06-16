@@ -16,6 +16,7 @@ const CalculaSaidaAberto = () => {
 
     var functionSepara = list.map(function (data) {
         var valores = data.negativeValue
+        console.log('aberto', valores)
         return valores
     })
 
