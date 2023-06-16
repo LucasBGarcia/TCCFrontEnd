@@ -1,34 +1,66 @@
 import {
-    Flex,
     Box,
+    Button,
+    Flex,
     FormControl,
     FormLabel,
-    Input,
-    Checkbox,
-    Stack,
-    Link,
-    Button,
     Heading,
-    Text,
-    useColorModeValue,
+    Input,
+    Stack,
+    useColorModeValue
 } from '@chakra-ui/react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import api from '../../api';
 import Sidebar from '../Menu/sideBar';
 
 export default function Login() {
+
+    const [Email, setEmail] = useState('')
+    const [Senha, setSenha] = useState('')
+
+    const usenavigate = useNavigate()
+
+    type data = {
+        email: string,
+        password: string
+    }
+
+    const login = async () => {
+
+        const User: data = {
+            email: Email,
+            password: Senha
+        }
+        await api.post("login", User).then((response) => {
+
+            console.log(response.data)
+            if (response.status === 200) {
+                toast.success(`${response.data.name}, Bem-vindo!.`)
+                localStorage.setItem("sipToken", response.data.token);
+                localStorage.setItem("sipUser", JSON.stringify(User));
+                localStorage.setItem("sipID", response.data.id);
+                usenavigate("/home")
+            }
+        }).catch((e) => {
+            toast.error('Email ou senha inválidos.')
+            console.log(e.response.data);
+        })
+
+    }
+
     return (
         <>
             <Sidebar />
             <Flex
-                minH={'100vh'}
+                minH={'auto'}
                 align={'center'}
                 justify={'center'}
                 bg={useColorModeValue('gray.50', 'gray.800')}>
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
                     <Stack align={'center'}>
                         <Heading fontSize={'4xl'}>Sign in to your account</Heading>
-                        <Text fontSize={'lg'} color={'gray.600'}>
-                            to enjoy all of our cool <Link color={'blue.400'}>features</Link> ✌️
-                        </Text>
                     </Stack>
                     <Box
                         rounded={'lg'}
@@ -38,26 +70,24 @@ export default function Login() {
                         <Stack spacing={4}>
                             <FormControl id="email">
                                 <FormLabel>Email address</FormLabel>
-                                <Input type="email" />
+                                <Input type="email"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
                             </FormControl>
                             <FormControl id="password">
                                 <FormLabel>Password</FormLabel>
-                                <Input type="password" />
+                                <Input type="password" onChange={(e) => setSenha(e.target.value)} />
                             </FormControl>
                             <Stack spacing={10}>
-                                <Stack
-                                    direction={{ base: 'column', sm: 'row' }}
-                                    align={'start'}
-                                    justify={'space-between'}>
-                                    <Checkbox>Remember me</Checkbox>
-                                    <Link color={'blue.400'}>Forgot password?</Link>
-                                </Stack>
+
                                 <Button
                                     bg={'blue.400'}
                                     color={'white'}
                                     _hover={{
                                         bg: 'blue.500',
-                                    }}>
+                                    }}
+                                    onClick={(e) => login()}
+                                >
                                     Sign in
                                 </Button>
                             </Stack>
@@ -65,6 +95,7 @@ export default function Login() {
                     </Box>
                 </Stack>
             </Flex>
+            <ToastContainer />
         </>
     );
 }

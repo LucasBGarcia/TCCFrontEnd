@@ -394,7 +394,8 @@ function ListaAbertas() {
         if (FiltroID) {
             return (
                 <Input
-                    ml='10px'
+                    justifyContent='center'
+                    m='auto'
                     type="text"
                     p='0px'
                     textAlign='center'
@@ -417,7 +418,8 @@ function ListaAbertas() {
         if (FiltroMarca) {
             return (
                 <Input
-                    ml='17px'
+                    justifyContent='center'
+                    m='auto'
                     type="text"
                     p='0px'
                     textAlign='center'
@@ -439,7 +441,8 @@ function ListaAbertas() {
         if (FiltroModelo) {
             return (
                 <Input
-                    ml='32px'
+                    justifyContent='center'
+                    m='auto'
                     type="text"
                     p='0px'
                     textAlign='center'
@@ -461,7 +464,8 @@ function ListaAbertas() {
         if (FiltroServico) {
             return (
                 <Input
-                    ml='32px'
+                    justifyContent='center'
+                    m='auto'
                     type="text"
                     p='0px'
                     textAlign='center'
@@ -483,7 +487,8 @@ function ListaAbertas() {
         if (FiltroValor) {
             return (
                 <Input
-                    ml='15px'
+                    justifyContent='center'
+                    m='auto'
                     type="number"
                     p='0px'
                     textAlign='center'
@@ -505,7 +510,8 @@ function ListaAbertas() {
         if (FiltroValorSaida) {
             return (
                 <Input
-                    ml='15px'
+                    justifyContent='center'
+                    m='auto'
                     type="number"
                     p='0px'
                     textAlign='center'
@@ -527,7 +533,8 @@ function ListaAbertas() {
         if (FiltroCliente) {
             return (
                 <Input
-                    ml='32px'
+                    justifyContent='center'
+                    m='auto'
                     type="text"
                     p='0px'
                     textAlign='center'
@@ -549,7 +556,8 @@ function ListaAbertas() {
         if (FiltroEntrada) {
             return (
                 <Input
-                    ml='70px'
+                    justifyContent='center'
+                    m='auto'
                     type="date"
                     p='0px'
                     textAlign='center'
@@ -570,7 +578,8 @@ function ListaAbertas() {
         if (FiltroSaida) {
             return (
                 <Input
-                    ml='70px'
+                    justifyContent='center'
+                    m='auto'
                     type="date"
                     p='0px'
                     textAlign='center'
@@ -634,7 +643,7 @@ function ListaAbertas() {
 
             } else {
                 setListByMarcaSituacao(false)
-
+                setListFiltroMarca([]);
             }
         } else {
             setListFiltroMarca([]);
@@ -658,7 +667,7 @@ function ListaAbertas() {
 
             } else {
                 setListByModeloSituacao(false)
-
+                setListFiltroModelo([]);
             }
         } else {
             setListFiltroModelo([]);
@@ -682,7 +691,7 @@ function ListaAbertas() {
 
             } else {
                 setListByServicoSituacao(false)
-
+                setListFiltroServico([]);
             }
         } else {
             setListFiltroServico([]);
@@ -707,7 +716,7 @@ function ListaAbertas() {
 
             } else {
                 setListByValorSituacao(false)
-
+                setListFiltroValor([]);
             }
         } else {
             setListFiltroValor([]);
@@ -733,7 +742,7 @@ function ListaAbertas() {
 
             } else {
                 setListByValorSaidaSituacao(false)
-
+                setListFiltroValorSaida([]);
             }
         } else {
             setListFiltroValorSaida([]);
@@ -756,7 +765,7 @@ function ListaAbertas() {
 
             } else {
                 setListByClienteSituacao(false)
-
+                setListFiltroCliente([]);
             }
         } else {
             setListFiltroCliente([]);
@@ -789,7 +798,7 @@ function ListaAbertas() {
 
             } else {
                 setListByEntradaSituacao(false)
-
+                setListFiltroEntrada([]);
             }
         } else {
             setListFiltroEntrada([]);
@@ -821,7 +830,7 @@ function ListaAbertas() {
 
             } else {
                 setListBySaidaSituacao(false)
-
+                setListFiltroSaida([]);
             }
         } else {
             setListFiltroSaida([]);

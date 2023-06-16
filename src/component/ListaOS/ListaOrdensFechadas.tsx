@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
     Box,
@@ -23,51 +25,31 @@ import {
     useDisclosure
 } from "@chakra-ui/react";
 import axios from "axios";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import { FcPrint } from "react-icons/fc";
 import { IoEyeOutline } from "react-icons/io5";
-import api from "../../api";
 import ImprimiOSFechada from "../Relatórios/ImprimiOSFechada";
 import CalculaEntradaFechado from "../Utils/Closed/CalculaEntradaFechado";
 import CalculaSaidaFechado from "../Utils/Closed/CalculaSaidaFechado";
 import CalculaTotalFechado from "../Utils/Closed/CalculaTotalFechado";
+import CalculaEntradaFechadoHoje from "../Utils/Closed/Hoje/CalculaEntradaFechadoHoje";
+import CalculaSaidaFechadoHoje from "../Utils/Closed/Hoje/CalculaSaidaFechadoHoje";
+import CalculaTotalFechadoHoje from "../Utils/Closed/Hoje/CalculaTotalFechadoHoje";
 
 
 function ListaOrdensFechadas() {
     const altura = "100%";
     const largura = "100%";
 
-    let [list, setList] = useState([]);
-    let [ListClosedOrders, setListClosedOrders] = useState([]);
-    const [Dados, setDados] = useState(false)
+    let [ListClosedOrders, setListClosedOrders] = useState<any>([]);
+    let [ListClosedOrdersHoje, setListClosedOrdersHoje] = useState<any>([]);
+
     const [DadosVisualiza, setDadosVisualiza] = useState(false)
-    const [DadosEdita, setDadosEdita] = useState(false)
-    let [DadosConclusao, setDadosConclusao] = useState<any>([])
-    let [DadosEditar, setDadosEditar] = useState<any>([]);
+
     let [DadosVisualizar, setDadosVisualizar] = useState<any>([]);
-    let [listPaymentsMethods, setListPaymentsMethods] = useState([]);
-    let [listMachines, setListMachines] = useState([]);
-    let [PaymentMethod, setPaymentMethod] = useState<any>('');
-    let [MaquinaID, setMaquinaID] = useState<any>('')
-    let [Parcelas, setParcelas] = useState<any>('')
-    const [Marca, setMarca] = useState<number>(0)
-    const [Nome, setNome] = useState<any>('')
 
-    const [Telefone, setTelefone] = useState('')
-    const [Servico, setServico] = useState('')
-    const [Valor, setValor] = useState<number>(0)
-    const [ValorSaida, setValorSaida] = useState<number>(0)
-    const [Retirada, setRetirada] = useState<any>(new Date());
-    const [CPF, setCPF] = useState('')
-    const [Observacao, setObservacao] = useState('')
-    const [Email, setEmail] = useState('')
-    const [Endereco, setEndereco] = useState('')
-
-    let [ListServices, setListServices] = useState([]);
-    let [ListBrands, setListBrands] = useState([]);
-    let [ListModels, setListModels] = useState([]);
-    let [idModelo, setIdModelo] = useState<number>(0)
 
     const [FiltroID, setFiltroID] = useState(false)
     const [ListByIDSituacao, setListByIDSituacao] = useState(false)
@@ -99,161 +81,38 @@ function ListaOrdensFechadas() {
     const [ListByValorSaidaSituacao, setListByValorSaidaSituacao] = useState(false)
     let [ListFiltroValorSaida, setListFiltroValorSaida] = useState<any>([])
 
-    useEffect(() => {
-        if (DadosEdita) {
-            setTelefone(DadosEditar.client.number)
-            setServico(DadosEditar.service.id)
-            setValor(DadosEditar.value)
-            setValorSaida(DadosEditar.negativeValue)
-            setRetirada(DadosEditar.withdrawal)
-            setCPF(DadosEditar.client.CPF)
-            setObservacao(DadosEditar.observation)
-            setEmail(DadosEditar.client.email)
-            setEndereco(DadosEditar.client.address)
-            setNome(DadosEditar.client.name)
-            setIdModelo(DadosEditar.DeviceModel.id)
-        }
-    }, [DadosEdita])
-
-    const [RenderizaMaquinas, setRenderizaMaquinas] = useState(false);
-
-    const handlePaymentMethod = (e: any) => {
-        setPaymentMethod(e.target.value)
-    }
-    const handleMachine = (e: any) => {
-        setMaquinaID(e.target.value)
-    }
-    const handleParcelas = (e: any) => {
-        setParcelas(e.target.value)
-    }
-
-    const { isOpen, onOpen, onClose } = useDisclosure()
 
     const { isOpen: isOpenVisualiza
         , onOpen: onOpenVisualiza
         , onClose: onCloseVisualiza } = useDisclosure()
 
-    const { isOpen: isOpenEdita
-        , onOpen: onOpenEdita
-        , onClose: onCloseEdita } = useDisclosure()
-
-    type data = {
-        PaymentMethod_id: number,
-        machine_id: number,
-        installments: number,
-    }
-    type dataEdit = {
-        name: string,
-        number: string,
-        DeviceModel_id: number,
-        service_id: string,
-        value: number,
-        negativeValue: number,
-        withdrawal: Date,
-        email: string
-        CPF: string,
-        address: string,
-        observation: string,
-    }
-
-    const setData = async () => {
-        const Cliente: dataEdit = {
-            name: Nome,
-            number: Telefone,
-            DeviceModel_id: idModelo,
-            service_id: Servico,
-            value: Valor,
-            negativeValue: ValorSaida,
-            withdrawal: Retirada,
-            email: Email,
-            CPF: CPF,
-            address: Endereco,
-            observation: Observacao,
-        }
-
-        try {
-            console.log('DadosEdita', DadosEdita)
-            console.log(Cliente)
-            await api.put(`${DadosEditar.id}/serviceorder`, Cliente)
-
-            alert("atualizado com sucesso")
-            window.location.reload();
-        } catch (error: any) {
-            console.log(error.response.data);
-            alert(error.response.data)
-        }
-
-    }
 
     useEffect(() => {
-        const paymentMethodsToRender = ['2', '3', '5'];
-        setRenderizaMaquinas(paymentMethodsToRender.includes(PaymentMethod));
-    }, [PaymentMethod]);
 
-    useEffect(() => {
-        axios.get(`http://localhost:3333/services`)
-            .then((response) => {
-                setListServices(response.data);
-            })
-    }, [])
-
-    useEffect(() => {
+        const hoje = new Date()
+        const hojeFormatado = format(hoje, 'dd/MM/yyyy')
+        let lista: any = []
         axios.get(`http://localhost:3333/serviceorderended`)
             .then((response) => {
-                setListClosedOrders(response.data);
-                console.log('closedOrdens', response.data);
+                response.data.map((e: any) => {
+                    if (dataEntradaFormatada(e.createdAt) === hojeFormatado) {
+
+                        lista.push(e)
+                    }
+                })
+                setListClosedOrders(lista);
             })
-        console.log(ListClosedOrders)
-    }, [])
-    useEffect(() => {
-        axios.get(`http://localhost:3333/serviceorder`)
-            .then((response) => {
-                setList(response.data);
-                console.log(response.data)
-            })
-        console.log(list)
     }, [])
 
-    const onDelete = (id: any, name: any) => {
-        var result = window.confirm(`Deseja deletar OS ${name}?`)
-        if (result === true) {
-            axios.delete(`http://localhost:3333/${id}/serviceorder`)
-            window.location.reload();
-        }
+    const dataEntradaFormatada = (data) => {
+        const dataConvertida = format(new Date(data), 'dd/MM/yyyy');
+        return dataConvertida
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:3333/paymentmethods`)
-            .then((response) => {
-                setListPaymentsMethods(response.data);
-                // console.log(response.data);
-            })
-    }, [])
-    useEffect(() => {
-        axios.get(`http://localhost:3333/machines`)
-            .then((response) => {
-                setListMachines(response.data);
-                // console.log(response.data);
-            })
-    }, [])
-
-    useEffect(() => {
         console.log(ListClosedOrders)
-        console.log(list)
     }, [DadosVisualiza])
 
-    const handleChange = (e: any) => {
-        setValor(e.target.value)
-    }
-    const handleChangeSaida = (e: any) => {
-        setValorSaida(e.target.value)
-    }
-    const handleChangeModelo = (e: any) => {
-        setIdModelo(e.target.value)
-    }
-    const handleChangeService = (e: any) => {
-        setServico(e.target.value)
-    }
 
     const handleChangeFiltroId = (e: any) => {
         setDadosFiltroID(e.target.value)
@@ -275,59 +134,7 @@ function ListaOrdensFechadas() {
     }
 
 
-    useEffect(() => {
-        axios.get(`http://localhost:3333/devicebrands`)
-            .then((response) => {
-                setListBrands(response.data);
-            })
-    }, [])
-    const selectModels = (id: any) => {
-        setMarca(id)
-        axios.get(`http://localhost:3333/${id}/devicebrands`).then((response) => {
-            setListModels(response.data);
-        })
-    }
 
-    const handlePhone = (e: { target: any; }) => {
-        let input = e.target;
-        input.value = phoneMask(input.value);
-    };
-
-    const phoneMask = (value: string) => {
-        if (!value) return "";
-        value = value.replace(/\D/g, "");
-        value = value.replace(/(\d{2})(\d)/, "($1) $2");
-        value = value.replace(/(\d)(\d{4})$/, "$1-$2");
-        return value;
-    };
-
-    const handleCPF = (e: { target: any; }) => {
-        let input = e.target;
-        input.value = CPFMask(input.value);
-    };
-
-    const CPFMask = (value: string) => {
-        if (!value) return "";
-        value = value.replace(/\D/g, "");
-        value = value.replace(/(\d{3})(\d)/, "$1.$2");
-        value = value.replace(/(\d{3})(\d)/, "$1.$2");
-        value = value.replace(/(\d{3})(\d{2})$/, "$1-$2");
-        return value;
-    };
-
-    const handleValor = (e: { target: any; }) => {
-        let input = e.target;
-        input.value = ValorMask(input.value);
-    };
-
-    const ValorMask = (ValorMask: string) => {
-        if (!ValorMask) return "";
-        ValorMask = ValorMask.replace(/\D/g, "");
-        ValorMask = ValorMask.replace(/(\d+)(\d{2})$/, "$1,$2"); // adiciona a vírgula nos últimos dois dígitos
-        const milharRegex = /(\d)(?=(\d{3})+(?!\d))/g;
-        ValorMask = ValorMask.replace(milharRegex, "$1.");
-        return "R$ " + ValorMask;
-    };
 
     const filtroID = () => {
         if (FiltroID) {
@@ -471,7 +278,7 @@ function ListaOrdensFechadas() {
 
     useEffect(() => {
         if (DadosFiltroID !== 0) {
-            list.map((e: any) => {
+            ListClosedOrders.map((e: any) => {
                 if (DadosFiltroID == e.id) {
                     try {
                         axios.get(`http://localhost:3333/${DadosFiltroID}/getbyid`)
@@ -652,7 +459,6 @@ function ListaOrdensFechadas() {
 
 
     const Listagem = () => {
-        console.log(list)
         return (
             <TableContainer>
                 <Table variant='striped' colorScheme='teal'>
@@ -752,9 +558,9 @@ function ListaOrdensFechadas() {
                     </Tbody>
                     <Tfoot>
                         <Tr>
-                            <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaFechado()}</Th>
-                            <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechado()}</Th>
-                            <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechado()}</Th>
+                            <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaFechadoHoje()}</Th>
+                            <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechadoHoje()}</Th>
+                            <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoHoje()}</Th>
 
                         </Tr>
                     </Tfoot>
@@ -867,9 +673,9 @@ function ListaOrdensFechadas() {
                     </Tbody>
                     <Tfoot>
                         <Tr>
-                            <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaFechado()}</Th>
-                            <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechado()}</Th>
-                            <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechado()}</Th>
+                            <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaFechadoHoje()}</Th>
+                            <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechadoHoje()}</Th>
+                            <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoHoje()}</Th>
 
                         </Tr>
                     </Tfoot>
@@ -893,70 +699,6 @@ function ListaOrdensFechadas() {
                 mt='10px'
             >
                 {ViewListagem()}
-                {/* <TableContainer>
-                    <Table variant='striped' colorScheme='teal'>
-                        <Thead>
-                            <Tr>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Nº OS</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Marca</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Modelo</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Serviço</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Valor</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Saida caixa</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Ações</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {ListClosedOrders.map((data: any) => {
-                                return (
-                                    <Tr>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.id}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.ordemServico.DeviceModel.DeviceBrand.devicebrand}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.ordemServico.DeviceModel.devicemodel}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.ordemServico.service.service}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.ordemServico.value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.ordemServico.negativeValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0'>
-
-                                            <HStack>
-                                                <Button
-                                                    colorScheme='black' variant='link'
-                                                    onClick={(e) => {
-                                                        setDadosVisualiza(!DadosVisualiza)
-                                                        setDadosVisualizar(data)
-                                                        onOpenVisualiza()
-                                                    }}>
-                                                    <IoEyeOutline />
-                                                </Button>
-                                            </HStack>
-                                        </Td>
-
-                                    </Tr>
-                                )
-                            })}
-                        </Tbody>
-                        <Tfoot>
-                            <Tr>
-                                <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaFechado()}</Th>
-                                <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechado()}</Th>
-                                <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechado()}</Th>
-
-                            </Tr>
-                        </Tfoot>
-                    </Table>
-                </TableContainer > */}
 
             </Box >
 
@@ -964,7 +706,7 @@ function ListaOrdensFechadas() {
 
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Visualizar OS nº {DadosConclusao.id}</ModalHeader>
+                    <ModalHeader>Visualizar OS nº {DadosVisualiza ? DadosVisualizar.ordemServico.id : ''}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <Stack>

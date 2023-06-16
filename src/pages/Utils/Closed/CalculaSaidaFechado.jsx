@@ -16,6 +16,7 @@ const CalculaSaidaFechado = () => {
 
     var functionSepara = list.map(function (data) {
         var valores = data.ordemServico.negativeValue
+        console.log('fechado', valores)
         return valores
     })
 

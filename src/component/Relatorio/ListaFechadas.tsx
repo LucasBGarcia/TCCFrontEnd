@@ -33,6 +33,9 @@ import CalculaSaidaAberto from "../Utils/Opened/CalculaSaidaAberto";
 import CalculaTotalAberto from "../Utils/Opened/CalculaTotalAberto";
 import { format } from 'date-fns';
 import ImprimiOSFechada from "../Relatórios/ImprimiOSFechada";
+import CalculaEntradaFechado from "../Utils/Closed/CalculaEntradaFechado";
+import CalculaSaidaFechado from "../Utils/Closed/CalculaSaidaFechado";
+import CalculaTotalFechado from "../Utils/Closed/CalculaTotalFechado";
 //import { Button } from "semantic-ui-react";
 
 
@@ -383,7 +386,8 @@ function ListaFechadas() {
         if (FiltroID) {
             return (
                 <Input
-                    ml='10px'
+                    justifyContent='center'
+                    m='auto'
                     type="text"
                     p='0px'
                     textAlign='center'
@@ -406,7 +410,8 @@ function ListaFechadas() {
         if (FiltroMarca) {
             return (
                 <Input
-                    ml='17px'
+                    justifyContent='center'
+                    m='auto'
                     type="text"
                     p='0px'
                     textAlign='center'
@@ -428,7 +433,8 @@ function ListaFechadas() {
         if (FiltroModelo) {
             return (
                 <Input
-                    ml='32px'
+                    justifyContent='center'
+                    m='auto'
                     type="text"
                     p='0px'
                     textAlign='center'
@@ -450,7 +456,8 @@ function ListaFechadas() {
         if (FiltroServico) {
             return (
                 <Input
-                    ml='32px'
+                    justifyContent='center'
+                    m='auto'
                     type="text"
                     p='0px'
                     textAlign='center'
@@ -472,7 +479,8 @@ function ListaFechadas() {
         if (FiltroValor) {
             return (
                 <Input
-                    ml='15px'
+                    justifyContent='center'
+                    m='auto'
                     type="number"
                     p='0px'
                     textAlign='center'
@@ -494,7 +502,8 @@ function ListaFechadas() {
         if (FiltroValorSaida) {
             return (
                 <Input
-                    ml='15px'
+                    justifyContent='center'
+                    m='auto'
                     type="number"
                     p='0px'
                     textAlign='center'
@@ -516,7 +525,8 @@ function ListaFechadas() {
         if (FiltroCliente) {
             return (
                 <Input
-                    ml='32px'
+                    justifyContent='center'
+                    m='auto'
                     type="text"
                     p='0px'
                     textAlign='center'
@@ -538,7 +548,8 @@ function ListaFechadas() {
         if (FiltroEntrada) {
             return (
                 <Input
-                    ml='70px'
+                    justifyContent='center'
+                    m='auto'
                     type="date"
                     p='0px'
                     textAlign='center'
@@ -559,7 +570,8 @@ function ListaFechadas() {
         if (FiltroSaida) {
             return (
                 <Input
-                    ml='70px'
+                    justifyContent='center'
+                    m='auto'
                     type="date"
                     p='0px'
                     textAlign='center'
@@ -593,7 +605,7 @@ function ListaFechadas() {
 
             } else {
                 setListByIDSituacao(false)
-
+                setListFiltroID([]);
             }
         } else {
             setListFiltroID([]);
@@ -617,7 +629,7 @@ function ListaFechadas() {
 
             } else {
                 setListByMarcaSituacao(false)
-
+                setListFiltroMarca([]);
             }
         } else {
             setListFiltroMarca([]);
@@ -641,7 +653,7 @@ function ListaFechadas() {
 
             } else {
                 setListByModeloSituacao(false)
-
+                setListFiltroModelo([]);
             }
         } else {
             setListFiltroModelo([]);
@@ -665,7 +677,7 @@ function ListaFechadas() {
 
             } else {
                 setListByServicoSituacao(false)
-
+                setListFiltroServico([]);
             }
         } else {
             setListFiltroServico([]);
@@ -690,7 +702,7 @@ function ListaFechadas() {
 
             } else {
                 setListByValorSituacao(false)
-
+                setListFiltroValor([]);
             }
         } else {
             setListFiltroValor([]);
@@ -706,7 +718,6 @@ function ListaFechadas() {
     }, [FiltroValorSaida])
 
     useEffect(() => {
-        console.log(buscaValorSaida)
         if (buscaValorSaida !== 0) {
             let ValorSaidaFiltrado = ListClosedOrders.filter((lis: any) => lis.ordemServico.negativeValue.toString().includes(buscaValorSaida))
 
@@ -716,7 +727,7 @@ function ListaFechadas() {
 
             } else {
                 setListByValorSaidaSituacao(false)
-
+                setListFiltroValorSaida([]);
             }
         } else {
             setListFiltroValorSaida([]);
@@ -739,7 +750,7 @@ function ListaFechadas() {
 
             } else {
                 setListByClienteSituacao(false)
-
+                setListFiltroCliente([]);
             }
         } else {
             setListFiltroCliente([]);
@@ -772,7 +783,7 @@ function ListaFechadas() {
 
             } else {
                 setListByEntradaSituacao(false)
-
+                setListFiltroEntrada([]);
             }
         } else {
             setListFiltroEntrada([]);
@@ -804,7 +815,7 @@ function ListaFechadas() {
 
             } else {
                 setListBySaidaSituacao(false)
-
+                setListFiltroSaida([]);
             }
         } else {
             setListFiltroSaida([]);
@@ -980,9 +991,9 @@ function ListaFechadas() {
                     </Tbody>
                     <Tfoot>
                         <Tr>
-                            <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaAberto()}</Th>
-                            <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaAberto()}</Th>
-                            <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalAberto()}</Th>
+                            <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaFechado()}</Th>
+                            <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechado()}</Th>
+                            <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechado()}</Th>
 
                         </Tr>
                     </Tfoot>
@@ -1115,9 +1126,9 @@ function ListaFechadas() {
                     </Tbody>
                     <Tfoot>
                         <Tr>
-                            <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaAberto()}</Th>
-                            <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaAberto()}</Th>
-                            <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalAberto()}</Th>
+                            <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaFechado()}</Th>
+                            <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechado()}</Th>
+                            <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechado()}</Th>
 
                         </Tr>
                     </Tfoot>
