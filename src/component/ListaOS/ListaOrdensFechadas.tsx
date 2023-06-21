@@ -27,19 +27,30 @@ import {
 import axios from "axios";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { BsSearch } from "react-icons/bs";
+import { BsSearch, BsTrash } from "react-icons/bs";
 import { FcPrint } from "react-icons/fc";
 import { IoEyeOutline } from "react-icons/io5";
 import ImprimiOSFechada from "../Relatórios/ImprimiOSFechada";
-import CalculaEntradaFechado from "../Utils/Closed/CalculaEntradaFechado";
-import CalculaSaidaFechado from "../Utils/Closed/CalculaSaidaFechado";
-import CalculaTotalFechado from "../Utils/Closed/CalculaTotalFechado";
+
 import CalculaEntradaFechadoHoje from "../Utils/Closed/Hoje/CalculaEntradaFechadoHoje";
 import CalculaSaidaFechadoHoje from "../Utils/Closed/Hoje/CalculaSaidaFechadoHoje";
 import CalculaTotalFechadoHoje from "../Utils/Closed/Hoje/CalculaTotalFechadoHoje";
+import CalculaTotalFechadoHojeAlelo from "../Utils/Closed/Hoje/FormasPagamentoHoje/CalculaTotalFechadoHojeAlelo";
+import CalculaTotalFechadoHojeBanriCompras from "../Utils/Closed/Hoje/FormasPagamentoHoje/CalculaTotalFechadoHojeBanriCompras";
+import CalculaTotalFechadoHojeDinheiro from "../Utils/Closed/Hoje/FormasPagamentoHoje/CalculaTotalFechadoHojeDinheiro";
+import CalculaTotalFechadoHojeStone from "../Utils/Closed/Hoje/FormasPagamentoHoje/CalculaTotalFechadoHojeStone";
 
 
 function ListaOrdensFechadas() {
+
+    const onDelete = (id: any, name: any) => {
+        var result = window.confirm(`Deseja deletar OS ${name}?`)
+        if (result === true) {
+            axios.delete(`http://localhost:3333/${id}/serviceorder`)
+            window.location.reload();
+        }
+    }
+
     const altura = "100%";
     const largura = "100%";
 
@@ -108,11 +119,6 @@ function ListaOrdensFechadas() {
         const dataConvertida = format(new Date(data), 'dd/MM/yyyy');
         return dataConvertida
     }
-
-    useEffect(() => {
-        console.log(ListClosedOrders)
-    }, [DadosVisualiza])
-
 
     const handleChangeFiltroId = (e: any) => {
         setDadosFiltroID(e.target.value)
@@ -380,7 +386,6 @@ function ListaOrdensFechadas() {
     }, [FiltroValor])
 
     useEffect(() => {
-        console.log(buscaValor)
         if (buscaValor !== 0) {
             let ValorFiltrado = ListClosedOrders.filter((lis: any) => lis.ordemServico.value.toString().includes(buscaValor))
 
@@ -406,7 +411,6 @@ function ListaOrdensFechadas() {
     }, [FiltroValorSaida])
 
     useEffect(() => {
-        console.log(buscaValorSaida)
         if (buscaValorSaida !== 0) {
             let ValorSaidaFiltrado = ListClosedOrders.filter((lis: any) => lis.ordemServico.negativeValue.toString().includes(buscaValorSaida))
 
@@ -549,6 +553,7 @@ function ListaOrdensFechadas() {
                                                 }}>
                                                 <IoEyeOutline />
                                             </Button>
+
                                         </HStack>
                                     </Td>
 
@@ -561,7 +566,14 @@ function ListaOrdensFechadas() {
                             <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaFechadoHoje()}</Th>
                             <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechadoHoje()}</Th>
                             <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoHoje()}</Th>
-
+                        </Tr>
+                        <Tr>
+                            <Th colSpan={3} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoHojeStone()}</Th>
+                            <Th colSpan={3} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoHojeDinheiro()}</Th>
+                        </Tr>
+                        <Tr>
+                            <Th colSpan={3} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoHojeBanriCompras()}</Th>
+                            <Th colSpan={3} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoHojeAlelo()}</Th>
                         </Tr>
                     </Tfoot>
                 </Table>
@@ -677,6 +689,14 @@ function ListaOrdensFechadas() {
                             <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechadoHoje()}</Th>
                             <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoHoje()}</Th>
 
+                        </Tr>
+                        <Tr>
+                            <Th colSpan={3} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoHojeStone()}</Th>
+                            <Th colSpan={3} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoHojeDinheiro()}</Th>
+                        </Tr>
+                        <Tr>
+                            <Th colSpan={3} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoHojeBanriCompras()}</Th>
+                            <Th colSpan={3} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoHojeAlelo()}</Th>
                         </Tr>
                     </Tfoot>
                 </Table>

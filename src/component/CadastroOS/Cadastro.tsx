@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Spacer, Stack, Text, Textarea, useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -14,7 +15,8 @@ function CadastroOS() {
     let [list, setList] = useState([]);
     const [Nome, setNome] = useState('')
     const [Telefone, setTelefone] = useState('')
-    const [Marca, setMarca] = useState<number>(0)
+    // let [Marca, setMarca] = useState<any>('')
+    const [marca, setMarca] = useState<any>(null);
     const [Modelo, setModelo] = useState<number>(0)
     const [Servico, setServico] = useState('')
     const [Valor, setValor] = useState<number>(0)
@@ -25,7 +27,8 @@ function CadastroOS() {
     const [Endereco, setEndereco] = useState('')
     let [idModelo, setIdModelo] = useState<number>(0)
     let [ListBrands, setListBrands] = useState([]);
-    let [ListModels, setListModels] = useState([]);
+    // let [ListModels, setListModels] = useState([]);
+    const [ListModels, setListModels] = useState<any[]>([]);
     let [ListServices, setListServices] = useState([]);
 
     let [Clientes, setClientes] = useState([]);
@@ -52,6 +55,8 @@ function CadastroOS() {
     }
 
     const setData = async () => {
+
+        console.log("cadastrar")
         const Cliente: data = {
             name: Nome,
             number: Telefone,
@@ -64,12 +69,12 @@ function CadastroOS() {
             address: Endereco,
             observation: Observacao,
         }
+
         const emailBody = {
             email: Email,
             ordem: `<h2>Ordem de serviço</h2> \n Cliente: ${Nome}, Telefone: ${Telefone}, Valor: ${Valor}`
         }
         try {
-            console.log(Cliente)
             await api.post("serviceorder", Cliente)
             await api.post("sendMail", emailBody)
             window.location.reload()
@@ -95,7 +100,7 @@ function CadastroOS() {
     }
 
     const handleChangeCliente = (e: any) => {
-        Clientes.map((cliente: any) => {
+        Clientes.map((cliente: any, key: any) => {
             if (cliente.id === Number(e.target.value)) {
                 setClienteSelecionado(cliente)
                 setNome(cliente.name)
@@ -190,12 +195,7 @@ function CadastroOS() {
     }, [])
 
 
-    const selectModels = (id: any) => {
-        setMarca(id)
-        axios.get(`http://localhost:3333/${id}/devicebrands`).then((response) => {
-            setListModels(response.data);
-        })
-    }
+
     useEffect(() => {
         axios.get(`http://localhost:3333/serviceorder`)
             .then((response) => {
@@ -267,7 +267,6 @@ function CadastroOS() {
         } else {
             setResultadoBuscaClientesNome([]);
         }
-        console.log(ResultadoBuscaClientesNome)
     }, [BuscaClientesNome])
 
 
@@ -279,6 +278,21 @@ function CadastroOS() {
             setResultadoBuscaClientesCPF([]);
         }
     }, [BuscaClientesCPF])
+
+    let selectModels = async (id: any) => {
+        try {
+            setMarca(id);
+            const response = await fetch(`http://localhost:3333/${id}/devicebrands`);
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            const data = await response.json();
+            setListModels(data);
+        } catch (error: any) {
+            console.log(error.message);
+            //alert(error.message);
+        }
+    };
 
     return (
         <>
@@ -308,7 +322,7 @@ function CadastroOS() {
                             <option value="" disabled selected>
                                 Selecione
                             </option>
-                            {ListBrands.map((listBrand: any) => (
+                            {ListBrands.map((listBrand: any, key: any) => (
                                 <option
                                     key={listBrand.DeviceBrand_id}
                                     value={listBrand.id}>
@@ -327,7 +341,7 @@ function CadastroOS() {
                         <Select onChange={(e) => handleChangeModelo(e)}>
                             <option value="" disabled selected>Marca Primeiro...</option>
 
-                            {ListModels.map((listModel: any, index) => (
+                            {ListModels.map((listModel: any, key: any) => (
                                 <option key={listModel.DeviceModel_id}
                                     value={listModel.id}>
                                     {listModel.devicemodel}</option>
@@ -348,7 +362,7 @@ function CadastroOS() {
 
                             <option value="" disabled selected>Selecione...</option>
 
-                            {ListServices.map((ListService: any, index) => (
+                            {ListServices.map((ListService: any, key) => (
                                 <option key={ListService.service_id}
                                     value={ListService.id}>
                                     {ListService.service}</option>
@@ -363,7 +377,10 @@ function CadastroOS() {
                             *Valor:
                         </Text>
                         <HStack >
-                            <Text color="#1A202C"
+                            <Text
+                                justifyContent='center'
+                                margin='auto'
+                                color="#1A202C"
                                 fontWeight="bold">R$</Text>
                             <Input
                                 value={Valor}
@@ -532,7 +549,7 @@ function CadastroOS() {
                                         color="#1A202C"
                                         fontWeight="bold"
                                         m='0'>
-                                        <HStack><BsSearch /><Text>Nome:</Text></HStack>
+                                        <HStack> <BsSearch />Nome:</HStack>
                                     </Text>
                                     <Input
                                         value={BuscaClientesNome}
@@ -549,10 +566,8 @@ function CadastroOS() {
                                         maxWidth='150px'
                                         onChange={(e) => handleChangeCliente(e)}
                                     >
-
                                         <option value="" disabled selected>Selecione...</option>
-
-                                        {ResultadoBuscaClientesNome.map((cliente: any, index) => (
+                                        {ResultadoBuscaClientesNome.map((cliente: any, key: any) => (
                                             <option
                                                 value={cliente.id}>
                                                 {cliente.name}</option>
@@ -564,7 +579,7 @@ function CadastroOS() {
                                         color="#1A202C"
                                         fontWeight="bold"
                                         m='0'>
-                                        <HStack><BsSearch /><Text> CPF:</Text></HStack>
+                                        <HStack> <BsSearch />CPF:</HStack>
                                     </Text>
                                     <Input
                                         maxLength={13}
@@ -587,7 +602,7 @@ function CadastroOS() {
 
                                         <option value="" disabled selected>Selecione...</option>
 
-                                        {ResultadoBuscaClientesCPF.map((cliente: any, index) => (
+                                        {ResultadoBuscaClientesCPF.map((cliente: any, key: any) => (
                                             <option
                                                 value={cliente.id}>
                                                 {cliente.CPF}</option>

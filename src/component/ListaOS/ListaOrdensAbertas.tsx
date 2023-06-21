@@ -274,6 +274,8 @@ function ListaOrdensAbertas() {
             machine_id: MaquinaID,
             installments: Parcelas,
         }
+
+        console.log('datadata', Data)
         try {
             await api.post(`/${id}/finishServiceOrder`, Data)
 
@@ -503,7 +505,7 @@ function ListaOrdensAbertas() {
 
     useEffect(() => {
         if (DadosFiltroID !== 0) {
-            list.map((e: any) => {
+            list.map((e: any, key: any) => {
                 if (DadosFiltroID == e.id) {
                     try {
                         axios.get(`http://localhost:3333/${DadosFiltroID}/getbyid`)
@@ -630,7 +632,6 @@ function ListaOrdensAbertas() {
     }, [FiltroValorSaida])
 
     useEffect(() => {
-        console.log(buscaValorSaida)
         if (buscaValorSaida !== 0) {
             let ValorSaidaFiltrado = list.filter((lis: any) => lis.negativeValue.toString().includes(buscaValorSaida))
 
@@ -682,7 +683,6 @@ function ListaOrdensAbertas() {
     }
 
     const Listagem = () => {
-        console.log(list)
         return (
             <TableContainer>
                 <Table variant='striped' colorScheme='teal'>
@@ -729,7 +729,7 @@ function ListaOrdensAbertas() {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {list.map((data: any) => {
+                        {list.map((data: any, key: any) => {
                             return (
                                 <Tr>
                                     <Td textAlign='center' p='5px 0 5px 0' w='35px'>
@@ -879,7 +879,7 @@ function ListaOrdensAbertas() {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {dados.map((dado: any) => {
+                        {dados.map((dado: any, key: any) => {
                             return (
                                 <Tr>
                                     <Td textAlign='center' p='5px 0 5px 0' w='35px'>
@@ -1045,7 +1045,7 @@ function ListaOrdensAbertas() {
                                         <option value="" disabled selected>...</option>
 
 
-                                        {listPaymentsMethods.map((listPaymentMethod: any) => (
+                                        {listPaymentsMethods.map((listPaymentMethod: any, key: any) => (
                                             <option
                                                 key={listPaymentMethod.PaymentMethod_id}
                                                 value={listPaymentMethod.id}>
@@ -1060,7 +1060,7 @@ function ListaOrdensAbertas() {
                                             Máquina:   <Select onChange={(e) => handleMachine(e)}>
                                                 <option value="" disabled selected>Selecione...</option>
 
-                                                {listMachines.map((listMachine: any) => (
+                                                {listMachines.map((listMachine: any, key: any) => (
                                                     <option
                                                         key={listMachine.machine_id}
                                                         value={listMachine.id}>
@@ -1196,7 +1196,7 @@ function ListaOrdensAbertas() {
                                 >
                                     {/* <option defaultValue={DadosEdita ? DadosConclusao.DeviceModel.devicebrand.devicebrand : ''} selected>{DadosEdita ? DadosConclusao.DeviceModel.DeviceBrand.devicebrand : ''}</option> */}
 
-                                    {ListBrands.map((listBrand: any) => (
+                                    {ListBrands.map((listBrand: any, key: any) => (
                                         <option
                                             key={listBrand.DeviceBrand_id}
                                             value={listBrand.id}>
@@ -1215,7 +1215,7 @@ function ListaOrdensAbertas() {
                                 <Select onChange={(e) => handleChangeModelo(e)}>
                                     <option defaultValue={DadosEdita ? DadosEditar.DeviceModel.devicemodel : ''} selected>{DadosEdita ? DadosEditar.DeviceModel.devicemodel : ''}</option>
 
-                                    {ListModels.map((listModel: any, index) => (
+                                    {ListModels.map((listModel: any, key: any) => (
                                         <option key={listModel.DeviceModel_id}
                                             value={listModel.id}>
                                             {listModel.devicemodel}</option>
@@ -1232,7 +1232,7 @@ function ListaOrdensAbertas() {
                                 <Select onChange={(e) => handleChangeModelo(e)}>
                                     <option defaultValue={DadosEdita ? DadosEditar.service.service : ''} value="" disabled selected>{DadosEdita ? DadosEditar.service.service : ''}</option>
 
-                                    {ListServices.map((ListService: any, index) => (
+                                    {ListServices.map((ListService: any, key: any) => (
                                         <option key={ListService.service_id}
                                             value={ListService.id}>
                                             {ListService.service}</option>

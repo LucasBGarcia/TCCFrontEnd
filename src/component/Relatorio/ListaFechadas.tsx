@@ -36,10 +36,15 @@ import ImprimiOSFechada from "../Relatórios/ImprimiOSFechada";
 import CalculaEntradaFechado from "../Utils/Closed/CalculaEntradaFechado";
 import CalculaSaidaFechado from "../Utils/Closed/CalculaSaidaFechado";
 import CalculaTotalFechado from "../Utils/Closed/CalculaTotalFechado";
+import CalculaTotalFechadoStone from "../Utils/Closed/Hoje/FormasPagamento/CalculaTotalFechadoStone";
+import CalculaTotalFechadoDinheiro from "../Utils/Closed/Hoje/FormasPagamento/CalculaTotalFechadoDinheiro";
+import CalculaTotalFechadoBanriCompras from "../Utils/Closed/Hoje/FormasPagamento/CalculaTotalFechadoBanriCompras";
+import CalculaTotalFechadoAlelo from "../Utils/Closed/Hoje/FormasPagamento/CalculaTotalFechadoAlelo";
 //import { Button } from "semantic-ui-react";
 
 
 function ListaFechadas() {
+
     const altura = "100%";
     const largura = "100%";
 
@@ -221,10 +226,7 @@ function ListaFechadas() {
         }
 
         try {
-            console.log('DadosEdita', DadosEdita)
-            console.log(Cliente)
             await api.put(`${DadosEditar.id}/serviceorder`, Cliente)
-
             alert("atualizado com sucesso")
             window.location.reload();
         } catch (error: any) {
@@ -250,9 +252,7 @@ function ListaFechadas() {
         axios.get(`http://localhost:3333/serviceorderended`)
             .then((response) => {
                 setListClosedOrders(response.data);
-                console.log(response.data);
             })
-        console.log(ListClosedOrders)
     }, [])
     useEffect(() => {
         axios.get(`http://localhost:3333/serviceorder`)
@@ -260,14 +260,13 @@ function ListaFechadas() {
                 setList(response.data);
                 console.log(response.data)
             })
-        console.log(list)
     }, [])
 
     const onDelete = (id: any, name: any) => {
         var result = window.confirm(`Deseja deletar OS ${name}?`)
         if (result === true) {
             axios.delete(`http://localhost:3333/${id}/serviceorder`)
-            window.location.reload();
+            // window.location.reload();
         }
     }
 
@@ -275,14 +274,12 @@ function ListaFechadas() {
         axios.get(`http://localhost:3333/paymentmethods`)
             .then((response) => {
                 setListPaymentsMethods(response.data);
-                // console.log(response.data);
             })
     }, [])
     useEffect(() => {
         axios.get(`http://localhost:3333/machines`)
             .then((response) => {
                 setListMachines(response.data);
-                // console.log(response.data);
             })
     }, [])
 
@@ -300,43 +297,6 @@ function ListaFechadas() {
         setServico(e.target.value)
     }
 
-    const ConcluiOS = async (id: any) => {
-        const Data: data = {
-            PaymentMethod_id: PaymentMethod,
-            machine_id: MaquinaID,
-            installments: Parcelas,
-        }
-        try {
-            await api.post(`/${id}/finishServiceOrder`, Data)
-
-            alert("finalizada com sucesso")
-            window.location.reload();
-        } catch (error: any) {
-            console.log(error.response.data);
-            alert(error.response.data)
-        }
-    }
-
-    const divisao2 = (value: any) => {
-        let divisao = (value / 2).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
-        return divisao
-    }
-    const divisao3 = (value: any) => {
-        let divisao = (value / 3).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
-        return divisao
-    }
-    const divisao4 = (value: any) => {
-        let divisao = (value / 4).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
-        return divisao
-    }
-    const divisao5 = (value: any) => {
-        let divisao = (value / 5).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
-        return divisao
-    }
-    const divisao6 = (value: any) => {
-        let divisao = (value / 6).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
-        return divisao
-    }
 
     useEffect(() => {
         axios.get(`http://localhost:3333/devicebrands`)
@@ -983,6 +943,12 @@ function ListaFechadas() {
                                             }}>
                                             <IoEyeOutline />
                                         </Button>
+                                        <Button
+                                            w='18px' minW='0'
+                                            colorScheme='red' variant='link'
+                                            onClick={(e) => onDelete(data.ordemServico.id, data)}>
+                                            <BsTrash />
+                                        </Button>
 
                                     </Td>
                                 </Tr>
@@ -995,6 +961,14 @@ function ListaFechadas() {
                             <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechado()}</Th>
                             <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechado()}</Th>
 
+                        </Tr>
+                        <Tr>
+                            <Th colSpan={5} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoStone()}</Th>
+                            <Th colSpan={5} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoDinheiro()}</Th>
+                        </Tr>
+                        <Tr>
+                            <Th colSpan={5} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoBanriCompras()}</Th>
+                            <Th colSpan={5} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoAlelo()}</Th>
                         </Tr>
                     </Tfoot>
                 </Table>
@@ -1130,6 +1104,14 @@ function ListaFechadas() {
                             <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechado()}</Th>
                             <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechado()}</Th>
 
+                        </Tr>
+                        <Tr>
+                            <Th colSpan={5} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoStone()}</Th>
+                            <Th colSpan={5} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoDinheiro()}</Th>
+                        </Tr>
+                        <Tr>
+                            <Th colSpan={5} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoBanriCompras()}</Th>
+                            <Th colSpan={5} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechadoAlelo()}</Th>
                         </Tr>
                     </Tfoot>
                 </Table>

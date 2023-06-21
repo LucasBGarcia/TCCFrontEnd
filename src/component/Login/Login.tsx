@@ -29,26 +29,30 @@ export default function Login() {
 
     const login = async () => {
 
-        const User: data = {
-            email: Email,
-            password: Senha
-        }
-        await api.post("login", User).then((response) => {
-
-            console.log(response.data)
-            if (response.status === 200) {
-                toast.success(`${response.data.name}, Bem-vindo!.`)
-                localStorage.setItem("sipToken", response.data.token);
-                localStorage.setItem("sipUser", JSON.stringify(User));
-                localStorage.setItem("sipID", response.data.id);
-                usenavigate("/home")
-            }
-        }).catch((e) => {
-            toast.error('Email ou senha inválidos.')
-            console.log(e.response.data);
-        })
-
+        usenavigate("/home")
     }
+    // const login = async () => {
+
+    //     const User: data = {
+    //         email: Email,
+    //         password: Senha
+    //     }
+    //     await api.post("login", User).then((response) => {
+
+    //         console.log(response.data)
+    //         if (response.status === 200) {
+    //             toast.success(`${response.data.name}, Bem-vindo!.`)
+    //             localStorage.setItem("sipToken", response.data.token);
+    //             localStorage.setItem("sipUser", JSON.stringify(User));
+    //             localStorage.setItem("sipID", response.data.id);
+    //             usenavigate("/home")
+    //         }
+    //     }).catch((e) => {
+    //         toast.error('Email ou senha inválidos.')
+    //         console.log(e.response.data);
+    //     })
+
+    // }
 
     return (
         <>
