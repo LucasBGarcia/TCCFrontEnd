@@ -36,15 +36,33 @@ const Sidebar = () => {
         h='40px'
         borderBottomRadius='10px'
         gap='15px' >
-        <Link to="/home">
-          <Image
-            justifyContent='center' m='auto'
-            marginStart='70px'
-            w='100px'
-            h='30px'
-            src={logo}
-          />
-        </Link>
+
+        {userLogged ? (
+          <>
+
+            <Link to="/home">
+              <Image
+                justifyContent='center' m='auto'
+                marginStart='70px'
+                w='100px'
+                h='30px'
+                src={logo}
+              />
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link to="/">
+              <Image
+                justifyContent='center' m='auto'
+                marginStart='70px'
+                w='100px'
+                h='30px'
+                src={logo}
+              />
+            </Link>
+          </>
+        )}
 
         {userLogged ? (
 

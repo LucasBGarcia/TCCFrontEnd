@@ -134,6 +134,7 @@ function SetMarcasModelos() {
                 <Box gap='5px' display='flex' flexWrap='wrap'>
                     <Text color="black"
                         fontWeight="bold"
+                        justifyContent='center'
                         fontSize='lg'>Nova Marca
                     </Text>
                     <Input w='150px' value={NovaMarca}

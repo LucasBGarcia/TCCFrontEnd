@@ -27,32 +27,28 @@ export default function Login() {
         password: string
     }
 
+
     const login = async () => {
 
-        usenavigate("/home")
+        const User: data = {
+            email: Email,
+            password: Senha
+        }
+        await api.post("login", User).then((response) => {
+
+            if (response.status === 200) {
+                toast.success(`${response.data.name}, Bem-vindo!.`)
+                localStorage.setItem("sipToken", response.data.token);
+                localStorage.setItem("sipUser", JSON.stringify(User));
+                localStorage.setItem("sipID", response.data.id);
+                usenavigate("/home")
+            }
+        }).catch((e) => {
+            toast.error('Email ou senha inválidos.')
+            console.log(e.response.data);
+        })
+
     }
-    // const login = async () => {
-
-    //     const User: data = {
-    //         email: Email,
-    //         password: Senha
-    //     }
-    //     await api.post("login", User).then((response) => {
-
-    //         console.log(response.data)
-    //         if (response.status === 200) {
-    //             toast.success(`${response.data.name}, Bem-vindo!.`)
-    //             localStorage.setItem("sipToken", response.data.token);
-    //             localStorage.setItem("sipUser", JSON.stringify(User));
-    //             localStorage.setItem("sipID", response.data.id);
-    //             usenavigate("/home")
-    //         }
-    //     }).catch((e) => {
-    //         toast.error('Email ou senha inválidos.')
-    //         console.log(e.response.data);
-    //     })
-
-    // }
 
     return (
         <>
@@ -61,25 +57,25 @@ export default function Login() {
                 minH={'auto'}
                 align={'center'}
                 justify={'center'}
-                bg={useColorModeValue('gray.50', 'gray.800')}>
+            >
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
                     <Stack align={'center'}>
-                        <Heading fontSize={'4xl'}>Sign in to your account</Heading>
+                        <Heading fontSize={'4xl'}>Login</Heading>
                     </Stack>
                     <Box
                         rounded={'lg'}
-                        bg={useColorModeValue('white', 'gray.700')}
+                        bg={useColorModeValue('white', 'gray.900')}
                         boxShadow={'lg'}
                         p={8}>
                         <Stack spacing={4}>
                             <FormControl id="email">
-                                <FormLabel>Email address</FormLabel>
+                                <FormLabel>Email </FormLabel>
                                 <Input type="email"
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                             </FormControl>
                             <FormControl id="password">
-                                <FormLabel>Password</FormLabel>
+                                <FormLabel>Senha</FormLabel>
                                 <Input type="password" onChange={(e) => setSenha(e.target.value)} />
                             </FormControl>
                             <Stack spacing={10}>

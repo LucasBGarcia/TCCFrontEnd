@@ -7,6 +7,8 @@ import api from "../../api";
 import Cliente from "../modal/Cliente";
 import { BsSearch } from "react-icons/bs";
 
+import { ToastContainer, toast } from 'react-toastify';
+
 
 function CadastroOS() {
     const altura = "100%";
@@ -56,7 +58,6 @@ function CadastroOS() {
 
     const setData = async () => {
 
-        console.log("cadastrar")
         const Cliente: data = {
             name: Nome,
             number: Telefone,
@@ -77,6 +78,7 @@ function CadastroOS() {
         try {
             await api.post("serviceorder", Cliente)
             await api.post("sendMail", emailBody)
+            toast.success('Email ou senha inválidos.')
             window.location.reload()
         } catch (error: any) {
             console.log(error.response.data);
@@ -109,9 +111,6 @@ function CadastroOS() {
                 setEndereco(cliente.address)
             }
         })
-
-
-
     }
 
 
@@ -193,7 +192,6 @@ function CadastroOS() {
                 setListBrands(response.data);
             })
     }, [])
-
 
 
     useEffect(() => {
@@ -638,6 +636,7 @@ function CadastroOS() {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
+            <ToastContainer />
         </>
     )
 }
