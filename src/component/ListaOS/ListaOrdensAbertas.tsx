@@ -140,10 +140,13 @@ function ListaOrdensAbertas() {
         , onOpen: onOpenEdita
         , onClose: onCloseEdita } = useDisclosure()
 
-    type data = {
+    type dataMaquina = {
         PaymentMethod_id: number,
         machine_id: number,
         installments: number,
+    }
+    type dataDinheiro = {
+        PaymentMethod_id: number,
     }
     type dataEdit = {
         name: string,
@@ -269,15 +272,18 @@ function ListaOrdensAbertas() {
     }
 
     const ConcluiOS = async (id: any) => {
-        const Data: data = {
+
+        const DataMaquina: dataMaquina = {
             PaymentMethod_id: PaymentMethod,
             machine_id: MaquinaID,
             installments: Parcelas,
         }
+        const DataDinheiro: dataDinheiro = {
+            PaymentMethod_id: PaymentMethod
+        }
 
-        console.log('datadata', Data)
         try {
-            await api.post(`/${id}/finishServiceOrder`, Data)
+            PaymentMethod == 4 ? await api.post(`/${id}/finishServiceOrder`, DataDinheiro) : await api.post(`/${id}/finishServiceOrder`, DataMaquina)
 
             alert("finalizada com sucesso")
             window.location.reload();

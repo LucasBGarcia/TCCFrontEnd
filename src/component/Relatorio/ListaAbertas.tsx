@@ -1045,9 +1045,9 @@ function ListaAbertas() {
                     </Tbody>
                     <Tfoot>
                         <Tr>
-                            <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaAberto()}</Th>
-                            <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaAberto()}</Th>
-                            <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalAberto()}</Th>
+                            <Th colSpan={3} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaAberto()}</Th>
+                            <Th colSpan={3} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaAberto()}</Th>
+                            <Th colSpan={3} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalAberto()}</Th>
 
                         </Tr>
                     </Tfoot>
@@ -1215,9 +1215,9 @@ function ListaAbertas() {
                     </Tbody>
                     <Tfoot>
                         <Tr>
-                            <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaAberto()}</Th>
-                            <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaAberto()}</Th>
-                            <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalAberto()}</Th>
+                            <Th colSpan={3} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaAberto()}</Th>
+                            <Th colSpan={3} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaAberto()}</Th>
+                            <Th colSpan={3} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalAberto()}</Th>
 
                         </Tr>
                     </Tfoot>

@@ -73,12 +73,11 @@ function CadastroOS() {
 
         const emailBody = {
             email: Email,
-            ordem: `<h2>Ordem de serviço</h2> \n Cliente: ${Nome}, Telefone: ${Telefone}, Valor: ${Valor}`
+            ordem: `<h2>Ordem de serviço</h2> \n Cliente: ${Nome}, Telefone: ${Telefone}, Valor: R$${Number(Valor).toFixed(2)}`
         }
         try {
             await api.post("serviceorder", Cliente)
             await api.post("sendMail", emailBody)
-            toast.success('Email ou senha inválidos.')
             window.location.reload()
         } catch (error: any) {
             console.log(error.response.data);

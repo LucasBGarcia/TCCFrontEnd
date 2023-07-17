@@ -957,9 +957,9 @@ function ListaFechadas() {
                     </Tbody>
                     <Tfoot>
                         <Tr>
-                            <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaFechado()}</Th>
-                            <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechado()}</Th>
-                            <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechado()}</Th>
+                            <Th colSpan={3} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaFechado()}</Th>
+                            <Th colSpan={3} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechado()}</Th>
+                            <Th colSpan={3} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechado()}</Th>
 
                         </Tr>
                         <Tr>
@@ -1100,9 +1100,9 @@ function ListaFechadas() {
                     </Tbody>
                     <Tfoot>
                         <Tr>
-                            <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaFechado()}</Th>
-                            <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechado()}</Th>
-                            <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechado()}</Th>
+                            <Th colSpan={3} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaFechado()}</Th>
+                            <Th colSpan={3} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaFechado()}</Th>
+                            <Th colSpan={3} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalFechado()}</Th>
 
                         </Tr>
                         <Tr>
@@ -1133,70 +1133,6 @@ function ListaFechadas() {
                 mt='10px'
             >
                 {ViewListagem()}
-                {/* <TableContainer>
-                    <Table variant='striped' colorScheme='teal'>
-                        <Thead>
-                            <Tr>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Nº OS</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Marca</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Modelo</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Serviço</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Valor</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Saida caixa</Th>
-                                <Th textAlign='center' w='35px' p='5px 0 5px 0'>Ações</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {ListClosedOrders.map((data: any) => {
-                                return (
-                                    <Tr>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.id}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.ordemServico.DeviceModel.DeviceBrand.devicebrand}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.ordemServico.DeviceModel.devicemodel}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.ordemServico.service.service}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.ordemServico.value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0' w='35px'>
-                                            {data.ordemServico.negativeValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-                                        </Td>
-                                        <Td textAlign='center' p='5px 0 5px 0'>
-
-                                            <HStack>
-                                                <Button
-                                                    colorScheme='black' variant='link'
-                                                    onClick={(e) => {
-                                                        setDadosVisualiza(!DadosVisualiza)
-                                                        setDadosVisualizar(data)
-                                                        onOpenVisualiza()
-                                                    }}>
-                                                    <IoEyeOutline />
-                                                </Button>
-                                            </HStack>
-                                        </Td>
-
-                                    </Tr>
-                                )
-                            })}
-                        </Tbody>
-                        <Tfoot>
-                            <Tr>
-                                <Th colSpan={2} textColor='green' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaEntradaAberto()}</Th>
-                                <Th colSpan={2} textColor='red' textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaSaidaAberto()}</Th>
-                                <Th colSpan={2} textAlign='center' p='5px 0 5px 0' w='35px'>{CalculaTotalAberto()}</Th>
-
-                            </Tr>
-                        </Tfoot>
-                    </Table>
-                </TableContainer > */}
 
             </Box >
 

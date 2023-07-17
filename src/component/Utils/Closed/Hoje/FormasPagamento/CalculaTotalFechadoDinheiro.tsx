@@ -16,10 +16,8 @@ const CalculaTotalFechadoDinheiro = () => {
         axios.get(`http://localhost:3333/serviceorderended`)
             .then((response) => {
                 response.data.map((e: any) => {
-                    if (dataEntradaFormatada(e.createdAt) === hojeFormatado) {
+                    lista.push(e)
 
-                        lista.push(e)
-                    }
                 })
                 setList(lista);
             })
