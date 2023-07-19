@@ -276,7 +276,7 @@ function ListaOrdensAbertas() {
         const DataMaquina: dataMaquina = {
             PaymentMethod_id: PaymentMethod,
             machine_id: MaquinaID,
-            installments: Parcelas,
+            installments: Parcelas ? Parcelas : null,
         }
         const DataDinheiro: dataDinheiro = {
             PaymentMethod_id: PaymentMethod
