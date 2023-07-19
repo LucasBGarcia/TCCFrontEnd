@@ -72,6 +72,7 @@ function SetMarcasModelos() {
                                                 borderRadius='3px'
                                                 border='1px'
                                                 fontSize='md'
+                                                ml='auto'
                                                 mb='0'>
                                                 <Button
                                                     w='18px' minW='0'
