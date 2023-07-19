@@ -64,6 +64,7 @@ function SetMarcasModelos() {
                                 </Button> {listMarca.devicebrand}:
                             </Text>
                             <Box
+                                ml='auto'
                             >
                                 {ListModelos.map((ListModelo: any) => {
                                     if (listMarca.id === ListModelo.DeviceBrand_id) {
@@ -72,7 +73,6 @@ function SetMarcasModelos() {
                                                 borderRadius='3px'
                                                 border='1px'
                                                 fontSize='md'
-                                                ml='auto'
                                                 mb='0'>
                                                 <Button
                                                     w='18px' minW='0'

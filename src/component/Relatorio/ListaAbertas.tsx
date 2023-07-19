@@ -1385,7 +1385,7 @@ function ListaAbertas() {
                                     Observações: {Dados ? DadosConclusao.observation : ''}
                                 </Box>
                                 <Box >
-                                    Horário de saída: {Dados ? DadosConclusao.withdrawal : ''}
+                                    Horário de saída: {Dados ? dataEntradaFormatada(DadosConclusao.withdrawal) : ''}
                                 </Box>
 
                             </Box>
@@ -1495,7 +1495,7 @@ function ListaAbertas() {
                                     Observações: {DadosVisualiza ? DadosVisualizar.observation : ''}
                                 </Box>
                                 <Box >
-                                    Horário de saída: {DadosVisualiza ? DadosVisualizar.withdrawal : ''}
+                                    Horário de saída: {DadosVisualiza ? dataEntradaFormatada(DadosVisualizar.withdrawal) : ''}
                                 </Box>
 
                             </Box>
@@ -1704,7 +1704,7 @@ function ListaAbertas() {
                                     size="md"
                                     type="datetime-local"
                                     defaultValue={DadosEdita ? DadosEditar.withdrawal : ''}
-                                    placeholder={DadosEdita ? DadosEditar.withdrawal : ''}
+                                    placeholder={DadosEdita ? dataEntradaFormatada(DadosEditar.withdrawal) : ''}
                                 />
                             </Stack>
 

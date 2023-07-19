@@ -1179,7 +1179,7 @@ function ListaFechadas() {
                                     Observações: {DadosVisualiza ? DadosVisualizar.ordemServico.observation : ''}
                                 </Box>
                                 <Box >
-                                    Horário de saída: {DadosVisualiza ? DadosVisualizar.ordemServico.withdrawal : ''}
+                                    Horário de saída: {DadosVisualiza ? dataEntradaFormatada(DadosVisualizar.ordemServico.withdrawal) : ''}
                                 </Box>
 
                             </Box>

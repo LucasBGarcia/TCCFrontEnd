@@ -34,6 +34,7 @@ import CalculaSaidaAberto from "../Utils/Opened/CalculaSaidaAberto";
 import CalculaTotalAberto from "../Utils/Opened/CalculaTotalAberto";
 import api from "../../api";
 import ImprimiOS from "../Relatórios/ImprimiOS";
+import { format } from 'date-fns';
 //import { Button } from "semantic-ui-react";
 
 
@@ -656,6 +657,7 @@ function ListaOrdensAbertas() {
     }, [buscaValorSaida])
 
 
+
     const ViewListagem = () => {
         if (ListByIDSituacao) {
             return (
@@ -688,6 +690,10 @@ function ListaOrdensAbertas() {
         }
     }
 
+    const dataEntradaFormatada = (data) => {
+        const dataConvertida = format(new Date(data), 'dd/MM/yyyy HH:mm');
+        return dataConvertida
+    }
     const Listagem = () => {
         return (
             <TableContainer>
@@ -1041,7 +1047,7 @@ function ListaOrdensAbertas() {
                                     Observações: {Dados ? DadosConclusao.observation : ''}
                                 </Box>
                                 <Box >
-                                    Horário de saída: {Dados ? DadosConclusao.withdrawal : ''}
+                                    Horário de saída: {Dados ? dataEntradaFormatada(DadosConclusao.withdrawal) : ''}
                                 </Box>
 
                             </Box>
@@ -1151,7 +1157,7 @@ function ListaOrdensAbertas() {
                                     Observações: {DadosVisualiza ? DadosVisualizar.observation : ''}
                                 </Box>
                                 <Box >
-                                    Horário de saída: {DadosVisualiza ? DadosVisualizar.withdrawal : ''}
+                                    Horário de saída: {DadosVisualiza ? dataEntradaFormatada(DadosVisualizar.withdrawal) : ''}
                                 </Box>
 
                             </Box>
@@ -1360,7 +1366,7 @@ function ListaOrdensAbertas() {
                                     size="md"
                                     type="datetime-local"
                                     defaultValue={DadosEdita ? DadosEditar.withdrawal : ''}
-                                    placeholder={DadosEdita ? DadosEditar.withdrawal : ''}
+                                    placeholder={DadosEdita ? dataEntradaFormatada(DadosEditar.withdrawal) : ''}
                                 />
                             </Stack>
 
