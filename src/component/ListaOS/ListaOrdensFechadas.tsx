@@ -46,7 +46,7 @@ function ListaOrdensFechadas() {
     const onDelete = (id: any, name: any) => {
         var result = window.confirm(`Deseja deletar OS ${name}?`)
         if (result === true) {
-            axios.delete(`http://localhost:3333/${id}/serviceorder`)
+            axios.delete(`https://easycaixa.onrender.com/${id}/serviceorder`)
             window.location.reload();
         }
     }
@@ -103,7 +103,7 @@ function ListaOrdensFechadas() {
         const hoje = new Date()
         const hojeFormatado = format(hoje, 'dd/MM/yyyy')
         let lista: any = []
-        axios.get(`http://localhost:3333/serviceorderended`)
+        axios.get(`https://easycaixa.onrender.com/serviceorderended`)
             .then((response) => {
                 response.data.map((e: any) => {
                     if (dataEntradaFormatada(e.createdAt) === hojeFormatado) {
@@ -287,7 +287,7 @@ function ListaOrdensFechadas() {
             ListClosedOrders.map((e: any) => {
                 if (DadosFiltroID == e.id) {
                     try {
-                        axios.get(`http://localhost:3333/${DadosFiltroID}/getbyid`)
+                        axios.get(`https://easycaixa.onrender.com/${DadosFiltroID}/getbyid`)
                             .then((response) => {
                                 setListFiltroID([response.data]);
                                 setListByIDSituacao(true)

@@ -14,7 +14,7 @@ const CalculaEntradaFechadoHoje = () => {
         const hoje = new Date()
         const hojeFormatado = format(hoje, 'dd/MM/yyyy')
         let lista: any = []
-        axios.get(`http://localhost:3333/serviceorderended`)
+        axios.get(`https://easycaixa.onrender.com/serviceorderended`)
             .then((response) => {
                 response.data.map((e: any) => {
                     if (dataEntradaFormatada(e.createdAt) === hojeFormatado) {

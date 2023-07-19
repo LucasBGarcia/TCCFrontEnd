@@ -197,14 +197,14 @@ function ListaOrdensAbertas() {
     }, [PaymentMethod]);
 
     useEffect(() => {
-        axios.get(`http://localhost:3333/services`)
+        axios.get(`https://easycaixa.onrender.com/services`)
             .then((response) => {
                 setListServices(response.data);
             })
     }, [])
 
     useEffect(() => {
-        axios.get(`http://localhost:3333/serviceorder`)
+        axios.get(`https://easycaixa.onrender.com/serviceorder`)
             .then((response) => {
                 setList(response.data);
             })
@@ -213,20 +213,20 @@ function ListaOrdensAbertas() {
     const onDelete = (id: any, name: any) => {
         var result = window.confirm(`Deseja deletar OS ${name}?`)
         if (result === true) {
-            axios.delete(`http://localhost:3333/${id}/serviceorder`)
+            axios.delete(`https://easycaixa.onrender.com/${id}/serviceorder`)
             window.location.reload();
         }
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:3333/paymentmethods`)
+        axios.get(`https://easycaixa.onrender.com/paymentmethods`)
             .then((response) => {
                 setListPaymentsMethods(response.data);
                 // console.log(response.data);
             })
     }, [])
     useEffect(() => {
-        axios.get(`http://localhost:3333/machines`)
+        axios.get(`https://easycaixa.onrender.com/machines`)
             .then((response) => {
                 setListMachines(response.data);
                 // console.log(response.data);
@@ -234,7 +234,7 @@ function ListaOrdensAbertas() {
     }, [])
 
     useEffect(() => {
-        axios.get(`http://localhost:3333/serviceorderended`)
+        axios.get(`https://easycaixa.onrender.com/serviceorderended`)
             .then((response) => {
                 setListClosedOrders(response.data);
             })
@@ -315,14 +315,14 @@ function ListaOrdensAbertas() {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:3333/devicebrands`)
+        axios.get(`https://easycaixa.onrender.com/devicebrands`)
             .then((response) => {
                 setListBrands(response.data);
             })
     }, [])
     const selectModels = (id: any) => {
         setMarca(id)
-        axios.get(`http://localhost:3333/${id}/devicebrands`).then((response) => {
+        axios.get(`https://easycaixa.onrender.com/${id}/devicebrands`).then((response) => {
             setListModels(response.data);
         })
     }
@@ -514,7 +514,7 @@ function ListaOrdensAbertas() {
             list.map((e: any, key: any) => {
                 if (DadosFiltroID == e.id) {
                     try {
-                        axios.get(`http://localhost:3333/${DadosFiltroID}/getbyid`)
+                        axios.get(`https://easycaixa.onrender.com/${DadosFiltroID}/getbyid`)
                             .then((response) => {
                                 setListFiltroID([response.data]);
                                 setListByIDSituacao(true)

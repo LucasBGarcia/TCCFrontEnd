@@ -173,20 +173,20 @@ function CadastroOS() {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:3333/services`)
+        axios.get(`https://easycaixa.onrender.com/services`)
             .then((response) => {
                 setListServices(response.data);
             })
     }, [])
     useEffect(() => {
-        axios.get(`http://localhost:3333/clients`)
+        axios.get(`https://easycaixa.onrender.com/clients`)
             .then((response) => {
                 setClientes(response.data);
             })
     }, [])
 
     useEffect(() => {
-        axios.get(`http://localhost:3333/devicebrands`)
+        axios.get(`https://easycaixa.onrender.com/devicebrands`)
             .then((response) => {
                 setListBrands(response.data);
             })
@@ -194,7 +194,7 @@ function CadastroOS() {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3333/serviceorder`)
+        axios.get(`https://easycaixa.onrender.com/serviceorder`)
             .then((response) => {
                 setList(response.data);
 
@@ -279,7 +279,7 @@ function CadastroOS() {
     let selectModels = async (id: any) => {
         try {
             setMarca(id);
-            const response = await fetch(`http://localhost:3333/${id}/devicebrands`);
+            const response = await fetch(`https://easycaixa.onrender.com/${id}/devicebrands`);
             if (!response.ok) {
                 throw new Error(response.statusText);
             }

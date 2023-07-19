@@ -8,7 +8,7 @@ const CalculaSaidaFechado = () => {
     let [list, setList] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:3333/serviceorderended`)
+        axios.get(`https://easycaixa.onrender.com/serviceorderended`)
             .then((response) => {
                 setList(response.data);
                 // console.log(response.data);
