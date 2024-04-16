@@ -23,7 +23,7 @@ const Grafico = () => {
 
     }
     useEffect(() => {
-        axios.get(`https://easycaixa.onrender.com/serviceorder`)
+        axios.get(`http://localhost:3333/serviceorder`)
             .then((response) => {
                 setList(response.data);
             })

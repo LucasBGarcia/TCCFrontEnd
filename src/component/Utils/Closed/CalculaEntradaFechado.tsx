@@ -9,7 +9,7 @@ const CalculaEntradaFechado = () => {
     let [list, setList] = useState([]);
 
     useEffect(() => {
-        axios.get(`https://easycaixa.onrender.com/serviceorderended`)
+        axios.get(`http://localhost:3333/serviceorderended`)
             .then((response) => {
                 setList(response.data);
             })

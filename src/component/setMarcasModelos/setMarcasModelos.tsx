@@ -17,13 +17,13 @@ function SetMarcasModelos() {
     let [MarcaID, setMarcaID] = useState<any>(0)
 
     useEffect(() => {
-        axios.get(`https://easycaixa.onrender.com/devicebrands`)
+        axios.get(`http://localhost:3333/devicebrands`)
             .then((response) => {
                 setListMarcas(response.data);
             })
     }, [])
     useEffect(() => {
-        axios.get(`https://easycaixa.onrender.com/devicemodels`)
+        axios.get(`http://localhost:3333/devicemodels`)
             .then((response) => {
                 setListModelos(response.data);
             })
@@ -32,14 +32,14 @@ function SetMarcasModelos() {
     const onDelete = (id: any, name: any) => {
         var result = window.confirm(`Deseja deletar Marca ${name}?`)
         if (result === true) {
-            axios.delete(`https://easycaixa.onrender.com/${id}/devicebrands`)
+            axios.delete(`http://localhost:3333/${id}/devicebrands`)
             window.location.reload();
         }
     }
     const onDeleteModelo = (id: any, name: any) => {
         var result = window.confirm(`Deseja deletar Modelo ${name}?`)
         if (result === true) {
-            axios.delete(`https://easycaixa.onrender.com/${id}/devicemodels`)
+            axios.delete(`http://localhost:3333/${id}/devicemodels`)
             window.location.reload();
         }
     }
